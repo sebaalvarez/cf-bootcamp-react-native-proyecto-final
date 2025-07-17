@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
+import ContainerApp from "../../components/ContainerApp";
 import { ThemedText } from "../../components/ThemedText";
 import { ThemedView } from "../../components/ThemedView";
-import ContainerApp from "../../components/ContainerApp";
 
 export default function PerfilScreen() {
   return (
@@ -14,12 +14,6 @@ export default function PerfilScreen() {
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: "#808080",
-    bottom: -90,
-    left: -35,
-    position: "absolute",
-  },
   titleContainer: {
     flexDirection: "row",
     gap: 8,

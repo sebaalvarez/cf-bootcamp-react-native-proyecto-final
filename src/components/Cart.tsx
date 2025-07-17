@@ -1,22 +1,27 @@
-import { View, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import { useCarrito } from "../context/cartContextProvider";
+import CartCardList from "./CartCardList";
+import { ThemedText } from "./ThemedText";
+import { ThemedView } from "./ThemedView";
 
 export default function Cart() {
   const { state } = useCarrito();
 
   return state.carrito.length > 0 ? (
-    <View>
-      <Text>Carrito ({state.carrito.length} items)</Text>
-      {state.carrito.map((plato) => (
-        <Text key={plato.id}>
-          {plato.nombre} x {plato.cantidad} x ${plato.precio} x{" "}
-          {plato.precio * plato.cantidad}
-        </Text>
-      ))}
-    </View>
+    <ThemedView>
+      <CartCardList />
+    </ThemedView>
   ) : (
-    <View>
-      <Text>No hay producxtos en el carrito</Text>
-    </View>
+    <ThemedView style={styles.containerVacio}>
+      <ThemedText type="title">Carrito Vacio</ThemedText>
+    </ThemedView>
   );
 }
+
+const styles = StyleSheet.create({
+  containerVacio: {
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

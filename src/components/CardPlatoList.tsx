@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { useCarrito } from "../context/cartContextProvider";
 import { imagenes } from "../services/indexImagenes";
 import { IPlatos } from "../types/index";
 import ButtonCustom from "./ButtonCustom";
@@ -14,6 +15,11 @@ interface Props {
 
 export default function CardPlatoList({ item }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
+  const { state } = useCarrito();
+
+  const enCarrito = state.carrito.find((p) => p.id === item.id);
+
+  const nameBtn = enCarrito ? "Modificar" : "Agregar";
 
   const handleAgregar = () => {
     setModalOpen(true);
@@ -27,6 +33,13 @@ export default function CardPlatoList({ item }: Props) {
     <>
       <ThemedView style={styles.containerCard}>
         <ThemedView style={styles.containerImg}>
+          {enCarrito ? (
+            <View style={styles.containerCant}>
+              <Text style={styles.txtCantidad}>{enCarrito?.cantidad}</Text>
+            </View>
+          ) : (
+            <></>
+          )}
           <Image source={imagenes[item.uri_img]} style={styles.inagen} />
         </ThemedView>
         <ThemedView style={styles.containerDetalle}>
@@ -43,7 +56,7 @@ export default function CardPlatoList({ item }: Props) {
               </ThemedText>
             </ThemedView>
             <ThemedView style={styles.containerLineaPrecioBtn}>
-              <ButtonCustom name={"Agregar"} onPress={handleAgregar} />
+              <ButtonCustom name={nameBtn} onPress={handleAgregar} />
             </ThemedView>
           </ThemedView>
         </ThemedView>
@@ -71,6 +84,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "30%",
+  },
+  containerCant: {
+    backgroundColor: "red",
+    width: 20,
+    height: 20,
+    borderRadius: 20,
+    top: 20,
+    left: 40,
+    zIndex: 90,
+  },
+  txtCantidad: {
+    color: "white",
+    fontWeight: 600,
+    textAlign: "center",
+    textAlignVertical: "center",
   },
   inagen: {
     height: 100,

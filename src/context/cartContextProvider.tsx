@@ -1,14 +1,5 @@
 import React, { createContext, ReactNode, useContext, useReducer } from "react";
 import { IPlatos } from "../types";
-// --- Definición de tipos ---
-// type Plato = {
-//   id: string;
-//   nombre: string;
-//   descripcion: string;
-//   precio: number;
-//   imagen: string;
-//   cantidad: number;
-// };
 
 type State = {
   carrito: IPlatos[];
@@ -18,7 +9,6 @@ const initialState: State = {
   carrito: [],
 };
 
-// --- Reducer ---
 type Action =
   | { type: "AGREGAR_PLATO"; payload: IPlatos }
   | { type: "QUITAR_PLATO"; payload: { id: number } }
@@ -30,7 +20,6 @@ function carritoReducer(state: State, action: Action): State {
     case "AGREGAR_PLATO": {
       const existe = state.carrito.find((p) => p.id === action.payload.id);
       if (existe) {
-        // Si ya está, sumo cantidad
         return {
           carrito: state.carrito.map((p) =>
             p.id === action.payload.id
@@ -39,7 +28,6 @@ function carritoReducer(state: State, action: Action): State {
           ),
         };
       } else {
-        // Si no está, lo agrego
         return { carrito: [...state.carrito, action.payload] };
       }
     }

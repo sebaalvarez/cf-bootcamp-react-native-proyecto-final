@@ -6,11 +6,12 @@ import { HapticTab } from "../../components/HapticTab";
 import { IconSymbol } from "../../components/ui/IconSymbol";
 import TabBarBackground from "../../components/ui/TabBarBackground";
 import { Colors } from "../../constants/Colors";
+import { useCarrito } from "../../context/cartContextProvider";
 import { useColorScheme } from "../../hooks/useColorScheme";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-
+  const { state } = useCarrito();
   return (
     <Tabs
       screenOptions={{
@@ -52,6 +53,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="0.square" color={color} />
           ),
+          tabBarBadge:
+            state.carrito.length > 0 ? state.carrito.length : undefined,
+          tabBarBadgeStyle: {
+            backgroundColor: "red",
+            color: "white",
+            fontSize: 10,
+          },
         }}
       />
       <Tabs.Screen

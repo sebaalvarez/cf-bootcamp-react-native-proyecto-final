@@ -13,17 +13,37 @@ interface Props {
 }
 
 export default function ModalAgregar({ item, onPress }: Props) {
-  const [cant, setCant] = useState(0);
-  const { dispatch } = useCarrito();
+  const { dispatch, state } = useCarrito();
+
+  const enCarrito = state.carrito.find((p) => p.id === item.id);
+  const [cant, setCant] = useState(enCarrito ? enCarrito.cantidad : 0);
 
   const handlePedido = () => {
-    dispatch({
-      type: "AGREGAR_PLATO",
-      payload: {
-        ...item,
-        cantidad: cant,
-      },
-    });
+    if (enCarrito) {
+      if (cant === 0) {
+        dispatch({
+          type: "QUITAR_PLATO",
+          payload: { id: item.id },
+        });
+      } else {
+        dispatch({
+          type: "MODIFICAR_CANTIDAD",
+          payload: {
+            id: item.id,
+            cantidad: cant,
+          },
+        });
+      }
+    } else {
+      dispatch({
+        type: "AGREGAR_PLATO",
+        payload: {
+          ...item,
+          cantidad: cant,
+        },
+      });
+    }
+
     onPress?.();
   };
 
@@ -35,13 +55,23 @@ export default function ModalAgregar({ item, onPress }: Props) {
       <View style={styles.containerDet}>
         <CardPlatoDetalle item={item} />
         <SelectorCantidad cantidad={cant} setCantidad={setCant} />
-        <ButtonCustom
-          name="Agregar al pedido"
-          onPress={handlePedido}
-          height={50}
-          width={"90%"}
-          props={{ disabled: cant === 0 }}
-        />
+        {enCarrito && (
+          <ButtonCustom
+            name="Modificar pedido"
+            onPress={handlePedido}
+            height={50}
+            width={"90%"}
+          />
+        )}
+        {!enCarrito && (
+          <ButtonCustom
+            name="Agregar al pedido"
+            onPress={handlePedido}
+            height={50}
+            width={"90%"}
+            props={{ disabled: cant === 0 }}
+          />
+        )}
       </View>
     </ThemedView>
   );
