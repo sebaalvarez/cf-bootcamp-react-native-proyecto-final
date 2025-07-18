@@ -50,15 +50,6 @@ export default function ModalAgregar({ item, onPress }: Props) {
 
   return (
     <ThemedView style={styles.containerModal}>
-      <View style={styles.containerClose}>
-        <ButtonCustom
-          name="X"
-          onPress={onPress}
-          height={40}
-          width={40}
-          props={{ style: { borderRadius: 50, margin: 5 } }}
-        />
-      </View>
       <View style={styles.containerDet}>
         <CardPlatoDetalle item={item} />
         <SelectorCantidad
@@ -91,9 +82,7 @@ const styles = StyleSheet.create({
     height: "auto",
     borderRadius: 20,
   },
-  containerClose: {
-    alignItems: "flex-end",
-  },
+
   containerDet: {
     alignItems: "center",
     gap: 20,

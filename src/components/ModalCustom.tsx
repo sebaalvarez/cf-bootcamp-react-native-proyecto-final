@@ -1,16 +1,25 @@
 import {
+  KeyboardAvoidingView,
   Modal,
   ModalProps,
-  KeyboardAvoidingView,
-  View,
   StyleSheet,
+  View,
 } from "react-native";
+import ButtonCustom from "./ButtonCustom";
+import { ThemedView } from "./ThemedView";
 
-type Props = ModalProps & { isOpen: boolean; withInput?: boolean };
+type Props = ModalProps & {
+  isOpen: boolean;
+  withInput?: boolean;
+  visibleClose?: boolean;
+  onPress?: () => void;
+};
 
 export const ModalCustom = ({
   isOpen,
   withInput,
+  visibleClose = true,
+  onPress,
   children,
   ...rest
 }: Props) => {
@@ -18,7 +27,22 @@ export const ModalCustom = ({
     <KeyboardAvoidingView>{children}</KeyboardAvoidingView>
   ) : (
     <View style={styles.overlay}>
-      <View style={styles.modalContent}>{children}</View>
+      <ThemedView style={styles.modalContent}>
+        {visibleClose ? (
+          <ThemedView style={styles.containerClose}>
+            <ButtonCustom
+              name="X"
+              onPress={onPress}
+              height={40}
+              width={40}
+              props={{ style: { borderRadius: 50, margin: 5 } }}
+            />
+          </ThemedView>
+        ) : (
+          <></>
+        )}
+        {children}
+      </ThemedView>
     </View>
   );
 
@@ -43,8 +67,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContent: {
-    padding: 20,
+    padding: 5,
     borderRadius: 20,
-    minWidth: "100%",
+    width: "90%",
+    minWidth: "80%",
+  },
+  containerClose: {
+    alignItems: "flex-end",
   },
 });

@@ -74,7 +74,7 @@ export default function CardPlato({ item }: Props) {
         </ThemedView>
       </ThemedView>
 
-      <ModalCustom isOpen={modalOpen}>
+      <ModalCustom isOpen={modalOpen} onPress={handleCerrarModal}>
         <ModalAgregar item={item} onPress={handleCerrarModal} />
       </ModalCustom>
     </>

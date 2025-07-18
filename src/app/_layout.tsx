@@ -7,7 +7,6 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
-
 import { CarritoProvider } from "../context/cartContextProvider";
 import { useColorScheme } from "../hooks/useColorScheme";
 import { useThemeColor } from "../hooks/useThemeColor";
