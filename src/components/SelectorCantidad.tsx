@@ -1,15 +1,27 @@
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import ButtonCustom from "./ButtonCustom";
 import { ThemedText } from "./ThemedText";
 
 interface Props {
   cantidad: number;
   setCantidad: (nuevoValor: number) => void;
+  cantMax?: number;
 }
 
-export default function SelectorCantidad({ cantidad, setCantidad }: Props) {
+export default function SelectorCantidad({
+  cantidad,
+  setCantidad,
+  cantMax = 500,
+}: Props) {
   const increment = () => {
-    setCantidad(cantidad + 1);
+    if (cantidad < cantMax) {
+      setCantidad(cantidad + 1);
+    } else {
+      Alert.alert(
+        "",
+        "Se llego a la cantidad Máxima, no hay más productos para entregar"
+      );
+    }
   };
 
   const decrement = () => {
@@ -20,9 +32,9 @@ export default function SelectorCantidad({ cantidad, setCantidad }: Props) {
 
   return (
     <View style={styles.container}>
-      <ButtonCustom name="-" width={60} height={40} onPress={decrement} />
+      <ButtonCustom name="-" width={60} onPress={decrement} />
       <ThemedText style={styles.txt}>{cantidad}</ThemedText>
-      <ButtonCustom name="+" width={60} height={40} onPress={increment} />
+      <ButtonCustom name="+" width={60} onPress={increment} />
     </View>
   );
 }

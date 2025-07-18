@@ -21,11 +21,15 @@ export default function CartCardDetalle({ item }: Props) {
       <ThemedView style={styles.containerDetalle}>
         <ThemedView style={styles.containerNombre}>
           <ThemedText style={styles.txtNombre}>{item.nombre} </ThemedText>
-          <ThemedText>Precio: ${item.precio.toFixed(0)} </ThemedText>
+          <ThemedText>
+            Precio: ${item.precio.toLocaleString("es-AR")}{" "}
+          </ThemedText>
           <ThemedView style={styles.filaCant}>
-            <ThemedText>Cantidad: {item.cantidad.toFixed(0)} </ThemedText>
+            <ThemedText>
+              Cantidad: {item.cantidad.toLocaleString("es-AR")}{" "}
+            </ThemedText>
             <ThemedText style={styles.txtPrecio}>
-              ${(item.precio * item.cantidad).toFixed(0)}{" "}
+              ${(item.precio * item.cantidad).toLocaleString("es-AR")}{" "}
             </ThemedText>
           </ThemedView>
         </ThemedView>

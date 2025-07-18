@@ -1,13 +1,13 @@
 import React from "react";
 import {
-  TouchableOpacity,
-  StyleSheet,
-  ViewStyle,
-  TouchableOpacityProps,
   DimensionValue,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  ViewStyle,
 } from "react-native";
-import { ThemedText } from "./ThemedText";
 import { useThemeColor } from "../hooks/useThemeColor";
+import { ThemedText } from "./ThemedText";
 
 interface Props {
   name: string;
@@ -59,9 +59,9 @@ export default function ButtonCustom({
 
   return (
     <TouchableOpacity
-      style={[styles.container, dinamicStyle]}
-      onPress={onPress}
       {...props}
+      style={[styles.container, dinamicStyle, props?.style]}
+      onPress={onPress}
     >
       <ThemedText style={styles.text}> {name} </ThemedText>
     </TouchableOpacity>

@@ -15,11 +15,11 @@ export default function CardPlatoDetalle({ item }: Props) {
     <ThemedView style={styles.containerCard}>
       <Image source={imagenes[item.uri_img]} style={styles.inagen} />
       <ThemedText style={styles.txtNombre}>{item.nombre} </ThemedText>
-      <ThemedText numberOfLines={4} style={styles.txtDescripcion}>
+      <ThemedText numberOfLines={10} style={styles.txtDescripcion}>
         {item.descripcion}
       </ThemedText>
       <ThemedText style={styles.txtPrecio}>
-        ${item.precio.toFixed(0)}{" "}
+        ${item.precio.toLocaleString("es-AR")}{" "}
       </ThemedText>
     </ThemedView>
   );
@@ -38,15 +38,17 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   txtNombre: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 700,
   },
   txtDescripcion: {
-    fontSize: 12,
+    fontSize: 14,
     lineHeight: 18,
+    paddingHorizontal: 20,
+    textAlign: "justify",
   },
   txtPrecio: {
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: 600,
   },
 });

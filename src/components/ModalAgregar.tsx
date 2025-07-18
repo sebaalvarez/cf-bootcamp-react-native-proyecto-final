@@ -17,6 +17,7 @@ export default function ModalAgregar({ item, onPress }: Props) {
 
   const enCarrito = state.carrito.find((p) => p.id === item.id);
   const [cant, setCant] = useState(enCarrito ? enCarrito.cantidad : 0);
+  const cantMax = item.stock;
 
   const handlePedido = () => {
     if (enCarrito) {
@@ -50,16 +51,25 @@ export default function ModalAgregar({ item, onPress }: Props) {
   return (
     <ThemedView style={styles.containerModal}>
       <View style={styles.containerClose}>
-        <ButtonCustom name="X" onPress={onPress} height={40} width={40} />
+        <ButtonCustom
+          name="X"
+          onPress={onPress}
+          height={40}
+          width={40}
+          props={{ style: { borderRadius: 50, margin: 5 } }}
+        />
       </View>
       <View style={styles.containerDet}>
         <CardPlatoDetalle item={item} />
-        <SelectorCantidad cantidad={cant} setCantidad={setCant} />
+        <SelectorCantidad
+          cantidad={cant}
+          setCantidad={setCant}
+          cantMax={cantMax}
+        />
         {enCarrito && (
           <ButtonCustom
             name="Modificar pedido"
             onPress={handlePedido}
-            height={50}
             width={"90%"}
           />
         )}
@@ -67,7 +77,6 @@ export default function ModalAgregar({ item, onPress }: Props) {
           <ButtonCustom
             name="Agregar al pedido"
             onPress={handlePedido}
-            height={50}
             width={"90%"}
             props={{ disabled: cant === 0 }}
           />
@@ -79,7 +88,7 @@ export default function ModalAgregar({ item, onPress }: Props) {
 
 const styles = StyleSheet.create({
   containerModal: {
-    height: 520,
+    height: "auto",
     borderRadius: 20,
   },
   containerClose: {
@@ -88,5 +97,6 @@ const styles = StyleSheet.create({
   containerDet: {
     alignItems: "center",
     gap: 20,
+    paddingBottom: 20,
   },
 });

@@ -30,7 +30,7 @@ export default function CartCardList() {
           Productos: {state.carrito.length}
         </ThemedText>
         <ThemedText type="subtitle" align="left">
-          Total Pedido: ${sumarTotal}
+          Total Pedido: ${sumarTotal.toLocaleString("es-AR")}
         </ThemedText>
       </ThemedView>
       <ButtonCustom name="confirmar pedido" />

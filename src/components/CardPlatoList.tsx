@@ -1,139 +1,147 @@
-import React, { useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { useCarrito } from "../context/cartContextProvider";
-import { imagenes } from "../services/indexImagenes";
+import React, { useEffect, useState } from "react";
+import { FlatList } from "react-native";
 import { IPlatos } from "../types/index";
-import ButtonCustom from "./ButtonCustom";
-import ModalAgregar from "./ModalAgregar";
-import { ModalCustom } from "./ModalCustom";
-import { ThemedText } from "./ThemedText";
-import { ThemedView } from "./ThemedView";
+import CardPlato from "./CardPlato";
 
-interface Props {
-  item: IPlatos;
-}
+const PAGE_SIZE = 10;
 
-export default function CardPlatoList({ item }: Props) {
-  const [modalOpen, setModalOpen] = useState(false);
-  const { state } = useCarrito();
+const Platos: IPlatos[] = [
+  {
+    id: 1,
+    nombre: "Niños Envueltos (Parra)",
+    descripcion: "Porción de 12 Niños envueltos en Hoja de parra",
+    precio: 6000,
+    uri_img: "nino_parra",
+    cantidad: 0,
+    stock: 10,
+  },
+  {
+    id: 6,
+    nombre: "Niños Envueltos (Repollo)",
+    descripcion: "Porción de 12 Niños envueltos en Hoja de repollo",
+    precio: 6000,
+    uri_img: "nino_repollo",
+    cantidad: 0,
+    stock: 10,
+  },
+  {
+    id: 2,
+    nombre: "Empanadas Arabe (cocida)",
+    descripcion:
+      "Docena de empanadas árabes cocidas Docena de empanadas árabes cocidas Docena de empanadas árabes cocidas Docena de árabes árabes empanadas árabes cocidas Docena de empanadas árabes cocidas Docena de empanadas árabes cocidas Docena de árabes árabes empanadas árabes cocidas Docena de empanadas árabes cocidas Docena de empanadas árabes cocidas Docena de empanadas árabes cocidas Docena de empanadas árabes cocidas",
+    precio: 7500,
+    uri_img: "empanada",
+    cantidad: 0,
+    stock: 10,
+  },
+  {
+    id: 3,
+    nombre: "Kipe Relleno (cocido)",
+    descripcion: "Porción de 3 Kipes cocidos",
+    precio: 7500,
+    uri_img: "kippe",
+    cantidad: 0,
+    stock: 10,
+  },
+  {
+    id: 4,
+    nombre: "Pure de Garbanzo",
+    descripcion: "porcion de pure de garbanzo",
+    precio: 1000,
+    uri_img: "garbanzo",
+    cantidad: 0,
+    stock: 10,
+  },
+  {
+    id: 5,
+    nombre: "Pure de Berenjena",
+    descripcion: "porción de pure de berenjena",
+    precio: 700,
+    uri_img: "berenjena",
+    cantidad: 0,
+    stock: 10,
+  },
 
-  const enCarrito = state.carrito.find((p) => p.id === item.id);
+  {
+    id: 7,
+    nombre: "Tripa Rellena",
+    descripcion: "Tripa rellena",
+    precio: 6000,
+    uri_img: "tripa",
+    cantidad: 0,
+    stock: 10,
+  },
+  {
+    id: 8,
+    nombre: "Pan Arabe",
+    descripcion: "Por unidad, panes de 20 cm de diametro",
+    precio: 400,
+    uri_img: "pan",
+    cantidad: 0,
+    stock: 10,
+  },
+  {
+    id: 9,
+    nombre: "Empanadas Arabe (freezada)",
+    descripcion: "Docena de empanadas árabe frezadas",
+    precio: 6500,
+    uri_img: "empanada",
+    cantidad: 0,
+    stock: 10,
+  },
+  {
+    id: 10,
+    nombre: "Kipe Relleno (freezado)",
+    descripcion: "Porción de 3 Kipes Frezados",
+    precio: 6500,
+    uri_img: "kippe",
+    cantidad: 0,
+    stock: 10,
+  },
+];
 
-  const nameBtn = enCarrito ? "Modificar" : "Agregar";
+export default function Menu() {
+  const [data, setData] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
-  const handleAgregar = () => {
-    setModalOpen(true);
+  const fetchData = async (pageNumber: number) => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/posts?_limit=${PAGE_SIZE}&_page=${pageNumber}`
+      );
+      const newData = await response.json();
+
+      if (newData.length < PAGE_SIZE) {
+        setHasMore(false);
+      }
+      setData((prev) => [...prev, ...newData]);
+    } catch (error) {
+      console.error("Error al obtener los platos:", error);
+    }
+    setLoading(false);
   };
 
-  const handleCerrarModal = () => {
-    setModalOpen(false);
+  useEffect(() => {
+    fetchData(page);
+  }, []);
+
+  const handleLoadMore = () => {
+    if (!loading && hasMore) {
+      fetchData(page + 1);
+      setPage((prevPage) => prevPage + 1);
+    }
   };
 
   return (
-    <>
-      <ThemedView style={styles.containerCard}>
-        <ThemedView style={styles.containerImg}>
-          {enCarrito ? (
-            <View style={styles.containerCant}>
-              <Text style={styles.txtCantidad}>{enCarrito?.cantidad}</Text>
-            </View>
-          ) : (
-            <></>
-          )}
-          <Image source={imagenes[item.uri_img]} style={styles.inagen} />
-        </ThemedView>
-        <ThemedView style={styles.containerDetalle}>
-          <ThemedView>
-            <ThemedText style={styles.txtNombre}>{item.nombre} </ThemedText>
-            <ThemedText numberOfLines={2} style={styles.txtDescripcion}>
-              {item.descripcion}
-            </ThemedText>
-          </ThemedView>
-          <ThemedView style={styles.containerLineaPrecio}>
-            <ThemedView style={styles.containerLineaPrecioValor}>
-              <ThemedText style={styles.txtPrecio}>
-                ${item.precio.toFixed(0)}{" "}
-              </ThemedText>
-            </ThemedView>
-            <ThemedView style={styles.containerLineaPrecioBtn}>
-              <ButtonCustom name={nameBtn} onPress={handleAgregar} />
-            </ThemedView>
-          </ThemedView>
-        </ThemedView>
-      </ThemedView>
-      <ModalCustom isOpen={modalOpen}>
-        <ModalAgregar item={item} onPress={handleCerrarModal} />
-      </ModalCustom>
-    </>
+    <FlatList
+      data={Platos}
+      keyExtractor={(item, index) => `plato-${item.id}-${index}`}
+      renderItem={({ item }) => <CardPlato item={item} />}
+      onEndReached={handleLoadMore}
+      onEndReachedThreshold={0.5}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  containerCard: {
-    flex: 1,
-    flexDirection: "row",
-    width: "100%",
-    height: 120,
-    borderRadius: 10,
-    borderWidth: 0.2,
-    padding: 5,
-    gap: 10,
-    marginVertical: 5,
-  },
-  containerImg: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "30%",
-  },
-  containerCant: {
-    backgroundColor: "red",
-    width: 20,
-    height: 20,
-    borderRadius: 20,
-    top: 20,
-    left: 40,
-    zIndex: 90,
-  },
-  txtCantidad: {
-    color: "white",
-    fontWeight: 600,
-    textAlign: "center",
-    textAlignVertical: "center",
-  },
-  inagen: {
-    height: 100,
-    width: 100,
-    borderRadius: 10,
-  },
-  containerDetalle: {
-    flex: 1,
-    width: "70%",
-    justifyContent: "space-between",
-    paddingVertical: 0,
-    gap: 15,
-  },
-  txtNombre: {
-    fontSize: 18,
-    fontWeight: 700,
-  },
-  txtDescripcion: {
-    fontSize: 12,
-    lineHeight: 18,
-  },
-  txtPrecio: {
-    fontSize: 14,
-    fontWeight: 600,
-  },
-  containerLineaPrecio: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  containerLineaPrecioValor: {
-    width: "40%",
-    justifyContent: "center",
-  },
-  containerLineaPrecioBtn: {
-    width: "60%",
-  },
-});
