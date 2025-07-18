@@ -22,7 +22,7 @@ const Platos: IPlatos[] = [
     precio: 6000,
     uri_img: "nino_repollo",
     cantidad: 0,
-    stock: 10,
+    stock: 0,
   },
   {
     id: 2,
@@ -41,7 +41,7 @@ const Platos: IPlatos[] = [
     precio: 7500,
     uri_img: "kippe",
     cantidad: 0,
-    stock: 10,
+    stock: 0,
   },
   {
     id: 4,

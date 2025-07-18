@@ -20,6 +20,7 @@ export default function CardPlato({ item }: Props) {
   const enCarrito = state.carrito.find((p) => p.id === item.id);
 
   const nameBtn = enCarrito ? "Modificar" : "Agregar";
+  const sinStock = item.stock === 0 ? true : false;
 
   const handleAgregar = () => {
     setModalOpen(true);
@@ -34,8 +35,15 @@ export default function CardPlato({ item }: Props) {
       <ThemedView style={styles.containerCard}>
         <ThemedView style={styles.containerImg}>
           {enCarrito ? (
-            <View style={styles.containerCant}>
+            <View style={styles.containerMsgCant}>
               <Text style={styles.txtCantidad}>{enCarrito?.cantidad}</Text>
+            </View>
+          ) : (
+            <></>
+          )}
+          {sinStock ? (
+            <View style={styles.containerMsgSinStock}>
+              <Text style={styles.txtCantidad}>Sin Stock</Text>
             </View>
           ) : (
             <></>
@@ -56,7 +64,11 @@ export default function CardPlato({ item }: Props) {
               </ThemedText>
             </ThemedView>
             <ThemedView style={styles.containerLineaPrecioBtn}>
-              <ButtonCustom name={nameBtn} onPress={handleAgregar} />
+              <ButtonCustom
+                name={nameBtn}
+                onPress={handleAgregar}
+                props={{ disabled: sinStock }}
+              />
             </ThemedView>
           </ThemedView>
         </ThemedView>
@@ -86,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "30%",
   },
-  containerCant: {
+  containerMsgCant: {
     position: "absolute",
     top: 0,
     alignSelf: "flex-end",
@@ -94,6 +106,14 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 20,
+    zIndex: 1,
+  },
+  containerMsgSinStock: {
+    position: "absolute",
+    backgroundColor: "red",
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     zIndex: 1,
   },
   txtCantidad: {

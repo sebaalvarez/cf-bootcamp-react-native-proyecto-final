@@ -19,7 +19,7 @@ export default function SelectorCantidad({
     } else {
       Alert.alert(
         "",
-        "Se llego a la cantidad Máxima, no hay más productos para entregar"
+        `${cantMax} es la cantidad máxima que nos queda disponible.`
       );
     }
   };
