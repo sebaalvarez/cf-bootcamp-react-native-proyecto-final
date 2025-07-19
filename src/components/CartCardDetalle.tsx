@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Image, StyleSheet } from "react-native";
-
 import { imagenes } from "../services/indexImagenes";
 import { IPlatos } from "../types/index";
 import { ThemedText } from "./ThemedText";
@@ -11,31 +10,22 @@ interface Props {
 }
 
 export default function CartCardDetalle({ item }: Props) {
-  const [cant, setCant] = useState(0);
-
   return (
     <ThemedView style={styles.containerCard}>
       <ThemedView style={styles.containerImg}>
-        <Image source={imagenes[item.uri_img]} style={styles.inagen} />
+        <Image source={imagenes[item.uri_img]} style={styles.imagen} />
       </ThemedView>
       <ThemedView style={styles.containerDetalle}>
-        <ThemedView style={styles.containerNombre}>
-          <ThemedText style={styles.txtNombre}>{item.nombre} </ThemedText>
+        <ThemedText style={styles.txtNombre}>{item.nombre} </ThemedText>
+        <ThemedText>Precio: ${item.precio.toLocaleString("es-AR")} </ThemedText>
+        <ThemedView style={styles.filaCant}>
           <ThemedText>
-            Precio: ${item.precio.toLocaleString("es-AR")}{" "}
+            Cantidad: {item.cantidad.toLocaleString("es-AR")}{" "}
           </ThemedText>
-          <ThemedView style={styles.filaCant}>
-            <ThemedText>
-              Cantidad: {item.cantidad.toLocaleString("es-AR")}{" "}
-            </ThemedText>
-            <ThemedText style={styles.txtPrecio}>
-              ${(item.precio * item.cantidad).toLocaleString("es-AR")}{" "}
-            </ThemedText>
-          </ThemedView>
+          <ThemedText style={styles.txtPrecio}>
+            ${(item.precio * item.cantidad).toLocaleString("es-AR")}{" "}
+          </ThemedText>
         </ThemedView>
-        {/* <ThemedView style={styles.containerCantidad}>
-          <SelectorCantidad cantidad={item.cantidad} setCantidad={setCant} />
-        </ThemedView> */}
       </ThemedView>
     </ThemedView>
   );
@@ -51,36 +41,21 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderBottomWidth: 2,
   },
-
   containerImg: {
     alignItems: "center",
     justifyContent: "center",
     width: "25%",
-    // backgroundColor: "blue",
   },
-
   containerDetalle: {
-    // alignItems: "center",
     justifyContent: "center",
     width: "75%",
-    // backgroundColor: "blue",
-    gap: 5,
-  },
-  containerNombre: {
-    // flexDirection: "row",
-    // backgroundColor: "grey",
-  },
-  containerCantidad: {
-    justifyContent: "center",
-    alignItems: "center",
-    // backgroundColor: "grey",
   },
   filaCant: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "95%",
   },
-  inagen: {
+  imagen: {
     height: 80,
     width: 80,
     borderRadius: 10,
@@ -89,7 +64,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 700,
   },
-
   txtPrecio: {
     fontSize: 14,
     fontWeight: 600,

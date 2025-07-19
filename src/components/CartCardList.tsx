@@ -47,11 +47,7 @@ export default function CartCardList() {
         </ThemedView>
         <ButtonCustom name="confirmar pedido" onPress={handleAgregar} />
       </ThemedView>
-      <ModalCustom
-        isOpen={modalOpen}
-        onPress={handleCerrarModal}
-        // visibleClose={false}
-      >
+      <ModalCustom isOpen={modalOpen} onPress={handleCerrarModal}>
         <ModalDatosPedido onPress={handleCerrarModal} />
       </ModalCustom>
     </>
@@ -66,7 +62,6 @@ const styles = StyleSheet.create({
   },
   filaResumen: {
     flexDirection: "row",
-
     justifyContent: "space-between",
   },
 });

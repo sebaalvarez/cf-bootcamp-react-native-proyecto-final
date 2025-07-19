@@ -11,8 +11,8 @@ const initialState: State = {
 
 type Action =
   | { type: "AGREGAR_PLATO"; payload: IPlatos }
-  | { type: "QUITAR_PLATO"; payload: { id: number } }
-  | { type: "MODIFICAR_CANTIDAD"; payload: { id: number; cantidad: number } }
+  | { type: "QUITAR_PLATO"; payload: { id: string } }
+  | { type: "MODIFICAR_CANTIDAD"; payload: { id: string; cantidad: number } }
   | { type: "VACIAR_CARRITO" };
 
 function carritoReducer(state: State, action: Action): State {

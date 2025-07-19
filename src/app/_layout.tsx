@@ -6,6 +6,7 @@ import {
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+
 import "react-native-reanimated";
 import { CarritoProvider } from "../context/cartContextProvider";
 import { useColorScheme } from "../hooks/useColorScheme";
@@ -28,18 +29,18 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <CarritoProvider>
-        <Stack>
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: true,
-              title: "Hama",
-              headerStyle: { backgroundColor },
-              headerTitleAlign: "center",
-              headerTitleStyle: { color: textColor },
-            }}
-          />
+        <Stack
+          screenOptions={{
+            headerShown: true,
+            headerTitle: "Hama",
+            headerStyle: { backgroundColor },
+            headerTitleStyle: { color: textColor, fontSize: 18 },
+            headerTitleAlign: "center",
+          }}
+        >
+          <Stack.Screen name="(tabs)" />
           <Stack.Screen name="+not-found" />
+          <Stack.Screen name="pedidoDetalle" />
         </Stack>
         <StatusBar style="auto" />
       </CarritoProvider>

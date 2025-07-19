@@ -1,9 +1,22 @@
 export interface IPlatos {
-  id: number;
+  id: string;
   uri_img: string;
   nombre: string;
   descripcion: string;
   precio: number;
   cantidad: number;
   stock: number;
+}
+
+export interface IDatosEnvio {
+  apellido: string;
+  nombre: string;
+  domicilio: string;
+  telefono: number;
+}
+
+export interface IPedido {
+  fecha: string;
+  detalle: IPlatos[];
+  datosEnvio: IDatosEnvio;
 }
