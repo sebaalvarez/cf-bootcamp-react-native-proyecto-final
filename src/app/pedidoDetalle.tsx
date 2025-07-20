@@ -10,6 +10,7 @@ export default function PedidoDetalleScreen() {
     async function getPedido() {
       const ped = await getData("pedido");
       setPedido(ped);
+      console.log(ped);
     }
     getPedido();
   }, []);

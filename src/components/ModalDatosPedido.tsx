@@ -1,4 +1,4 @@
-import { Alert, StyleSheet } from "react-native";
+import { ActivityIndicator, Alert, StyleSheet } from "react-native";
 import { useCarrito } from "../context/cartContextProvider";
 import { getData, storeData } from "../services/local/storage";
 import { IPedido } from "../types";
@@ -7,10 +7,10 @@ import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
-  setDoc,
   writeBatch,
 } from "firebase/firestore";
 import { useState } from "react";
@@ -90,11 +90,14 @@ export default function ModalDatosPedido({ onPress }: Props) {
         detalle,
       };
 
-      await storeData("pedido", JSON.stringify(jsonPedido));
-
       // Registrar el pedido en la colección "pedidos"
-      const pedidoRef = doc(collection(db, "pedidos"));
-      await setDoc(pedidoRef, jsonPedido);
+      const pedidoRef = await addDoc(collection(db, "pedidos"), jsonPedido);
+      const pedidoId = pedidoRef.id; // Obtén el ID del pedido
+
+      await storeData(
+        "pedido",
+        JSON.stringify({ id: pedidoId, ...jsonPedido })
+      );
 
       const batch = writeBatch(db);
       for (const plato of detalle) {
@@ -114,7 +117,10 @@ export default function ModalDatosPedido({ onPress }: Props) {
       dispatch({
         type: "VACIAR_CARRITO",
       });
-      Alert.alert("Exito", "Tu pedido fue enviado");
+      Alert.alert(
+        "Tu pedido fue enviado",
+        "Pronto disfrutaras de nuestra comida."
+      );
       onPress?.();
     } catch (error) {
       console.error("Error al procesar el pedido:", error);
@@ -130,13 +136,20 @@ export default function ModalDatosPedido({ onPress }: Props) {
 
   return (
     <ThemedView style={styles.containerModal}>
-      <ThemedView style={styles.containerDet}>
-        <ThemedText type="subtitle"> Datos para el envío</ThemedText>
-        <ProfileForm
-          onPress={handlePedido}
-          disabledBtn={!pedidos_habilitados}
-        />
-      </ThemedView>
+      {isProcessing ? (
+        <ThemedView style={styles.spinnerContainer}>
+          <ActivityIndicator size="large" color="#0000ff" />
+          <ThemedText>Enviando pedido...</ThemedText>
+        </ThemedView>
+      ) : (
+        <ThemedView style={styles.containerDet}>
+          <ThemedText type="subtitle">Datos para el envío</ThemedText>
+          <ProfileForm
+            onPress={handlePedido}
+            disabledBtn={!pedidos_habilitados}
+          />
+        </ThemedView>
+      )}
     </ThemedView>
   );
 }
@@ -146,10 +159,14 @@ const styles = StyleSheet.create({
     height: "auto",
     borderRadius: 20,
   },
-
   containerDet: {
     alignItems: "center",
     gap: 10,
     paddingBottom: 20,
+  },
+  spinnerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
