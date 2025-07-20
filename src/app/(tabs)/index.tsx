@@ -1,19 +1,47 @@
-import { Image, StyleSheet } from "react-native";
+import { Alert, Image, StyleSheet } from "react-native";
 import ContainerApp from "../../components/ContainerApp";
 import { ThemedText } from "../../components/ThemedText";
 import { ThemedView } from "../../components/ThemedView";
+
+import { useConfiguracion } from "../../hooks/useEstadoAtencion";
 import { imagenes } from "../../services/indexImagenes";
 
 export default function HomeScreen() {
+  const configuracion = useConfiguracion();
+
+  if (!configuracion) {
+    return (
+      <ThemedView>
+        <ThemedText>Cargando configuración...</ThemedText>
+      </ThemedView>
+    );
+  }
+
+  const { pedidos_habilitados, horario_atencion } = configuracion;
+
+  if (!pedidos_habilitados) {
+    Alert.alert("Lo sentimos", "Los pedidos están cerrados en este momento.");
+  }
+
   return (
     <ContainerApp>
       <ThemedView style={styles.container}>
         <Image source={imagenes["logo"]} style={styles.img} />
         <ThemedText type="title">¡Bienvenido!</ThemedText>
         <ThemedText type="subtitle">Pedí tu plato favorito</ThemedText>
-        <ThemedText type="defaultSemiBold">
-          Atendemos solamente los Miércoles y Viernes
+        <ThemedText type="defaultSemiBold" align="center">
+          Atendemos solamente los {horario_atencion}
         </ThemedText>
+        {!pedidos_habilitados && (
+          <ThemedText type="subtitle" align="center" style={{ color: "red" }}>
+            Cocina cerrada
+          </ThemedText>
+        )}
+        {pedidos_habilitados && (
+          <ThemedText type="subtitle" align="center" style={{ color: "green" }}>
+            Cocina abierta
+          </ThemedText>
+        )}
       </ThemedView>
     </ContainerApp>
   );

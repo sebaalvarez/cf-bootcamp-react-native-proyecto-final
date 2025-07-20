@@ -17,6 +17,12 @@ export interface IDatosEnvio {
 
 export interface IPedido {
   fecha: string;
+  estado:
+    | "Solicitado"
+    | "Recibido"
+    | "En preparación"
+    | "En camino"
+    | "Entregado";
   detalle: IPlatos[];
   datosEnvio: IDatosEnvio;
 }

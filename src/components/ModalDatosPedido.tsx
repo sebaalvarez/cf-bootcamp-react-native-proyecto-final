@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { useState } from "react";
 import { db } from "../config/firebaseConfig";
+import { useConfiguracion } from "../hooks/useEstadoAtencion";
 
 interface Props {
   onPress?: () => void;
@@ -23,6 +24,22 @@ interface Props {
 export default function ModalDatosPedido({ onPress }: Props) {
   const { state, dispatch } = useCarrito();
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const configuracion = useConfiguracion();
+
+  if (!configuracion) {
+    return (
+      <ThemedView>
+        <ThemedText>Cargando configuración...</ThemedText>
+      </ThemedView>
+    );
+  }
+
+  const { pedidos_habilitados } = configuracion;
+
+  if (!pedidos_habilitados) {
+    Alert.alert("Lo sentimos", "Los pedidos están cerrados en este momento.");
+  }
 
   const handlePedido = async () => {
     if (isProcessing) return;
@@ -68,6 +85,7 @@ export default function ModalDatosPedido({ onPress }: Props) {
 
       const jsonPedido: IPedido = {
         fecha: new Date().toLocaleString(),
+        estado: "Solicitado",
         datosEnvio,
         detalle,
       };
@@ -114,7 +132,10 @@ export default function ModalDatosPedido({ onPress }: Props) {
     <ThemedView style={styles.containerModal}>
       <ThemedView style={styles.containerDet}>
         <ThemedText type="subtitle"> Datos para el envío</ThemedText>
-        <ProfileForm onPress={handlePedido} />
+        <ProfileForm
+          onPress={handlePedido}
+          disabledBtn={!pedidos_habilitados}
+        />
       </ThemedView>
     </ThemedView>
   );

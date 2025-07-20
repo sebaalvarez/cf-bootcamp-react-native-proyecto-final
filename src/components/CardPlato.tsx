@@ -11,9 +11,10 @@ import { ThemedView } from "./ThemedView";
 
 interface Props {
   item: IPlatos;
+  pedidos_habilitados?: boolean;
 }
 
-export default function CardPlato({ item }: Props) {
+export default function CardPlato({ item, pedidos_habilitados = true }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
   const { state } = useCarrito();
 
@@ -21,6 +22,8 @@ export default function CardPlato({ item }: Props) {
 
   const nameBtn = enCarrito ? "Modificar" : "Agregar";
   const sinStock = item.stock === 0 ? true : false;
+
+  const dibabledBtn = sinStock || !pedidos_habilitados;
 
   const handleAgregar = () => {
     setModalOpen(true);
@@ -67,7 +70,7 @@ export default function CardPlato({ item }: Props) {
               <ButtonCustom
                 name={nameBtn}
                 onPress={handleAgregar}
-                props={{ disabled: sinStock }}
+                props={{ disabled: dibabledBtn }}
               />
             </ThemedView>
           </ThemedView>

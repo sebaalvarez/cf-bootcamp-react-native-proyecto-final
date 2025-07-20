@@ -1,8 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { InferType } from "yup";
+import { useUbicacion } from "../../../hooks/useUbicacion";
 import { getData, storeData } from "../../../services/local/storage";
 import ButtonCustom from "../../ButtonCustom";
 import { ThemedView } from "../../ThemedView";
@@ -10,10 +11,11 @@ import { FormInputController } from "../controllers/FormInputController";
 import { profileFormSchema } from "../validations/FormSchemas";
 
 interface Props {
+  disabledBtn?: boolean;
   onPress?: () => void;
 }
 
-export default function ProfileForm({ onPress }: Props) {
+export default function ProfileForm({ onPress, disabledBtn = false }: Props) {
   const {
     control,
     handleSubmit,
@@ -27,21 +29,25 @@ export default function ProfileForm({ onPress }: Props) {
     onPress?.();
   };
 
+  const { direccion, error } = useUbicacion();
+
   useEffect(() => {
     async function setValues() {
       const dataUser = await getData("usuario");
 
       if (dataUser) {
+        const dir = error ? dataUser.domicilio : direccion;
+
         reset({
           nombre: dataUser.nombre,
           apellido: dataUser.apellido,
           telefono: dataUser.telefono,
-          domicilio: dataUser.domicilio,
+          domicilio: dir,
         });
       }
     }
     setValues();
-  }, [reset]);
+  }, [reset, direccion]);
 
   return (
     <ThemedView style={styles.container}>
@@ -74,10 +80,15 @@ export default function ProfileForm({ onPress }: Props) {
         control={control}
         errors={errors}
         name={"domicilio"}
-        placeholder={"Domicilio"}
+        placeholder={"Dirección de entrega"}
       />
 
-      <ButtonCustom name={"Guardar"} onPress={handleSubmit(onSubmit)} />
+      {error && <Text style={{ color: "red", fontSize: 13 }}>{error}</Text>}
+      <ButtonCustom
+        name={"Guardar"}
+        onPress={handleSubmit(onSubmit)}
+        props={{ disabled: disabledBtn }}
+      />
     </ThemedView>
   );
 }

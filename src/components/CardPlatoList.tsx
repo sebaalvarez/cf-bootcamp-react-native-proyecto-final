@@ -1,11 +1,25 @@
 import React from "react";
 import { ActivityIndicator, FlatList, StyleSheet } from "react-native";
+import { useConfiguracion } from "../hooks/useEstadoAtencion";
 import { usePlatos } from "../hooks/usePlatos";
 import CardPlato from "./CardPlato";
+import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 
 export default function Menu() {
   const { platos, isLoading } = usePlatos();
+
+  const configuracion = useConfiguracion();
+
+  if (!configuracion) {
+    return (
+      <ThemedView>
+        <ThemedText>Cargando configuración...</ThemedText>
+      </ThemedView>
+    );
+  }
+
+  const { pedidos_habilitados } = configuracion;
 
   if (isLoading) {
     return (
@@ -18,7 +32,9 @@ export default function Menu() {
     <FlatList
       data={platos}
       keyExtractor={(item, index) => `plato-${item.id}-${index}`}
-      renderItem={({ item }) => <CardPlato item={item} />}
+      renderItem={({ item }) => (
+        <CardPlato item={item} pedidos_habilitados={pedidos_habilitados} />
+      )}
     />
   );
 }

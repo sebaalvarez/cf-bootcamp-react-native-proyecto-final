@@ -19,5 +19,6 @@ export const profileFormSchema = yup
     apellido: yup.string().required(requeridoString),
     telefono: yup.number().typeError(soloNumero).required(requeridoString),
     domicilio: yup.string().required(requeridoString),
+    // domicilioDetectado: yup.string(),
   })
   .required();
