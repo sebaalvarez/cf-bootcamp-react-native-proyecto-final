@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "424820143547",
+    "project_id": "hama-pedidos",
+    "storage_bucket": "hama-pedidos.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424820143547:android:553141b07ec5e676fe409e",
+        "android_client_info": {
+          "package_name": "com.salvarez.hama"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLp1wUA9-eGzLygVX_4l2Z4aidhDy18ME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

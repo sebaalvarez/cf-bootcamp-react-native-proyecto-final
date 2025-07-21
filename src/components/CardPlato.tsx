@@ -63,7 +63,7 @@ export default function CardPlato({ item, pedidos_habilitados = true }: Props) {
           <ThemedView style={styles.containerLineaPrecio}>
             <ThemedView style={styles.containerLineaPrecioValor}>
               <ThemedText style={styles.txtPrecio}>
-                ${item.precio.toLocaleString("es-AR")}{" "}
+                ${item.precio.toLocaleString("es-AR")}
               </ThemedText>
             </ThemedView>
             <ThemedView style={styles.containerLineaPrecioBtn}>

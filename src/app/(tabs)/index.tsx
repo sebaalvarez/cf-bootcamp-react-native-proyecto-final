@@ -9,6 +9,22 @@ import { imagenes } from "../../services/indexImagenes";
 export default function HomeScreen() {
   const configuracion = useConfiguracion();
 
+  // useEffect(() => {
+  //   const syncPushToken = async () => {
+  //     const nuevoToken = await registerForPushNotificationsAsync();
+  //     const viejoToken = await getData("@push_token");
+
+  //     console.log(nuevoToken);
+  //     console.log(viejoToken);
+
+  //     if (nuevoToken && nuevoToken !== viejoToken) {
+  //       await storeData("@push_token", nuevoToken);
+  //     }
+  //   };
+
+  //   syncPushToken();
+  // }, []);
+
   if (!configuracion) {
     return (
       <ThemedView>

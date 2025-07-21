@@ -23,6 +23,11 @@ export interface IPedido {
     | "En preparación"
     | "En camino"
     | "Entregado";
+  montoTotal: number;
   detalle: IPlatos[];
   datosEnvio: IDatosEnvio;
+}
+
+export interface IPedidosHistoricos extends IPedido {
+  id: string;
 }

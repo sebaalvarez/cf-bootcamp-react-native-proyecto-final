@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Animated, StyleSheet, TextInput, TextInputProps } from "react-native";
+import { useThemeColor } from "../hooks/useThemeColor";
 import { ThemedView } from "./ThemedView";
 
 interface Props {
+  lightColor?: string;
+  darkColor?: string;
   onChangeText: (text: string) => void;
   placeholder: string;
   value?: string | number;
@@ -11,6 +14,8 @@ interface Props {
 }
 
 export default function TextField({
+  lightColor,
+  darkColor,
   onChangeText,
   placeholder,
   value,
@@ -19,7 +24,14 @@ export default function TextField({
 }: Props) {
   const [isFocus, setIsFocus] = useState(false);
   const animatedLabel = useRef(new Animated.Value(0)).current;
-
+  const colorText = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "text"
+  );
+  const colorBackgrund = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
   useEffect(() => {
     Animated.timing(animatedLabel, {
       toValue: isFocus || value ? 1 : 0,
@@ -35,15 +47,16 @@ export default function TextField({
       paddingHorizontal: 10,
       width: "100%",
       height: 30,
-      backgroundColor: "#ffffff",
+      backgroundColor: colorBackgrund, //"#ffffff",
     },
     focused: {
-      backgroundColor: "#ffffff",
+      backgroundColor: colorBackgrund, //"#ffffff",
     },
     input: {
       height: 40,
       fontSize: 16,
       padding: 0,
+      color: colorText,
     },
   });
 
@@ -63,11 +76,11 @@ export default function TextField({
     }),
     color: animatedLabel.interpolate({
       inputRange: [0, 1],
-      outputRange: ["#aaaaaa", "#000000"],
+      outputRange: ["#9a9999ff", colorText],
     }),
     backgroundColor: animatedLabel.interpolate({
       inputRange: [0, 1],
-      outputRange: ["#ffffff", "#ffffff"],
+      outputRange: [colorBackgrund, colorBackgrund],
     }),
     paddingHorizontal: 4,
   };

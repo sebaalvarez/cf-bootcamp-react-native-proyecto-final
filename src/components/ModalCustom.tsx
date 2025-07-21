@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: "90%",
     minWidth: "80%",
+    maxHeight: "80%",
   },
   containerClose: {
     alignItems: "flex-end",

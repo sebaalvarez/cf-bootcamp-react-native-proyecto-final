@@ -6,10 +6,9 @@ export function useConfiguracion() {
 
   useEffect(() => {
     const unsubscribe = listenConfiguracion((data) => {
-      setConfiguracion(data); // Actualiza el estado con los datos en tiempo real
+      setConfiguracion(data);
     });
 
-    // Limpia la suscripción al desmontar el componente
     return () => unsubscribe();
   }, []);
 

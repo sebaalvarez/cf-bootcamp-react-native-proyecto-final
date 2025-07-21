@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { useCarrito } from "../context/cartContextProvider";
+import calculaTotalPedido from "../utils/calculaTotalPedido";
 import ButtonCustom from "./ButtonCustom";
 import CartCardDetalle from "./CartCardDetalle";
 import { ModalCustom } from "./ModalCustom";
@@ -19,10 +20,8 @@ export default function CartCardList() {
   const handleCerrarModal = () => {
     setModalOpen(false);
   };
-  const sumarTotal = state.carrito.reduce(
-    (acc, item) => item.precio * item.cantidad + acc,
-    0
-  );
+
+  const sumarTotal = calculaTotalPedido(state.carrito);
 
   return (
     <>

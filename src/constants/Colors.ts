@@ -23,7 +23,7 @@ export const Colors = {
     background: "#151718",
     backgroundBtn: "#507860ff",
     backgroundBtnDisabled: "#4d5c53ff",
-    borderBtnColor: "#f70707ff",
+    borderBtnColor: "#e0dbdbff",
     tint: tintColorDark,
     icon: "#9BA1A6",
     tabIconDefault: "#9BA1A6",

@@ -16,6 +16,7 @@ import {
 import { useState } from "react";
 import { db } from "../config/firebaseConfig";
 import { useConfiguracion } from "../hooks/useEstadoAtencion";
+import calculaTotalPedido from "../utils/calculaTotalPedido";
 
 interface Props {
   onPress?: () => void;
@@ -48,6 +49,7 @@ export default function ModalDatosPedido({ onPress }: Props) {
     try {
       const datosEnvio = await getData("usuario");
       const detalle = state.carrito;
+      const montoPedido = calculaTotalPedido(state.carrito);
 
       if (!datosEnvio || !Array.isArray(detalle)) {
         Alert.alert("Error", "Datos inválidos para crear el pedido");
@@ -86,6 +88,7 @@ export default function ModalDatosPedido({ onPress }: Props) {
       const jsonPedido: IPedido = {
         fecha: new Date().toLocaleString(),
         estado: "Solicitado",
+        montoTotal: montoPedido,
         datosEnvio,
         detalle,
       };
@@ -94,10 +97,21 @@ export default function ModalDatosPedido({ onPress }: Props) {
       const pedidoRef = await addDoc(collection(db, "pedidos"), jsonPedido);
       const pedidoId = pedidoRef.id; // Obtén el ID del pedido
 
+      // Guardar el historial actualizado en AsyncStorage
       await storeData(
         "pedido",
         JSON.stringify({ id: pedidoId, ...jsonPedido })
       );
+
+      // Leer el historial de pedidos existente
+      const historialPedidos = await getData("pedidoHistorial");
+
+      const pedidosActualizados = Array.isArray(historialPedidos)
+        ? [...historialPedidos, { id: pedidoId, ...jsonPedido }]
+        : [{ id: pedidoId, ...jsonPedido }];
+
+      // Guardar el historial actualizado en AsyncStorage
+      await storeData("pedidoHistorial", JSON.stringify(pedidosActualizados));
 
       const batch = writeBatch(db);
       for (const plato of detalle) {
