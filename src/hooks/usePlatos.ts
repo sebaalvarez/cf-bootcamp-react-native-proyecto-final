@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
-import { getPlatosSnapshot } from "../services/api/platosService";
+import { getPlatos } from "../services/api/platosService";
 import { IPlatos } from "../types";
 
 export function usePlatos() {
   const [platos, setPlatos] = useState<IPlatos[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const unsubscribe = getPlatosSnapshot((lista) => {
-      setPlatos(lista);
-      setIsLoading(false);
-    });
+  const fetchPlatos = async () => {
+    setIsLoading(true);
+    const lista = await getPlatos();
+    setPlatos(lista);
+    setIsLoading(false);
+  };
 
-    return () => unsubscribe();
+  useEffect(() => {
+    fetchPlatos();
   }, []);
 
-  return { platos, isLoading };
+  return { platos, isLoading, fetchPlatos };
 }

@@ -1,9 +1,10 @@
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
 import { IPlatos } from "../../types";
 
-export const getPlatosSnapshot = (callback: (platos: IPlatos[]) => void) => {
-  const unsubscribe = onSnapshot(collection(db, "platos"), (snapshot) => {
+export const getPlatos = async (): Promise<IPlatos[]> => {
+  try {
+    const snapshot = await getDocs(collection(db, "platos"));
     const lista = snapshot.docs.map((doc) => {
       const data = doc.data();
       return {
@@ -16,8 +17,9 @@ export const getPlatosSnapshot = (callback: (platos: IPlatos[]) => void) => {
         stock: data.stock || 0,
       } as IPlatos;
     });
-    callback(lista);
-  });
-
-  return unsubscribe;
+    return lista;
+  } catch (error) {
+    console.error("Error al obtener los platos:", error);
+    return [];
+  }
 };

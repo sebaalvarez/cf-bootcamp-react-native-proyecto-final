@@ -1,6 +1,5 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
-
 import { imagenes } from "../services/indexImagenes";
 import { IPlatos } from "../types/index";
 import { ThemedText } from "./ThemedText";

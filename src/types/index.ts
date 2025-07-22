@@ -16,6 +16,7 @@ export interface IDatosEnvio {
 }
 
 export interface IPedido {
+  id?: string;
   fecha: string;
   estado:
     | "Solicitado"
@@ -28,6 +29,6 @@ export interface IPedido {
   datosEnvio: IDatosEnvio;
 }
 
-export interface IPedidosHistoricos extends IPedido {
-  id: string;
-}
+// export interface IPedidosHistoricos extends IPedido {
+//   id: string;
+// }

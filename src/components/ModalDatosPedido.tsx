@@ -1,5 +1,5 @@
 import { ActivityIndicator, Alert, StyleSheet } from "react-native";
-import { useCarrito } from "../context/cartContextProvider";
+import { useCarrito } from "../hooks/useCarrito";
 import { getData, storeData } from "../services/local/storage";
 import { IPedido } from "../types";
 import ProfileForm from "./forms/views/ProfileForm";
@@ -58,31 +58,52 @@ export default function ModalDatosPedido({ onPress }: Props) {
         return;
       }
 
-      // Verificar el stock de los platos
+      let msjErrores = "";
+      let checkObs = 0;
+
+      // Verificar si existe el plato seleccionado en la DB y el stock disponible
       for (const plato of detalle) {
         const platoRef = doc(db, "platos", plato.id);
         const platoSnapshot = await getDoc(platoRef);
 
         if (!platoSnapshot.exists()) {
-          Alert.alert(
-            "Error",
-            `El plato ${plato.nombre} no existe en el sistema`
-          );
-          setIsProcessing(false);
-          onPress?.();
-          return;
-        }
+          msjErrores =
+            msjErrores + `El plato ${plato.nombre} fue quitado del sistema\n`;
+          checkObs = 1;
+        } else {
+          const platoData = platoSnapshot.data();
+          if (platoData.stock < plato.cantidad) {
+            msjErrores =
+              msjErrores +
+              `${plato.nombre} \nPedido: ${plato.cantidad} ||| Disponible: ${platoData.stock}\n\n`;
+            checkObs = 1;
 
-        const platoData = platoSnapshot.data();
-        if (platoData.stock < plato.cantidad) {
-          Alert.alert(
-            "Error",
-            `No hay suficiente stock para el plato ${plato.nombre}. Stock disponible: ${platoData.stock}`
-          );
-          setIsProcessing(false);
-          onPress?.();
-          return;
+            if (platoData.stock === 0) {
+              dispatch({
+                type: "QUITAR_PLATO",
+                payload: { id: plato.id },
+              });
+            } else {
+              dispatch({
+                type: "MODIFICAR_CANTIDAD",
+                payload: {
+                  id: plato.id,
+                  cantidad: platoData.stock,
+                },
+              });
+            }
+          }
         }
+      }
+
+      if (checkObs > 0) {
+        msjErrores =
+          msjErrores +
+          `\nSe actualizó el pedido con las cantidades disponibles. \n\nVolver a confirmarlo por favor.`;
+        Alert.alert("Ups!", msjErrores);
+        setIsProcessing(false);
+        onPress?.();
+        return;
       }
 
       const jsonPedido: IPedido = {

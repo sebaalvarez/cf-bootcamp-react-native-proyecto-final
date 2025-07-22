@@ -3,34 +3,15 @@ import ContainerApp from "../../components/ContainerApp";
 import { ThemedText } from "../../components/ThemedText";
 import { ThemedView } from "../../components/ThemedView";
 
+import EsperaDeCarga from "../../components/EsperaCarga";
 import { useConfiguracion } from "../../hooks/useEstadoAtencion";
 import { imagenes } from "../../services/indexImagenes";
 
 export default function HomeScreen() {
   const configuracion = useConfiguracion();
 
-  // useEffect(() => {
-  //   const syncPushToken = async () => {
-  //     const nuevoToken = await registerForPushNotificationsAsync();
-  //     const viejoToken = await getData("@push_token");
-
-  //     console.log(nuevoToken);
-  //     console.log(viejoToken);
-
-  //     if (nuevoToken && nuevoToken !== viejoToken) {
-  //       await storeData("@push_token", nuevoToken);
-  //     }
-  //   };
-
-  //   syncPushToken();
-  // }, []);
-
   if (!configuracion) {
-    return (
-      <ThemedView>
-        <ThemedText>Cargando configuración...</ThemedText>
-      </ThemedView>
-    );
+    return <EsperaDeCarga text={"Cargando configuración..."} />;
   }
 
   const { pedidos_habilitados, horario_atencion } = configuracion;

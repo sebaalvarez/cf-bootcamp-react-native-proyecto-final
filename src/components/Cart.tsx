@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { useCarrito } from "../context/cartContextProvider";
+import { useCarrito } from "../hooks/useCarrito";
 import CartCardList from "./CartCardList";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";

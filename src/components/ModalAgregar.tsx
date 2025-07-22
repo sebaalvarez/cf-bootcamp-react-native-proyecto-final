@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { useCarrito } from "../context/cartContextProvider";
+import { useCarrito } from "../hooks/useCarrito";
 import { IPlatos } from "../types/index";
 import ButtonCustom from "./ButtonCustom";
 import CardPlatoDetalle from "./CardPlatoDetalle";

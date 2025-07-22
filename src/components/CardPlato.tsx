@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { useCarrito } from "../context/cartContextProvider";
+import { useCarrito } from "../hooks/useCarrito";
 import { imagenes } from "../services/indexImagenes";
 import { IPlatos } from "../types/index";
 import ButtonCustom from "./ButtonCustom";

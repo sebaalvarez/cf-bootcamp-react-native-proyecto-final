@@ -1,22 +1,28 @@
 import { useEffect, useState } from "react";
-import { FlatList, StyleSheet, useColorScheme } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import CardPedidoHistorico from "../components/CardPedidoHistorico";
 import { ThemedText } from "../components/ThemedText";
 import { ThemedView } from "../components/ThemedView";
+import { useThemeColor } from "../hooks/useThemeColor";
 import { getData } from "../services/local/storage";
-import { IPedidosHistoricos } from "../types";
+import { IPedido } from "../types";
 
-export default function PedidoDetalleScreen() {
-  const [pedidosHist, setPedidosHist] = useState<IPedidosHistoricos[] | null>(
-    null
+interface Props {
+  lightColor?: string;
+  darkColor?: string;
+}
+
+export default function PedidoDetalleScreen({ lightColor, darkColor }: Props) {
+  const [pedidosHist, setPedidosHist] = useState<IPedido[] | null>(null);
+
+  const backgroundColorTitle = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "backgroundTitle"
   );
-
-  const theme = useColorScheme() ?? "light";
-  const colorBack = theme === "dark" ? "#47607dff" : "#caeea5ff";
 
   useEffect(() => {
     async function getPedido() {
-      const ped: IPedidosHistoricos[] | null = await getData("pedidoHistorial");
+      const ped = await getData("pedidoHistorial");
       const perInv = ped ? ped.reverse() : null;
       setPedidosHist(perInv);
     }
@@ -29,22 +35,41 @@ export default function PedidoDetalleScreen() {
         type="subtitle"
         align="center"
         style={{
-          backgroundColor: colorBack,
+          backgroundColor: backgroundColorTitle,
         }}
       >
         Pedidos Historicos
       </ThemedText>
 
-      <FlatList
+      {pedidosHist?.length ? (
+        <FlatList
+          data={pedidosHist}
+          keyExtractor={(item, index) => `plato-${item.id}-${index}`}
+          renderItem={({ item }) => <CardPedidoHistorico item={item} />}
+        />
+      ) : (
+        <ThemedView style={styles.containerVacio}>
+          <ThemedText type="title" align="center">
+            No se encuentran pedidos historicos
+          </ThemedText>
+        </ThemedView>
+      )}
+
+      {/* <FlatList
         data={pedidosHist}
         keyExtractor={(item, index) => `plato-${item.id}-${index}`}
         renderItem={({ item }) => <CardPedidoHistorico item={item} />}
-      />
+      /> */}
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
+  containerVacio: {
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   container: {
     height: "90%",
     padding: 20,

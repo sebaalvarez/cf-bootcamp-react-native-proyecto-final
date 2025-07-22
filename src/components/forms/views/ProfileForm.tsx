@@ -44,6 +44,10 @@ export default function ProfileForm({ onPress, disabledBtn = false }: Props) {
           telefono: dataUser.telefono,
           domicilio: dir,
         });
+      } else {
+        reset({
+          domicilio: direccion,
+        });
       }
     }
     setValues();

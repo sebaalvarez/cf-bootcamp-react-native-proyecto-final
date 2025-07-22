@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext, useReducer } from "react";
+import React, { createContext, ReactNode, useReducer } from "react";
 import { IPlatos } from "../types";
 
 type State = {
@@ -53,7 +53,7 @@ function carritoReducer(state: State, action: Action): State {
 }
 
 // --- Contexto y provider ---
-const CarritoContext = createContext<{
+export const CarritoContext = createContext<{
   state: State;
   dispatch: React.Dispatch<Action>;
 }>({
@@ -73,8 +73,3 @@ export const CarritoProvider = ({ children }: Props) => {
     </CarritoContext.Provider>
   );
 };
-
-// Hook para consumirlo
-export function useCarrito() {
-  return useContext(CarritoContext);
-}

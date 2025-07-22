@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
-import { useCarrito } from "../context/cartContextProvider";
+import { useCarrito } from "../hooks/useCarrito";
 import calculaTotalPedido from "../utils/calculaTotalPedido";
 import ButtonCustom from "./ButtonCustom";
 import CartCardDetalle from "./CartCardDetalle";
