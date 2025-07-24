@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import { Alert, FlatList, StyleSheet } from "react-native";
-import ButtonCustom from "../components/ButtonCustom";
-import CartCardDetalle from "../components/CartCardDetalle";
-import { ThemedText } from "../components/ThemedText";
-import { ThemedView } from "../components/ThemedView";
-import { useConfiguracion } from "../hooks/useEstadoAtencion";
-import { useThemeColor } from "../hooks/useThemeColor";
-import getEstadoPedido from "../services/api/getEstadoPedidoService";
-import { getData } from "../services/local/storage";
-import { IPedido } from "../types";
-import { generarMensajeWhatsApp } from "../utils/armarMensajeWhatsApp";
-import calculaTotalPedido from "../utils/calculaTotalPedido";
-import compartirPorWhatsApp from "../utils/mandarMensajeWhatsApp";
+import CartCardDetalle from "../../../components/CartCardDetalle";
+import {
+  ButtonCustom,
+  ContainerApp,
+  ThemedText,
+  ThemedView,
+} from "../../../components/ui";
+import { useConfiguracion } from "../../../hooks/useEstadoAtencion";
+import { useThemeColor } from "../../../hooks/useThemeColor";
+import { getEstadoPedido } from "../../../services/api/getEstadoPedidoService";
+import { getData } from "../../../services/local/storage";
+import { IPedido } from "../../../types";
+import { generarMensajeWhatsApp } from "../../../utils/armarMensajeWhatsApp";
+import { calculaTotalPedido } from "../../../utils/calculaTotalPedido";
+import compartirPorWhatsApp from "../../../utils/mandarMensajeWhatsApp";
 
 interface Props {
   lightColor?: string;
@@ -27,13 +30,14 @@ export default function PedidoDetalleScreen({ lightColor, darkColor }: Props) {
     "backgroundTitle"
   );
 
+  async function getPedido() {
+    const ped = await getData("pedido");
+    const estAct = ped?.id ? await getEstadoPedido(ped.id) : "";
+    setPedido(ped);
+    setEstadoAct(estAct);
+  }
+
   useEffect(() => {
-    async function getPedido() {
-      const ped = await getData("pedido");
-      const estAct = ped?.id ? await getEstadoPedido(ped.id) : "";
-      setPedido(ped);
-      setEstadoAct(estAct);
-    }
     getPedido();
   }, []);
 
@@ -64,18 +68,18 @@ export default function PedidoDetalleScreen({ lightColor, darkColor }: Props) {
     : calculaTotalPedido(pedido?.detalle).toLocaleString("es-AR");
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText
-        type="subtitle"
-        align="center"
-        style={{
-          backgroundColor: backgroundColorTitle,
-        }}
-      >
-        Datos del Pedido
-      </ThemedText>
+    <ContainerApp>
+      <ThemedView style={styles.container}>
+        <ThemedText
+          type="subtitle"
+          align="center"
+          style={{
+            backgroundColor: backgroundColorTitle,
+          }}
+        >
+          Datos del Pedido
+        </ThemedText>
 
-      {pedido ? (
         <>
           <ThemedView style={styles.linea}>
             <ThemedText type="defaultSemiBold">Fecha: </ThemedText>
@@ -121,30 +125,19 @@ export default function PedidoDetalleScreen({ lightColor, darkColor }: Props) {
           <ButtonCustom
             name={"Mandar por WhatsApp"}
             onPress={handlePress}
-            props={{ disabled: !pedidos_habilitados }}
+            props={{
+              disabled: !pedidos_habilitados || !pedido,
+              style: { marginTop: 10 },
+            }}
           />
         </>
-      ) : (
-        <ThemedView style={styles.containerVacio}>
-          <ThemedText type="title" align="center">
-            No se encuentran pedidos
-          </ThemedText>
-        </ThemedView>
-      )}
-    </ThemedView>
+      </ThemedView>
+    </ContainerApp>
   );
 }
 
 const styles = StyleSheet.create({
-  containerVacio: {
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  container: {
-    height: "90%",
-    padding: 20,
-  },
+  container: { height: "94%" },
   linea: {
     flexDirection: "row",
   },

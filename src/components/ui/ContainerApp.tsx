@@ -1,4 +1,3 @@
-import { useThemeColor } from "../hooks/useThemeColor";
 import { ReactElement } from "react";
 import {
   ScrollView,
@@ -6,6 +5,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
+import { useThemeColor } from "../../hooks/useThemeColor";
 
 interface Props {
   children: ReactElement | ReactElement[];
@@ -14,7 +14,7 @@ interface Props {
   darkColor?: string;
 }
 
-export default function ContainerApp({
+export function ContainerApp({
   children,
   scroll,
   lightColor,

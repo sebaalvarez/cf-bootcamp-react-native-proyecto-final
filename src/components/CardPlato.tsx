@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useCarrito } from "../hooks/useCarrito";
 import { imagenes } from "../services/indexImagenes";
 import { IPlatos } from "../types/index";
-import ButtonCustom from "./ButtonCustom";
 import ModalAgregar from "./ModalAgregar";
-import { ModalCustom } from "./ModalCustom";
-import { ThemedText } from "./ThemedText";
-import { ThemedView } from "./ThemedView";
+import { ButtonCustom, ModalCustom, ThemedText, ThemedView } from "./ui";
 
 interface Props {
   item: IPlatos;

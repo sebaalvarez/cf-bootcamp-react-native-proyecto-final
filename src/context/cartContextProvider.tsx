@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useReducer } from "react";
+import { createContext, ReactNode, useReducer } from "react";
 import { IPlatos } from "../types";
 
 type State = {

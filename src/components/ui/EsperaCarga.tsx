@@ -6,7 +6,7 @@ interface Props {
   text?: string;
 }
 
-export default function EsperaDeCarga({ text }: Props) {
+export function EsperaCarga({ text }: Props) {
   return (
     <ThemedView style={styles.spinnerContainer}>
       <ActivityIndicator size="large" color="#0000ff" />

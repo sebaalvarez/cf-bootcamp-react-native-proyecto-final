@@ -5,7 +5,7 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import ButtonCustom from "./ButtonCustom";
+import { ButtonCustom } from "./ButtonCustom";
 import { ThemedView } from "./ThemedView";
 
 type Props = ModalProps & {

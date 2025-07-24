@@ -1,9 +1,7 @@
-import React from "react";
 import { Image, StyleSheet } from "react-native";
 import { imagenes } from "../services/indexImagenes";
 import { IPlatos } from "../types/index";
-import { ThemedText } from "./ThemedText";
-import { ThemedView } from "./ThemedView";
+import { ThemedText, ThemedView } from "./ui";
 
 interface Props {
   item: IPlatos;

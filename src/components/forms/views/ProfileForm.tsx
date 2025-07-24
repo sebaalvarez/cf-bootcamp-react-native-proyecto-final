@@ -5,8 +5,7 @@ import { StyleSheet, Text } from "react-native";
 import { InferType } from "yup";
 import { useUbicacion } from "../../../hooks/useUbicacion";
 import { getData, storeData } from "../../../services/local/storage";
-import ButtonCustom from "../../ButtonCustom";
-import { ThemedView } from "../../ThemedView";
+import { ButtonCustom, ThemedView } from "../../ui";
 import { FormInputController } from "../controllers/FormInputController";
 import { profileFormSchema } from "../validations/FormSchemas";
 
@@ -15,16 +14,18 @@ interface Props {
   onPress?: () => void;
 }
 
+type ProfileFormValues = InferType<typeof profileFormSchema>;
+
 export default function ProfileForm({ onPress, disabledBtn = false }: Props) {
   const {
     control,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<ProfileFormValues>({
     resolver: yupResolver(profileFormSchema),
   });
-  const onSubmit = async (data: InferType<typeof profileFormSchema>) => {
+  const onSubmit = async (data: ProfileFormValues) => {
     await storeData("usuario", JSON.stringify(data));
     onPress?.();
   };

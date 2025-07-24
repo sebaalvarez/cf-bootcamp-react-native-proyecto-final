@@ -1,7 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
 
-export default async function getNumeroWhatsapp() {
+export async function getNumeroWhatsapp() {
   try {
     const registroRef = doc(db, "configuracion", "telefono_whatsapp");
     const registroSnapshot = await getDoc(registroRef);

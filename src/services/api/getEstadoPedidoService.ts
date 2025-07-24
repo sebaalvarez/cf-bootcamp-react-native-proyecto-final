@@ -2,7 +2,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../config/firebaseConfig";
 import { IPedido } from "../../types";
 
-export default async function getEstadoPedido(idPedido: string) {
+export async function getEstadoPedido(idPedido: string) {
   try {
     const pedidoRef = doc(db, "pedidos", idPedido);
     const pedidoSnapshot = await getDoc(pedidoRef);

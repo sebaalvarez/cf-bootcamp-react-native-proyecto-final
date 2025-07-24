@@ -1,6 +1,5 @@
 import { Alert, StyleSheet, View } from "react-native";
-import ButtonCustom from "./ButtonCustom";
-import { ThemedText } from "./ThemedText";
+import { ButtonCustom, ThemedText } from "./ui";
 
 interface Props {
   cantidad: number;

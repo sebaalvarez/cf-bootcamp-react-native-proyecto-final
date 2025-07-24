@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { useCarrito } from "../hooks/useCarrito";
-import calculaTotalPedido from "../utils/calculaTotalPedido";
-import ButtonCustom from "./ButtonCustom";
+import { calculaTotalPedido } from "../utils/calculaTotalPedido";
 import CartCardDetalle from "./CartCardDetalle";
-import { ModalCustom } from "./ModalCustom";
 import ModalDatosPedido from "./ModalDatosPedido";
-import { ThemedText } from "./ThemedText";
-import { ThemedView } from "./ThemedView";
+import { ButtonCustom, ModalCustom, ThemedText, ThemedView } from "./ui";
 
 export default function CartCardList() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -55,7 +52,7 @@ export default function CartCardList() {
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
+    height: "96%",
     justifyContent: "center",
     gap: 20,
   },

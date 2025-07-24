@@ -1,4 +1,3 @@
-import React from "react";
 import {
   DimensionValue,
   StyleSheet,
@@ -6,7 +5,7 @@ import {
   TouchableOpacityProps,
   ViewStyle,
 } from "react-native";
-import { useThemeColor } from "../hooks/useThemeColor";
+import { useThemeColor } from "../../hooks/useThemeColor";
 import { ThemedText } from "./ThemedText";
 
 interface Props {
@@ -19,7 +18,7 @@ interface Props {
   props?: TouchableOpacityProps;
 }
 
-export default function ButtonCustom({
+export function ButtonCustom({
   name,
   lightColor,
   darkColor,

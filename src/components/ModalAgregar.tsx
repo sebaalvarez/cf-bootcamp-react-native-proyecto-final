@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { useCarrito } from "../hooks/useCarrito";
-import { IPlatos } from "../types/index";
-import ButtonCustom from "./ButtonCustom";
+import { IPlatos } from "../types";
 import CardPlatoDetalle from "./CardPlatoDetalle";
 import SelectorCantidad from "./SelectorCantidad";
-import { ThemedView } from "./ThemedView";
+import { ButtonCustom, ThemedView } from "./ui";
 
 interface Props {
   item: IPlatos;

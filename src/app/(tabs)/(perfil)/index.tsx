@@ -1,10 +1,8 @@
 import { useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
-import ButtonCustom from "../../components/ButtonCustom";
-import ContainerApp from "../../components/ContainerApp";
-import { ThemedView } from "../../components/ThemedView";
-import { useThemeColor } from "../../hooks/useThemeColor";
-import { removeData } from "../../services/local/storage";
+import { ButtonStack, ContainerApp } from "../../../components/ui";
+import { useThemeColor } from "../../../hooks/useThemeColor";
+import { removeData } from "../../../services/local/storage";
 
 interface Props {
   lightColor?: string;
@@ -52,23 +50,22 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
 
   return (
     <ContainerApp scroll>
-      <ThemedView>
-        <ButtonCustom
-          name="Editar Datos Personales"
-          onPress={handleNavigateToProfileForm}
-          props={{ style: styles.btn }}
-        />
-        <ButtonCustom
-          name="Detalle Último Pedido"
-          onPress={handleNavigateToPedidoDetalle}
-          props={{ style: styles.btn }}
-        />
-        <ButtonCustom
-          name="Historial de Pedidos"
-          onPress={handleNavigateToHistorialPedidos}
-          props={{ style: styles.btn }}
-        />
-        {/* <ButtonCustom
+      <ButtonStack
+        name="Editar Datos Personales"
+        onPress={handleNavigateToProfileForm}
+        props={{ style: styles.btn }}
+      />
+      <ButtonStack
+        name="Detalle Último Pedido"
+        onPress={handleNavigateToPedidoDetalle}
+        props={{ style: styles.btn }}
+      />
+      <ButtonStack
+        name="Historial de Pedidos"
+        onPress={handleNavigateToHistorialPedidos}
+        props={{ style: styles.btn }}
+      />
+      {/* <ButtonCustom
           name="BORRAR Historial de Pedidos"
           onPress={handleBorraHistorial}
           props={{ style: styles.btn }}
@@ -83,7 +80,6 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
           onPress={handleBorraUsuario}
           props={{ style: styles.btn }}
         /> */}
-      </ThemedView>
     </ContainerApp>
   );
 }

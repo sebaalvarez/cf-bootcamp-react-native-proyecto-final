@@ -28,7 +28,3 @@ export interface IPedido {
   detalle: IPlatos[];
   datosEnvio: IDatosEnvio;
 }
-
-// export interface IPedidosHistoricos extends IPedido {
-//   id: string;
-// }

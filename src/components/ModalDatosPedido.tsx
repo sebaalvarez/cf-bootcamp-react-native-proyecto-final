@@ -3,8 +3,7 @@ import { useCarrito } from "../hooks/useCarrito";
 import { getData, storeData } from "../services/local/storage";
 import { IPedido } from "../types";
 import ProfileForm from "./forms/views/ProfileForm";
-import { ThemedText } from "./ThemedText";
-import { ThemedView } from "./ThemedView";
+import { ThemedText, ThemedView } from "./ui";
 
 import {
   addDoc,
@@ -16,7 +15,7 @@ import {
 import { useState } from "react";
 import { db } from "../config/firebaseConfig";
 import { useConfiguracion } from "../hooks/useEstadoAtencion";
-import calculaTotalPedido from "../utils/calculaTotalPedido";
+import { calculaTotalPedido } from "../utils/calculaTotalPedido";
 
 interface Props {
   onPress?: () => void;

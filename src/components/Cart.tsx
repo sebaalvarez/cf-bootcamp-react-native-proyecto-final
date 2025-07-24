@@ -1,8 +1,7 @@
 import { StyleSheet } from "react-native";
 import { useCarrito } from "../hooks/useCarrito";
 import CartCardList from "./CartCardList";
-import { ThemedText } from "./ThemedText";
-import { ThemedView } from "./ThemedView";
+import { ThemedText, ThemedView } from "./ui";
 
 export default function Cart() {
   const { state } = useCarrito();

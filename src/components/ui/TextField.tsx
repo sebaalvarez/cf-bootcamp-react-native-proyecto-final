@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Animated, StyleSheet, TextInput, TextInputProps } from "react-native";
-import { useThemeColor } from "../hooks/useThemeColor";
+import { useThemeColor } from "../../hooks/useThemeColor";
 import { ThemedView } from "./ThemedView";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
   props?: TextInputProps;
 }
 
-export default function TextField({
+export function TextField({
   lightColor,
   darkColor,
   onChangeText,

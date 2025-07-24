@@ -1,21 +1,29 @@
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
-import getEstadoPedido from "../services/api/getEstadoPedidoService";
+import { useThemeColor } from "../hooks/useThemeColor";
+import { getEstadoPedido } from "../services/api/getEstadoPedidoService";
 import { IPedido } from "../types";
-import calculaTotalPedido from "../utils/calculaTotalPedido";
-import ButtonCustom from "./ButtonCustom";
+import { calculaTotalPedido } from "../utils/calculaTotalPedido";
 import CartCardDetalle from "./CartCardDetalle";
-import { ModalCustom } from "./ModalCustom";
-import { ThemedText } from "./ThemedText";
-import { ThemedView } from "./ThemedView";
+import { ButtonCustom, ModalCustom, ThemedText, ThemedView } from "./ui";
 
 interface Prop {
   item: IPedido;
+  lightColor?: string;
+  darkColor?: string;
 }
 
-export default function CardPedidoHistorico({ item }: Prop) {
+export default function CardPedidoHistorico({
+  item,
+  lightColor,
+  darkColor,
+}: Prop) {
   const [modalOpen, setModalOpen] = useState(false);
   const [estadoAct, setEstadoAct] = useState("");
+  const backgroundTitleDet = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "backgroundTitle"
+  );
 
   useEffect(() => {
     async function getPedido() {
@@ -40,7 +48,10 @@ export default function CardPedidoHistorico({ item }: Prop) {
   return (
     <>
       <ThemedView style={[styles.container]}>
-        <ThemedText align="center" style={{ backgroundColor: "#bab7b7ff" }}>
+        <ThemedText
+          align="center"
+          style={{ backgroundColor: backgroundTitleDet }}
+        >
           {item.fecha}
         </ThemedText>
         <ThemedView style={styles.linea}>

@@ -1,9 +1,12 @@
+import { Link } from "expo-router";
 import { Alert, Image, StyleSheet } from "react-native";
-import ContainerApp from "../../components/ContainerApp";
-import { ThemedText } from "../../components/ThemedText";
-import { ThemedView } from "../../components/ThemedView";
-
-import EsperaDeCarga from "../../components/EsperaCarga";
+import {
+  ButtonCustom,
+  ContainerApp,
+  EsperaCarga,
+  ThemedText,
+  ThemedView,
+} from "../../components/ui";
 import { useConfiguracion } from "../../hooks/useEstadoAtencion";
 import { imagenes } from "../../services/indexImagenes";
 
@@ -11,7 +14,7 @@ export default function HomeScreen() {
   const configuracion = useConfiguracion();
 
   if (!configuracion) {
-    return <EsperaDeCarga text={"Cargando configuración..."} />;
+    return <EsperaCarga text={"Cargando configuración..."} />;
   }
 
   const { pedidos_habilitados, horario_atencion } = configuracion;
@@ -39,6 +42,9 @@ export default function HomeScreen() {
             Cocina abierta
           </ThemedText>
         )}
+        <Link href="/menu" push asChild>
+          <ButtonCustom name="Ver menú" width={"80%"} />
+        </Link>
       </ThemedView>
     </ContainerApp>
   );
