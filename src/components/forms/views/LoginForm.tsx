@@ -7,7 +7,7 @@ import { InferType } from "yup";
 import { supabase } from "../../../config/supabase";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
 import { FormInputController } from "../controllers/FormInputController";
-import { userFormSchema } from "../validations/FormSchemas";
+import { loginFormSchema } from "../validations/FormSchemas";
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
@@ -18,23 +18,13 @@ export default function RegisterForm() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(userFormSchema),
+    resolver: yupResolver(loginFormSchema),
   });
 
-  const onSubmit = async (data: InferType<typeof userFormSchema>) => {
+  const onSubmit = async (data: InferType<typeof loginFormSchema>) => {
     try {
       setLoading(true);
       setError(null);
-
-      const { error: signUpError } = await supabase.auth.signUp({
-        email: data.mail.trim(),
-        password: data.password.trim(),
-        options: { data: { name: data.usuario } },
-      });
-
-      if (signUpError) {
-        throw signUpError;
-      }
 
       const { error: loginError } = await supabase.auth.signInWithPassword({
         email: data.mail.trim(),
@@ -57,42 +47,10 @@ export default function RegisterForm() {
     <>
       <ThemedView>
         <ThemedText type="subtitle" align="center">
-          Registrarse
+          Ingresar
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.container}>
-        <FormInputController
-          control={control}
-          errors={errors}
-          name={"nombre"}
-          placeholder={"Nombre "}
-          propsTextInput={{}}
-        />
-        <FormInputController
-          control={control}
-          errors={errors}
-          name={"apellido"}
-          placeholder={"Apellido"}
-          propsTextInput={{}}
-        />
-
-        <FormInputController
-          control={control}
-          errors={errors}
-          name={"telefono"}
-          placeholder={"Teléfono"}
-          propsTextInput={{
-            keyboardType: "phone-pad",
-          }}
-        />
-
-        <FormInputController
-          control={control}
-          errors={errors}
-          name={"usuario"}
-          placeholder={"usuario"}
-        />
-
         <FormInputController
           control={control}
           errors={errors}
@@ -111,7 +69,7 @@ export default function RegisterForm() {
         />
 
         {error && <ThemedText>{error}</ThemedText>}
-        {loading && <ThemedText>Registrando usuario...</ThemedText>}
+        {loading && <ThemedText>Logueando usuario...</ThemedText>}
 
         <ButtonCustom name={"Guardar"} onPress={handleSubmit(onSubmit)} />
       </ThemedView>

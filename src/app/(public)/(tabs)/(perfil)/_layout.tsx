@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import "react-native-reanimated";
-import { CustomHeaderStack } from "../../../components/ui";
+import { CustomHeaderStack } from "../../../../components/ui";
 
 export default function RootLayout() {
   return (
@@ -11,37 +11,34 @@ export default function RootLayout() {
     >
       <Stack.Screen name="index" />
       <Stack.Screen
-        name="actEstadoCocina"
+        name="profileForm"
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <CustomHeaderStack
               navigation={navigation}
-              title="Actualizar Estado Cocina"
+              title="Datos Personales"
             />
           ),
         }}
       />
       <Stack.Screen
-        name="actStockPlato"
+        name="pedidoUltimo"
         options={{
           headerShown: true,
           header: ({ navigation }) => (
-            <CustomHeaderStack
-              navigation={navigation}
-              title="Actualizar Stock Platos"
-            />
+            <CustomHeaderStack navigation={navigation} title="Ultimo Pedido" />
           ),
         }}
       />
       <Stack.Screen
-        name="actEstadoPedido"
+        name="pedidoHistorial"
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <CustomHeaderStack
               navigation={navigation}
-              title="Actualizar Estado de Pedidos"
+              title="Historial de Pedidos"
             />
           ),
         }}

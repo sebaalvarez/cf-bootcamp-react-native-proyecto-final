@@ -6,9 +6,9 @@ import {
   ContainerApp,
   ThemedText,
   ThemedView,
-} from "../components/ui";
-import { getConfig } from "../services/api/supabase/configuracion";
-import { imagenes } from "../services/indexImagenes";
+} from "../../components/ui";
+import { getConfig } from "../../services/api/supabase/configuracion";
+import { imagenes } from "../../services/indexImagenes";
 
 export default function HomeScreen() {
   const [abierto, setAbierto] = useState(true);

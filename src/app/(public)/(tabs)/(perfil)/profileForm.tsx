@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 // import { Alert } from "react-native";
-import ProfileForm from "../../../components/forms/views/ProfileForm";
-import { ContainerApp } from "../../../components/ui";
+import ProfileForm from "../../../../components/forms/views/ProfileForm";
+import { ContainerApp } from "../../../../components/ui";
 // import { createUser } from "../../../services/api/supabase/usuarios";
 // import { getData } from "../../../services/local/storage";
 // import { IUser } from "../../../types";

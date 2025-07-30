@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
-import { ButtonStack, ContainerApp } from "../../../components/ui";
-import { useThemeColor } from "../../../hooks/useThemeColor";
+import { ButtonStack, ContainerApp } from "../../../../components/ui";
+import { useThemeColor } from "../../../../hooks/useThemeColor";
 
 interface Props {
   lightColor?: string;

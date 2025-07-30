@@ -1,21 +1,19 @@
 import { Tabs } from "expo-router";
 import { Platform } from "react-native";
-import { HapticTab } from "../../components/HapticTab";
-import { IconSymbol } from "../../components/ui/IconSymbol";
-import TabBarBackground from "../../components/ui/TabBarBackground";
-import { Colors } from "../../constants/Colors";
-import { useAuth } from "../../context/authProvider";
-import { useCarrito } from "../../hooks/useCarrito";
-import { useColorScheme } from "../../hooks/useColorScheme";
+import { HapticTab } from "../../../components/HapticTab";
+import { IconSymbol } from "../../../components/ui/IconSymbol";
+import TabBarBackground from "../../../components/ui/TabBarBackground";
+import { Colors } from "../../../constants/Colors";
+import { useAuth } from "../../../context/authProvider";
+import { useCarrito } from "../../../hooks/useCarrito";
+import { useColorScheme } from "../../../hooks/useColorScheme";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { state } = useCarrito();
-  const { loading, session } = useAuth();
+  const { session } = useAuth();
 
-  console.log(loading, "--- Loading");
-  console.log(session, "--- session");
-
+  // console.log(session);
   return (
     <Tabs
       screenOptions={{
@@ -33,16 +31,17 @@ export default function TabLayout() {
         animation: "fade",
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Inicio",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Protected guard={!session}>
+      <Tabs.Protected guard={!!session}>
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Inicio",
+            tabBarIcon: ({ color }) => (
+              <IconSymbol size={28} name="house.fill" color={color} />
+            ),
+          }}
+        />
+
         <Tabs.Screen
           name="menu"
           options={{
@@ -78,7 +77,7 @@ export default function TabLayout() {
           }}
         />
       </Tabs.Protected>
-      <Tabs.Protected guard={!!session}>
+      <Tabs.Protected guard={!session}>
         <Tabs.Screen
           name="(admin)"
           options={{

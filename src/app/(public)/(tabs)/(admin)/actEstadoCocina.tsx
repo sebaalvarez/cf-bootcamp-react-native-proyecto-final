@@ -5,11 +5,11 @@ import {
   ContainerApp,
   ThemedText,
   ThemedView,
-} from "../../../components/ui";
+} from "../../../../components/ui";
 import {
   getConfig,
   updateConfig,
-} from "../../../services/api/supabase/configuracion";
+} from "../../../../services/api/supabase/configuracion";
 
 export default function ActEstadoCocina() {
   const [abierto, setAbierto] = useState(true);

@@ -5,8 +5,8 @@ import {
   StyleSheet,
   useWindowDimensions,
 } from "react-native";
-import RegisterForm from "../../components/forms/views/RegisterForm";
-import { ContainerApp } from "../../components/ui";
+import LoginForm from "../../../components/forms/views/LoginForm";
+import { ContainerApp } from "../../../components/ui";
 
 export default function SignUp() {
   const { height } = useWindowDimensions();
@@ -23,7 +23,7 @@ export default function SignUp() {
     >
       <ContainerApp>
         <ScrollView contentContainerStyle={stylesDinamic.container}>
-          <RegisterForm />
+          <LoginForm />
         </ScrollView>
       </ContainerApp>
     </KeyboardAvoidingView>

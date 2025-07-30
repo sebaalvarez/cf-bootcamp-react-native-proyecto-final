@@ -1,8 +1,10 @@
 import { useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
-import { ButtonStack, ContainerApp } from "../../../components/ui";
-import { useThemeColor } from "../../../hooks/useThemeColor";
-import { removeData } from "../../../services/local/storage";
+import { ButtonStack, ContainerApp } from "../../../../components/ui";
+import { supabase } from "../../../../config/supabase";
+import { useAuth } from "../../../../context/authProvider";
+import { useThemeColor } from "../../../../hooks/useThemeColor";
+import { removeData } from "../../../../services/local/storage";
 
 interface Props {
   lightColor?: string;
@@ -14,6 +16,7 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
     { light: lightColor, dark: darkColor },
     "background"
   );
+  const { loading, session } = useAuth();
 
   const handleNavigateToProfileForm = () => {
     router.push("/profileForm");
@@ -25,6 +28,15 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
 
   const handleNavigateToHistorialPedidos = () => {
     router.push("/pedidoHistorial");
+  };
+
+  const handleCerrarSesion = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error al cerrar sesión:", error.message);
+    } else {
+      console.log("Sesión cerrada exitosamente");
+    }
   };
 
   const handleBorraHistorial = () => {
@@ -63,6 +75,11 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
       <ButtonStack
         name="Historial de Pedidos"
         onPress={handleNavigateToHistorialPedidos}
+        props={{ style: styles.btn }}
+      />
+      <ButtonStack
+        name="Cerrar Sesion"
+        onPress={handleCerrarSesion}
         props={{ style: styles.btn }}
       />
       {/* <ButtonCustom

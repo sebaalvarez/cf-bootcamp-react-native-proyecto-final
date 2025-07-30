@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
 import { Alert, FlatList, StyleSheet } from "react-native";
-import CartCardDetalle from "../../../components/CartCardDetalle";
+import CartCardDetalle from "../../../../components/CartCardDetalle";
 import {
   ButtonCustom,
   ContainerApp,
   EsperaCarga,
   ThemedText,
   ThemedView,
-} from "../../../components/ui";
-import { useThemeColor } from "../../../hooks/useThemeColor";
-import { getEstadoPedido } from "../../../services/api/getEstadoPedidoService";
-import { getConfig } from "../../../services/api/supabase/configuracion";
-import { getData } from "../../../services/local/storage";
-import { IPedido } from "../../../types";
-import { generarMensajeWhatsApp } from "../../../utils/armarMensajeWhatsApp";
-import { calculaTotalPedido } from "../../../utils/calculaTotalPedido";
-import compartirPorWhatsApp from "../../../utils/mandarMensajeWhatsApp";
+} from "../../../../components/ui";
+import { useThemeColor } from "../../../../hooks/useThemeColor";
+import { getEstadoPedido } from "../../../../services/api/getEstadoPedidoService";
+import { getConfig } from "../../../../services/api/supabase/configuracion";
+import { getData } from "../../../../services/local/storage";
+import { IPedido } from "../../../../types";
+import { generarMensajeWhatsApp } from "../../../../utils/armarMensajeWhatsApp";
+import { calculaTotalPedido } from "../../../../utils/calculaTotalPedido";
+import compartirPorWhatsApp from "../../../../utils/mandarMensajeWhatsApp";
 
 interface Props {
   lightColor?: string;
