@@ -1,26 +1,16 @@
-import { useFocusEffect } from "expo-router";
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { usePlatos } from "../hooks/usePlatos";
-import { getConfig } from "../services/api/supabase/configuracion";
-import CardPlato from "./CardPlato";
+import CardPlatoActStock from "./CardPlatoActStock";
 import { EsperaCarga, ThemedText, ThemedView } from "./ui";
 
-export default function CardPlatoList() {
+export default function CardPlatoListActStock() {
   const { platos, isLoading, fetchPlatos } = usePlatos();
-  const [abierto, setAbierto] = useState(true);
+  const [actList, setActList] = useState(false);
 
-  const getEstado = async () => {
-    const estado = await getConfig("cocina_abierta");
-    setAbierto(!!estado);
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      fetchPlatos();
-      getEstado();
-    }, [])
-  );
+  useEffect(() => {
+    fetchPlatos();
+  }, [actList]);
 
   if (isLoading) {
     return (
@@ -37,7 +27,11 @@ export default function CardPlatoList() {
       data={platos}
       keyExtractor={(item, index) => `plato-${item.id}-${index}`}
       renderItem={({ item }) => (
-        <CardPlato item={item} pedidos_habilitados={abierto} />
+        <CardPlatoActStock
+          item={item}
+          actualizar={setActList}
+          estado={actList}
+        />
       )}
     />
   );

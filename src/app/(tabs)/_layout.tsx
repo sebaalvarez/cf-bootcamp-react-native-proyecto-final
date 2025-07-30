@@ -4,12 +4,18 @@ import { HapticTab } from "../../components/HapticTab";
 import { IconSymbol } from "../../components/ui/IconSymbol";
 import TabBarBackground from "../../components/ui/TabBarBackground";
 import { Colors } from "../../constants/Colors";
+import { useAuth } from "../../context/authProvider";
 import { useCarrito } from "../../hooks/useCarrito";
 import { useColorScheme } from "../../hooks/useColorScheme";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { state } = useCarrito();
+  const { loading, session } = useAuth();
+
+  console.log(loading, "--- Loading");
+  console.log(session, "--- session");
+
   return (
     <Tabs
       screenOptions={{
@@ -36,40 +42,53 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="menu"
-        options={{
-          title: "Menu",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="0.circle" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="pedido"
-        options={{
-          title: "Pedido",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="0.square" color={color} />
-          ),
-          tabBarBadge:
-            state.carrito.length > 0 ? state.carrito.length : undefined,
-          tabBarBadgeStyle: {
-            backgroundColor: "red",
-            color: "white",
-            fontSize: 10,
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="(perfil)"
-        options={{
-          title: "Perfil",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="person" color={color} />
-          ),
-        }}
-      />
+      <Tabs.Protected guard={!session}>
+        <Tabs.Screen
+          name="menu"
+          options={{
+            title: "Menu",
+            tabBarIcon: ({ color }) => (
+              <IconSymbol size={28} name="0.circle" color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="pedido"
+          options={{
+            title: "Pedido",
+            tabBarIcon: ({ color }) => (
+              <IconSymbol size={28} name="0.square" color={color} />
+            ),
+            tabBarBadge:
+              state.carrito.length > 0 ? state.carrito.length : undefined,
+            tabBarBadgeStyle: {
+              backgroundColor: "red",
+              color: "white",
+              fontSize: 10,
+            },
+          }}
+        />
+        <Tabs.Screen
+          name="(perfil)"
+          options={{
+            title: "Perfil",
+            tabBarIcon: ({ color }) => (
+              <IconSymbol size={28} name="person" color={color} />
+            ),
+          }}
+        />
+      </Tabs.Protected>
+      <Tabs.Protected guard={!!session}>
+        <Tabs.Screen
+          name="(admin)"
+          options={{
+            title: "Admin",
+            tabBarIcon: ({ color }) => (
+              <IconSymbol size={28} name="person" color={color} />
+            ),
+          }}
+        />
+      </Tabs.Protected>
     </Tabs>
   );
 }

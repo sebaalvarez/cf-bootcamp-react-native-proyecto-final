@@ -1,20 +1,18 @@
 import { ActivityIndicator, Alert, StyleSheet } from "react-native";
 import { useCarrito } from "../hooks/useCarrito";
 import { getData, storeData } from "../services/local/storage";
-import { IPedido } from "../types";
+import { IDatosEnvio, IPedido, IPedidoSupabase } from "../types";
 import ProfileForm from "./forms/views/ProfileForm";
 import { ThemedText, ThemedView } from "./ui";
 
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  writeBatch,
-} from "firebase/firestore";
 import { useState } from "react";
-import { db } from "../config/firebaseConfig";
-import { useConfiguracion } from "../hooks/useEstadoAtencion";
+import { getConfig } from "../services/api/supabase/configuracion";
+import { createPedido } from "../services/api/supabase/pedidos";
+import { createPedidoDetalle } from "../services/api/supabase/pedidosDetalle";
+import {
+  selectOnePlato,
+  updateStockPlato,
+} from "../services/api/supabase/platos";
 import { calculaTotalPedido } from "../utils/calculaTotalPedido";
 
 interface Props {
@@ -24,20 +22,16 @@ interface Props {
 export default function ModalDatosPedido({ onPress }: Props) {
   const { state, dispatch } = useCarrito();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [abierto, setAbierto] = useState(true);
 
-  const configuracion = useConfiguracion();
+  const getEstado = async () => {
+    const estado = await getConfig("cocina_abierta");
+    setAbierto(!!estado);
+  };
 
-  if (!configuracion) {
-    return (
-      <ThemedView>
-        <ThemedText>Cargando configuración...</ThemedText>
-      </ThemedView>
-    );
-  }
+  getEstado();
 
-  const { pedidos_habilitados } = configuracion;
-
-  if (!pedidos_habilitados) {
+  if (!abierto) {
     Alert.alert("Lo sentimos", "Los pedidos están cerrados en este momento.");
   }
 
@@ -46,11 +40,11 @@ export default function ModalDatosPedido({ onPress }: Props) {
     setIsProcessing(true);
 
     try {
-      const datosEnvio = await getData("usuario");
+      const datosCliente: IDatosEnvio = await getData("usuario");
       const detalle = state.carrito;
       const montoPedido = calculaTotalPedido(state.carrito);
 
-      if (!datosEnvio || !Array.isArray(detalle)) {
+      if (!datosCliente || !Array.isArray(detalle)) {
         Alert.alert("Error", "Datos inválidos para crear el pedido");
         setIsProcessing(false);
         onPress?.();
@@ -60,29 +54,29 @@ export default function ModalDatosPedido({ onPress }: Props) {
       let msjErrores = "";
       let checkObs = 0;
 
-      // Verificar si existe el plato seleccionado en la DB y el stock disponible
+      // Verificar si existe el plato seleccionado en la DB y el stock disponible de acuerdo a los solicitado
+      // Hace modificaciones del carrito de acuerdo al stock disponible en la DB
       for (const plato of detalle) {
-        const platoRef = doc(db, "platos", plato.id);
-        const platoSnapshot = await getDoc(platoRef);
+        const platoData = await selectOnePlato(Number(plato.id));
 
-        if (!platoSnapshot.exists()) {
+        if (!platoData) {
           msjErrores =
             msjErrores + `El plato ${plato.nombre} fue quitado del sistema\n`;
           checkObs = 1;
         } else {
-          const platoData = platoSnapshot.data();
-          if (platoData.stock < plato.cantidad) {
+          if (platoData.stock < (plato.cantidad ?? 0)) {
             msjErrores =
               msjErrores +
               `${plato.nombre} \nPedido: ${plato.cantidad} ||| Disponible: ${platoData.stock}\n\n`;
             checkObs = 1;
-
+            // si ya no hay stock quita el plato del carrito
             if (platoData.stock === 0) {
               dispatch({
                 type: "QUITAR_PLATO",
                 payload: { id: plato.id },
               });
             } else {
+              // si hay menor cantidad en el stock ajusta la cantidad del carrito a lo que hay
               dispatch({
                 type: "MODIFICAR_CANTIDAD",
                 payload: {
@@ -95,6 +89,7 @@ export default function ModalDatosPedido({ onPress }: Props) {
         }
       }
 
+      // si en la verificación anterior hay inconvenientes para la ejecución y avisa al cliente
       if (checkObs > 0) {
         msjErrores =
           msjErrores +
@@ -105,59 +100,78 @@ export default function ModalDatosPedido({ onPress }: Props) {
         return;
       }
 
-      const jsonPedido: IPedido = {
+      const jsonPedidoLocal: IPedido = {
         fecha: new Date().toLocaleString(),
         estado: "Solicitado",
         montoTotal: montoPedido,
-        datosEnvio,
+        datosEnvio: datosCliente,
         detalle,
       };
 
-      // Registrar el pedido en la colección "pedidos"
-      const pedidoRef = await addDoc(collection(db, "pedidos"), jsonPedido);
-      const pedidoId = pedidoRef.id; // Obtén el ID del pedido
+      const jsonPedidoSupa: IPedidoSupabase = {
+        fecha: new Date().toLocaleString(),
+        estado: "Solicitado",
+        montoTotal: montoPedido,
+        nombre: datosCliente.nombre,
+        apellido: datosCliente.apellido,
+        telefono: datosCliente.telefono,
+        domicilio: datosCliente.domicilio,
+        cantidadPlatos: detalle.length,
+      };
 
+      // Inicia actualizaciones en la DB
+      // Registrar el pedido en Supabase
+      const pedidoCargado: IPedidoSupabase = await createPedido(jsonPedidoSupa);
+
+      if (pedidoCargado.id) {
+        for (const platoCarrito of detalle) {
+          // Registra el detalle del pedido en Supabase
+          await createPedidoDetalle(
+            pedidoCargado.id,
+            Number(platoCarrito.id),
+            platoCarrito.cantidad ?? 0,
+            platoCarrito.precio
+          );
+          // Actualizar el stock de los platos en Supabase
+          const platoData = await selectOnePlato(Number(platoCarrito.id));
+          const nuevoStock =
+            (platoData?.stock ?? 0) - (platoCarrito.cantidad ?? 0);
+          await updateStockPlato(Number(platoCarrito.id), nuevoStock);
+        }
+      }
+      // Fin actualizaciones con la DB
+
+      // Inicio actualizaciones en Storage local
       // Guardar el historial actualizado en AsyncStorage
       await storeData(
         "pedido",
-        JSON.stringify({ id: pedidoId, ...jsonPedido })
+        JSON.stringify({ id: pedidoCargado.id, ...jsonPedidoLocal })
       );
 
       // Leer el historial de pedidos existente
       const historialPedidos = await getData("pedidoHistorial");
 
       const pedidosActualizados = Array.isArray(historialPedidos)
-        ? [...historialPedidos, { id: pedidoId, ...jsonPedido }]
-        : [{ id: pedidoId, ...jsonPedido }];
+        ? [...historialPedidos, { id: pedidoCargado.id, ...jsonPedidoLocal }]
+        : [{ id: pedidoCargado.id, ...jsonPedidoLocal }];
 
       // Guardar el historial actualizado en AsyncStorage
       await storeData("pedidoHistorial", JSON.stringify(pedidosActualizados));
-
-      const batch = writeBatch(db);
-      for (const plato of detalle) {
-        const platoRef = doc(db, "platos", plato.id);
-        const platoSnapshot = await getDoc(platoRef);
-
-        if (platoSnapshot.exists()) {
-          const platoData = platoSnapshot.data();
-          const nuevoStock = platoData.stock - plato.cantidad;
-
-          batch.update(platoRef, { stock: nuevoStock });
-        }
-      }
-
-      await batch.commit();
+      // Fin actualizaciones en Storage local
 
       dispatch({
         type: "VACIAR_CARRITO",
       });
+
       Alert.alert(
         "Tu pedido fue enviado",
         "Pronto disfrutaras de nuestra comida."
       );
+
       onPress?.();
     } catch (error) {
       console.error("Error al procesar el pedido:", error);
+
       Alert.alert(
         "Error",
         "Ocurrió un problema al procesar tu pedido. Inténtalo nuevamente."
@@ -178,10 +192,7 @@ export default function ModalDatosPedido({ onPress }: Props) {
       ) : (
         <ThemedView style={styles.containerDet}>
           <ThemedText type="subtitle">Datos para el envío</ThemedText>
-          <ProfileForm
-            onPress={handlePedido}
-            disabledBtn={!pedidos_habilitados}
-          />
+          <ProfileForm onPress={handlePedido} disabledBtn={!abierto} />
         </ThemedView>
       )}
     </ThemedView>

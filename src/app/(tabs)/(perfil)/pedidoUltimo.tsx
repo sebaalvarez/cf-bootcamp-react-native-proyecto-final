@@ -4,12 +4,13 @@ import CartCardDetalle from "../../../components/CartCardDetalle";
 import {
   ButtonCustom,
   ContainerApp,
+  EsperaCarga,
   ThemedText,
   ThemedView,
 } from "../../../components/ui";
-import { useConfiguracion } from "../../../hooks/useEstadoAtencion";
 import { useThemeColor } from "../../../hooks/useThemeColor";
 import { getEstadoPedido } from "../../../services/api/getEstadoPedidoService";
+import { getConfig } from "../../../services/api/supabase/configuracion";
 import { getData } from "../../../services/local/storage";
 import { IPedido } from "../../../types";
 import { generarMensajeWhatsApp } from "../../../utils/armarMensajeWhatsApp";
@@ -24,32 +25,38 @@ interface Props {
 export default function PedidoDetalleScreen({ lightColor, darkColor }: Props) {
   const [pedido, setPedido] = useState<IPedido | null>(null);
   const [estadoAct, setEstadoAct] = useState("");
-  const configuracion = useConfiguracion();
+  const [abierto, setAbierto] = useState(true);
+  const [isLoading, setLoading] = useState(true);
   const backgroundColorTitle = useThemeColor(
     { light: lightColor, dark: darkColor },
     "backgroundTitle"
   );
 
+  const getEstado = async () => {
+    const estado = await getConfig("cocina_abierta");
+    setAbierto(!!estado);
+  };
+
   async function getPedido() {
     const ped = await getData("pedido");
-    const estAct = ped?.id ? await getEstadoPedido(ped.id) : "";
+    if (ped?.id) {
+      if (typeof ped.id === "number") {
+        const estAct = await getEstadoPedido(ped.id);
+        setEstadoAct(estAct);
+      } else {
+        setEstadoAct("");
+      }
+    } else {
+      setEstadoAct("");
+    }
     setPedido(ped);
-    setEstadoAct(estAct);
+    setLoading(false);
   }
 
   useEffect(() => {
+    getEstado();
     getPedido();
   }, []);
-
-  if (!configuracion) {
-    return (
-      <ThemedView>
-        <ThemedText>Cargando configuración...</ThemedText>
-      </ThemedView>
-    );
-  }
-
-  const { pedidos_habilitados } = configuracion;
 
   const mensaje = pedido
     ? generarMensajeWhatsApp(pedido)
@@ -66,6 +73,17 @@ export default function PedidoDetalleScreen({ lightColor, darkColor }: Props) {
   const sumarTotal = pedido?.montoTotal
     ? pedido.montoTotal.toLocaleString("es-AR")
     : calculaTotalPedido(pedido?.detalle).toLocaleString("es-AR");
+
+  if (isLoading) {
+    return (
+      <ThemedView style={{ marginTop: 40, gap: 30 }}>
+        <EsperaCarga />
+        {/* <ThemedText type="defaultSemiBold" align="center">
+          Cargando último pedido...
+        </ThemedText> */}
+      </ThemedView>
+    );
+  }
 
   return (
     <ContainerApp>
@@ -126,7 +144,7 @@ export default function PedidoDetalleScreen({ lightColor, darkColor }: Props) {
             name={"Mandar por WhatsApp"}
             onPress={handlePress}
             props={{
-              disabled: !pedidos_habilitados || !pedido,
+              disabled: !abierto || !pedido,
               style: { marginTop: 10 },
             }}
           />

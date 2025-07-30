@@ -1,17 +1,13 @@
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../config/firebaseConfig";
-import { IPedido } from "../../types";
+import { IPedidoSupabase } from "../../types";
+import { selectOnePedido } from "./supabase/pedidos";
 
-export async function getEstadoPedido(idPedido: string) {
+export async function getEstadoPedido(idPedido: number) {
   try {
-    const pedidoRef = doc(db, "pedidos", idPedido);
-    const pedidoSnapshot = await getDoc(pedidoRef);
+    const pedidoId: IPedidoSupabase | null = await selectOnePedido(idPedido);
 
-    if (pedidoSnapshot.exists()) {
-      const pedidoData = pedidoSnapshot.data() as IPedido;
-
-      if (pedidoData && pedidoData.estado) {
-        return pedidoData.estado;
+    if (pedidoId) {
+      if (pedidoId.estado) {
+        return pedidoId.estado;
       } else {
         return "No se encontró el estado";
       }

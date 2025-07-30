@@ -21,3 +21,17 @@ export const profileFormSchema = yup
     domicilio: yup.string().required(requeridoString),
   })
   .required();
+
+export const userFormSchema = yup
+  .object({
+    usuario: yup.string().required(requeridoString),
+    nombre: yup.string(), //.required(requeridoString),
+    apellido: yup.string(), //.required(requeridoString),
+    telefono: yup.number().typeError(soloNumero).required(requeridoString),
+    mail: yup.string().required(requeridoString),
+    password: yup
+      .string()
+      .min(6, "Debe tener al menos 6 caracteres")
+      .required(requeridoString),
+  })
+  .required();

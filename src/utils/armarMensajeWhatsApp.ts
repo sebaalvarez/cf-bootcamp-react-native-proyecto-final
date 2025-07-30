@@ -6,7 +6,7 @@ export const generarMensajeWhatsApp = (pedido: IPedido) => {
     .map(
       (item) =>
         `🍽️ ${item.nombre} x${item.cantidad} - $${(
-          item.precio * item.cantidad
+          item.precio * (item.cantidad ?? 0)
         ).toLocaleString("es-AR")}`
     )
     .join("\n");

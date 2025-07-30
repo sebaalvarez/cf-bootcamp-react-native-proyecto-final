@@ -23,7 +23,10 @@ function carritoReducer(state: State, action: Action): State {
         return {
           carrito: state.carrito.map((p) =>
             p.id === action.payload.id
-              ? { ...p, cantidad: p.cantidad + action.payload.cantidad }
+              ? {
+                  ...p,
+                  cantidad: (p.cantidad ?? 0) + (action.payload.cantidad ?? 0),
+                }
               : p
           ),
         };

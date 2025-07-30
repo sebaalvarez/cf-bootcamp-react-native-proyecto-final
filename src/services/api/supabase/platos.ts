@@ -1,0 +1,117 @@
+import { supabase } from "../../../config/supabase";
+import { IPlatos } from "../../../types";
+
+// export const createPlato = async ({ nombre, apellido, telefono }: IPlatos) => {
+//   try {
+//     const { data, error } = await supabase
+//       .from("platos")
+//       .insert([{ name: nombre, lastName: apellido, phone_number: telefono }])
+//       .select("*");
+
+//     if (error) {
+//       throw error;
+//     }
+
+//     return data[0];
+//   } catch (error) {
+//     console.error("error", error);
+//     return null;
+//   }
+// };
+
+export const updatePlatoStock = async (id: number, stock: number) => {
+  try {
+    const { error } = await supabase
+      .from("platos")
+      .update([{ stock }])
+      .eq("id", id);
+
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error("error", error);
+  }
+};
+
+export const selectAllPlato = async () => {
+  try {
+    const { data, error }: { data: IPlatos[] | null; error: any } =
+      await supabase.from("platos").select("*").order("ordenVisualizacion");
+
+    if (error) {
+      console.error("Error en la consulta:", error);
+      throw error;
+    }
+
+    if (data && data.length > 0) {
+      return data;
+    }
+
+    return null;
+  } catch (error) {
+    console.error("error", error);
+    return null;
+  }
+};
+
+export const selectAllPlatoActivos = async () => {
+  try {
+    const { data, error }: { data: IPlatos[] | null; error: any } =
+      await supabase
+        .from("platos")
+        .select("*")
+        .eq("activo", true)
+        .order("ordenVisualizacion");
+
+    if (error) {
+      console.error("Error en la consulta:", error);
+      throw error;
+    }
+
+    if (data && data.length > 0) {
+      return data;
+    }
+
+    return null;
+  } catch (error) {
+    console.error("error", error);
+    return null;
+  }
+};
+
+export const selectOnePlato = async (key: number) => {
+  try {
+    const { data, error }: { data: IPlatos[] | null; error: any } =
+      await supabase.from("platos").select("*").eq("id", key);
+
+    if (error) {
+      console.error("Error en la consulta:", error);
+      throw error;
+    }
+
+    if (data && data.length > 0) {
+      return data[0];
+    }
+
+    return null;
+  } catch (error) {
+    console.error("error", error);
+    return null;
+  }
+};
+
+export const updateStockPlato = async (id: number, nuevoStock: number) => {
+  try {
+    const { error } = await supabase
+      .from("platos")
+      .update([{ stock: nuevoStock }])
+      .eq("id", id);
+
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error("error", error);
+  }
+};

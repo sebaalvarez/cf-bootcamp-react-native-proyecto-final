@@ -30,7 +30,7 @@ export default function ModalAgregar({ item, onPress }: Props) {
           type: "MODIFICAR_CANTIDAD",
           payload: {
             id: item.id,
-            cantidad: cant,
+            cantidad: cant ?? 0,
           },
         });
       }
@@ -52,7 +52,7 @@ export default function ModalAgregar({ item, onPress }: Props) {
       <View style={styles.containerDet}>
         <CardPlatoDetalle item={item} />
         <SelectorCantidad
-          cantidad={cant}
+          cantidad={cant ?? 0}
           setCantidad={setCant}
           cantMax={cantMax}
         />

@@ -1,20 +1,23 @@
 import { Image, StyleSheet } from "react-native";
 import { imagenes } from "../services/indexImagenes";
-import { IPlatos } from "../types";
+import { IPedidoDetalleSupabase } from "../types";
 import { ThemedText, ThemedView } from "./ui";
 
 interface Props {
-  item: IPlatos;
+  item: IPedidoDetalleSupabase;
 }
 
-export default function CartCardDetalle({ item }: Props) {
+export default function CardPedidoIngresadoDetalle({ item }: Props) {
   return (
     <ThemedView style={styles.containerCard}>
       <ThemedView style={styles.containerImg}>
-        <Image source={imagenes[item.uri_img]} style={styles.imagen} />
+        <Image
+          source={imagenes[item.platos?.uri_img ?? ""]}
+          style={styles.imagen}
+        />
       </ThemedView>
       <ThemedView style={styles.containerDetalle}>
-        <ThemedText style={styles.txtNombre}>{item.nombre} </ThemedText>
+        <ThemedText style={styles.txtNombre}>{item.platos?.nombre} </ThemedText>
         <ThemedText>Precio: ${item.precio.toLocaleString("es-AR")} </ThemedText>
         <ThemedView style={styles.filaCant}>
           <ThemedText>

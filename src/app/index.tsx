@@ -6,9 +6,9 @@ import {
   ContainerApp,
   ThemedText,
   ThemedView,
-} from "../../components/ui";
-import { getConfig } from "../../services/api/supabase/configuracion";
-import { imagenes } from "../../services/indexImagenes";
+} from "../components/ui";
+import { getConfig } from "../services/api/supabase/configuracion";
+import { imagenes } from "../services/indexImagenes";
 
 export default function HomeScreen() {
   const [abierto, setAbierto] = useState(true);
@@ -48,8 +48,11 @@ export default function HomeScreen() {
             Cocina abierta
           </ThemedText>
         )}
-        <Link href="/menu" push asChild>
-          <ButtonCustom name="Ver menú" width={"80%"} />
+        <Link href="/signUp" push asChild>
+          <ButtonCustom name="Resistrarse" width={"80%"} />
+        </Link>
+        <Link href="/signIn" push asChild>
+          <ButtonCustom name="Iniciar Sesión" width={"80%"} />
         </Link>
       </ThemedView>
     </ContainerApp>

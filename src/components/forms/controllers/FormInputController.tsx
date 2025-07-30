@@ -1,27 +1,25 @@
 import { FC } from "react";
-import { Control, Controller, FieldErrors } from "react-hook-form";
+import { Control, Controller, FieldError } from "react-hook-form";
 import { StyleSheet, Text, TextInputProps } from "react-native";
-import { InferType } from "yup";
 import { TextField } from "../../ui";
-import { profileFormSchema } from "../validations/FormSchemas";
 
-type ProfileFormValues = InferType<typeof profileFormSchema>;
-
-interface Props {
-  control: Control<ProfileFormValues>;
-  errors?: FieldErrors<ProfileFormValues>;
-  name: keyof ProfileFormValues;
-  placeholder: string;
-  propsTextInput?: TextInputProps;
-}
+// type ProfileFormValues = InferType<typeof profileFormSchema>;
 
 // interface Props {
-//   control: Control;
-//   errors?: FieldErrors;
-//   name: string;
+//   control: Control<ProfileFormValues>;
+//   errors?: FieldErrors<ProfileFormValues>;
+//   name: keyof ProfileFormValues;
 //   placeholder: string;
 //   propsTextInput?: TextInputProps;
 // }
+
+interface Props {
+  control: Control;
+  errors?: FieldError;
+  name: string;
+  placeholder: string;
+  propsTextInput?: TextInputProps;
+}
 
 export const FormInputController: FC<Props> = ({
   control,
