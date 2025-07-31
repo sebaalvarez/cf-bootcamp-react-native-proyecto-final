@@ -15,7 +15,7 @@ import { TextField } from "../../ui";
 
 interface Props {
   control: Control;
-  errors?: FieldError;
+  errors?: Record<string, FieldError>;
   name: string;
   placeholder: string;
   propsTextInput?: TextInputProps;
@@ -44,7 +44,7 @@ export const FormInputController: FC<Props> = ({
         )}
       />
 
-      {errors && (
+      {errors && errors[name] && (
         <Text style={styles.error}>{errors[name]?.message as string}</Text>
       )}
     </>

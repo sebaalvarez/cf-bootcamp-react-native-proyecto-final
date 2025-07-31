@@ -7,8 +7,9 @@ import {
   ThemedText,
   ThemedView,
 } from "../../../../components/ui";
+import { EstadosPedido } from "../../../../constants/EstadosPedido";
 import { useThemeColor } from "../../../../hooks/useThemeColor";
-import { selectAllPedidoSolicitado } from "../../../../services/api/supabase/pedidos";
+import { selectAllPedidosSolicitados } from "../../../../services/api/supabase/pedidos";
 import { IPedidoSupabase } from "../../../../types";
 
 interface Props {
@@ -16,9 +17,9 @@ interface Props {
   darkColor?: string;
 }
 
-export default function ActEstadoPedido({ lightColor, darkColor }: Props) {
+export default function PedidosSolicitados({ lightColor, darkColor }: Props) {
   const [pedidos, setPedidos] = useState<IPedidoSupabase[] | null>(null);
-  const [refresh, setRefresh] = useState(true);
+  const [actEstado, setActEstado] = useState(true);
   const [isLoading, setLoading] = useState(true);
 
   const backgroundColorTitle = useThemeColor(
@@ -28,20 +29,20 @@ export default function ActEstadoPedido({ lightColor, darkColor }: Props) {
 
   async function getPedido() {
     setLoading(true);
-    const ped = await selectAllPedidoSolicitado();
+    const ped = await selectAllPedidosSolicitados();
     setPedidos(ped);
     setLoading(false);
   }
   useEffect(() => {
     getPedido();
-  }, [refresh]);
+  }, [actEstado]);
 
   if (isLoading) {
     return (
       <ThemedView style={{ marginTop: 40, gap: 30 }}>
         <EsperaCarga />
         <ThemedText type="defaultSemiBold" align="center">
-          Cargando Historial...
+          Cargando Listado...
         </ThemedText>
       </ThemedView>
     );
@@ -55,7 +56,7 @@ export default function ActEstadoPedido({ lightColor, darkColor }: Props) {
           backgroundColor: backgroundColorTitle,
         }}
       >
-        Pedidos Ingresados
+        Pedidos Solicitados
       </ThemedText>
 
       <FlatList
@@ -64,8 +65,9 @@ export default function ActEstadoPedido({ lightColor, darkColor }: Props) {
         renderItem={({ item }) => (
           <CardPedidoIngresado
             item={item}
-            estado={refresh}
-            refresca={setRefresh}
+            actEstado={actEstado}
+            refresca={setActEstado}
+            nuevoEstado={EstadosPedido.RECIBIDO}
           />
         )}
       />

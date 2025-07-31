@@ -31,7 +31,7 @@ export default function TabLayout() {
         animation: "fade",
       }}
     >
-      <Tabs.Protected guard={!!session}>
+      <Tabs.Protected guard={!session}>
         <Tabs.Screen
           name="index"
           options={{
@@ -77,7 +77,7 @@ export default function TabLayout() {
           }}
         />
       </Tabs.Protected>
-      <Tabs.Protected guard={!session}>
+      <Tabs.Protected guard={!!session}>
         <Tabs.Screen
           name="(admin)"
           options={{

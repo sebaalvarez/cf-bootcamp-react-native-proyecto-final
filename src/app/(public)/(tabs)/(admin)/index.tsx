@@ -22,8 +22,12 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
     router.push("/actStockPlato");
   };
 
-  const handleNavigateToEstadoPedidos = () => {
-    router.push("/actEstadoPedido");
+  const handleNavigateToPedSolicitados = () => {
+    router.push("/PedidosSolicitados");
+  };
+
+  const handleNavigateToPedRecibidos = () => {
+    router.push("/PedidosRecibidos");
   };
 
   const styles = StyleSheet.create({
@@ -48,8 +52,13 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
         props={{ style: styles.btn }}
       />
       <ButtonStack
-        name="Actualizar Estado Pedidos"
-        onPress={handleNavigateToEstadoPedidos}
+        name="Listado de Pedidos Solicitados"
+        onPress={handleNavigateToPedSolicitados}
+        props={{ style: styles.btn }}
+      />
+      <ButtonStack
+        name="Listado de Pedidos Recibidos"
+        onPress={handleNavigateToPedRecibidos}
         props={{ style: styles.btn }}
       />
     </ContainerApp>

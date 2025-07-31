@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
+import { EstadosPedidoType } from "../constants/EstadosPedido";
 import { useThemeColor } from "../hooks/useThemeColor";
 import { updateEstadoPedido } from "../services/api/supabase/pedidos";
 import { selectOnePedidoDetalle } from "../services/api/supabase/pedidosDetalle";
@@ -18,7 +19,8 @@ interface Prop {
   lightColor?: string;
   darkColor?: string;
   refresca: (valor: boolean) => void;
-  estado: boolean;
+  actEstado: boolean;
+  nuevoEstado: EstadosPedidoType;
 }
 
 export default function CardPedidoIngresado({
@@ -26,7 +28,8 @@ export default function CardPedidoIngresado({
   lightColor,
   darkColor,
   refresca,
-  estado,
+  actEstado,
+  nuevoEstado,
 }: Prop) {
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -50,8 +53,8 @@ export default function CardPedidoIngresado({
   };
 
   const handleActEstado = async () => {
-    await updateEstadoPedido(item.id ?? 0, "Recibido");
-    refresca(!estado);
+    await updateEstadoPedido(item.id ?? 0, nuevoEstado);
+    refresca(!actEstado);
   };
 
   if (isLoading) {
@@ -59,7 +62,7 @@ export default function CardPedidoIngresado({
       <ThemedView style={{ marginTop: 10 }}>
         <EsperaCarga />
         <ThemedText type="defaultSemiBold" align="center">
-          Cargando Historial...
+          Cargando Listado...
         </ThemedText>
       </ThemedView>
     );

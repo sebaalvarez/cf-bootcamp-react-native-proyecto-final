@@ -60,7 +60,7 @@ export const selectOnePedido = async (key: number) => {
   }
 };
 
-export const selectAllPedidoSolicitado = async () => {
+export const selectAllPedidosSolicitados = async () => {
   try {
     const { data, error }: { data: IPedidoSupabase[] | null; error: any } =
       await supabase
@@ -85,6 +85,30 @@ export const selectAllPedidoSolicitado = async () => {
   }
 };
 
+export const selectAllPedidosRecibidos = async () => {
+  try {
+    const { data, error }: { data: IPedidoSupabase[] | null; error: any } =
+      await supabase
+        .from("pedidos")
+        .select("*")
+        .eq("estado", "Recibido")
+        .order("created_at", { ascending: true });
+
+    if (error) {
+      console.error("Error en la consulta:", error);
+      throw error;
+    }
+
+    if (data && data.length > 0) {
+      return data;
+    }
+
+    return null;
+  } catch (error) {
+    console.error("error", error);
+    return null;
+  }
+};
 export const updateEstadoPedido = async (id: number, nuevoEstado: string) => {
   try {
     const { error } = await supabase

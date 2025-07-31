@@ -11,7 +11,7 @@ import { userFormSchema } from "../validations/FormSchemas";
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<null | string>(null);
 
   const {
     control,
@@ -98,6 +98,9 @@ export default function RegisterForm() {
           errors={errors}
           name={"mail"}
           placeholder={"mail"}
+          propsTextInput={{
+            keyboardType: "email-address",
+          }}
         />
 
         <FormInputController
