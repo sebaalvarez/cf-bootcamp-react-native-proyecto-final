@@ -4,16 +4,15 @@ import { HapticTab } from "../../../components/HapticTab";
 import { IconSymbol } from "../../../components/ui/IconSymbol";
 import TabBarBackground from "../../../components/ui/TabBarBackground";
 import { Colors } from "../../../constants/Colors";
-import { useAuth } from "../../../context/authProvider";
+import { useAuth } from "../../../hooks/useAuth";
 import { useCarrito } from "../../../hooks/useCarrito";
 import { useColorScheme } from "../../../hooks/useColorScheme";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { state } = useCarrito();
-  const { session } = useAuth();
+  const { session, role } = useAuth();
 
-  // console.log(session);
   return (
     <Tabs
       screenOptions={{
@@ -31,7 +30,7 @@ export default function TabLayout() {
         animation: "fade",
       }}
     >
-      <Tabs.Protected guard={!session}>
+      <Tabs.Protected guard={!!session && role !== "admin"}>
         <Tabs.Screen
           name="index"
           options={{
@@ -77,7 +76,7 @@ export default function TabLayout() {
           }}
         />
       </Tabs.Protected>
-      <Tabs.Protected guard={!!session}>
+      <Tabs.Protected guard={!!session && role === "admin"}>
         <Tabs.Screen
           name="(admin)"
           options={{

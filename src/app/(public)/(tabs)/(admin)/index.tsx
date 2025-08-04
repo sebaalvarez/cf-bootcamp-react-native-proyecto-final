@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { ButtonStack, ContainerApp } from "../../../../components/ui";
+import { supabase } from "../../../../config/supabase";
 import { useThemeColor } from "../../../../hooks/useThemeColor";
 
 interface Props {
@@ -14,6 +15,29 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
     "background"
   );
 
+  const handleCerrarSesion = async () => {
+    Alert.alert(
+      "Confirmar acción",
+      "¿Estás seguro que querés desloguearte?",
+      [
+        {
+          text: "Cancelar",
+          // onPress: () => console.log("Acción cancelada"),
+          style: "cancel",
+        },
+        {
+          text: "Confirmar",
+          onPress: async () => {
+            const { error } = await supabase.auth.signOut();
+            if (error) {
+              console.error("Error al cerrar sesión:", error.message);
+            }
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
   const handleNavigateToCambioEstado = () => {
     router.push("/actEstadoCocina");
   };
@@ -59,6 +83,11 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
       <ButtonStack
         name="Listado de Pedidos Recibidos"
         onPress={handleNavigateToPedRecibidos}
+        props={{ style: styles.btn }}
+      />
+      <ButtonStack
+        name="Cerrar Sesion"
+        onPress={handleCerrarSesion}
         props={{ style: styles.btn }}
       />
     </ContainerApp>

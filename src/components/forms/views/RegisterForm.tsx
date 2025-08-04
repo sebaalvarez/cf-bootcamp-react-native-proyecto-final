@@ -26,14 +26,30 @@ export default function RegisterForm() {
       setLoading(true);
       setError(null);
 
-      const { error: signUpError } = await supabase.auth.signUp({
-        email: data.mail.trim(),
-        password: data.password.trim(),
-        options: { data: { name: data.usuario } },
-      });
+      const { error: signUpError, data: dataRegister } =
+        await supabase.auth.signUp({
+          email: data.mail.trim(),
+          password: data.password.trim(),
+        });
 
       if (signUpError) {
         throw signUpError;
+      }
+
+      // Obtén el ID del usuario recién creado
+      const userId = dataRegister.user?.id; // Asegúrate de que el usuario exista
+      if (!userId) {
+        throw new Error("No se pudo obtener el ID del usuario.");
+      }
+
+      const { error: signUpRolUser } = await supabase.from("perfiles").insert({
+        id: userId,
+        nombre: data.nombre,
+        rol: "user",
+      });
+
+      if (signUpRolUser) {
+        throw signUpRolUser;
       }
 
       const { error: loginError } = await supabase.auth.signInWithPassword({
@@ -84,13 +100,6 @@ export default function RegisterForm() {
           propsTextInput={{
             keyboardType: "phone-pad",
           }}
-        />
-
-        <FormInputController
-          control={control}
-          errors={errors}
-          name={"usuario"}
-          placeholder={"usuario"}
         />
 
         <FormInputController

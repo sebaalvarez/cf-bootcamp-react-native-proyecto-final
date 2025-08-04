@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 
 import "react-native-reanimated";
 
-import { useAuth } from "../../context/authProvider";
+import { useAuth } from "../../hooks/useAuth";
 import { useThemeColor } from "../../hooks/useThemeColor";
 
 export default function RootLayout() {

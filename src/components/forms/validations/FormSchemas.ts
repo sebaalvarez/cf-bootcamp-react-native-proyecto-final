@@ -24,7 +24,6 @@ export const profileFormSchema = yup
 
 export const userFormSchema = yup
   .object({
-    usuario: yup.string().required(requeridoString),
     nombre: yup.string().required(requeridoString),
     apellido: yup.string().required(requeridoString),
     telefono: yup.number().typeError(soloNumero).required(requeridoString),

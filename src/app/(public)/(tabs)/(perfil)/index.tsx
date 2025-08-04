@@ -1,8 +1,7 @@
 import { useRouter } from "expo-router";
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { ButtonStack, ContainerApp } from "../../../../components/ui";
 import { supabase } from "../../../../config/supabase";
-import { useAuth } from "../../../../context/authProvider";
 import { useThemeColor } from "../../../../hooks/useThemeColor";
 import { removeData } from "../../../../services/local/storage";
 
@@ -16,7 +15,6 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
     { light: lightColor, dark: darkColor },
     "background"
   );
-  const { loading, session } = useAuth();
 
   const handleNavigateToProfileForm = () => {
     router.push("/profileForm");
@@ -31,10 +29,27 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
   };
 
   const handleCerrarSesion = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error("Error al cerrar sesión:", error.message);
-    }
+    Alert.alert(
+      "Confirmar acción",
+      "¿Estás seguro que querés desloguearte?",
+      [
+        {
+          text: "Cancelar",
+          // onPress: () => console.log("Acción cancelada"),
+          style: "cancel",
+        },
+        {
+          text: "Confirmar",
+          onPress: async () => {
+            const { error } = await supabase.auth.signOut();
+            if (error) {
+              console.error("Error al cerrar sesión:", error.message);
+            }
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   const handleBorraHistorial = () => {
