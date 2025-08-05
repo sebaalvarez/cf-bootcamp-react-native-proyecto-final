@@ -17,7 +17,7 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
 
   const handleCerrarSesion = async () => {
     Alert.alert(
-      "Confirmar acción",
+      "⚠️ Confirmar acción ⚠️",
       "¿Estás seguro que querés desloguearte?",
       [
         {
