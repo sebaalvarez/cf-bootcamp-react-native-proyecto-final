@@ -2,16 +2,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
 import { supabase } from "../../../config/supabase";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
+import { IconSymbol } from "../../ui/IconSymbol";
 import { FormInputController } from "../controllers/FormInputController";
 import { userFormSchema } from "../validations/FormSchemas";
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<null | string>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRePassword, setShowRePassword] = useState(false);
 
   const {
     control,
@@ -36,12 +39,13 @@ export default function RegisterForm() {
         throw signUpError;
       }
 
-      // Obtén el ID del usuario recién creado
-      const userId = dataRegister.user?.id; // Asegúrate de que el usuario exista
+      // Obtengo el ID del usuario recién creado
+      const userId = dataRegister.user?.id;
       if (!userId) {
         throw new Error("No se pudo obtener el ID del usuario.");
       }
 
+      // Registro el usuario recién creado con el rol usuario
       const { error: signUpRolUser } = await supabase.from("perfiles").insert({
         id: userId,
         nombre: data.nombre,
@@ -109,6 +113,7 @@ export default function RegisterForm() {
           placeholder={"mail"}
           propsTextInput={{
             keyboardType: "email-address",
+            autoCapitalize: "none",
           }}
         />
 
@@ -118,14 +123,43 @@ export default function RegisterForm() {
           name={"password"}
           placeholder={"password"}
           propsTextInput={{
-            secureTextEntry: true,
+            secureTextEntry: !showPassword,
           }}
+          renderRightAccessory={() => (
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+              <IconSymbol
+                size={20}
+                name={showPassword ? "00.square" : "00.circle"}
+                color="gray"
+              />
+            </TouchableOpacity>
+          )}
         />
 
+        <FormInputController
+          control={control}
+          errors={errors}
+          name={"re_password"}
+          placeholder={"confirmar password"}
+          propsTextInput={{
+            secureTextEntry: !showRePassword,
+          }}
+          renderRightAccessory={() => (
+            <TouchableOpacity
+              onPress={() => setShowRePassword(!showRePassword)}
+            >
+              <IconSymbol
+                size={20}
+                name={showRePassword ? "00.square" : "00.circle"}
+                color="gray"
+              />
+            </TouchableOpacity>
+          )}
+        />
         {error && <ThemedText>{error}</ThemedText>}
         {loading && <ThemedText>Registrando usuario...</ThemedText>}
 
-        <ButtonCustom name={"Guardar"} onPress={handleSubmit(onSubmit)} />
+        <ButtonCustom name={"Registrarme"} onPress={handleSubmit(onSubmit)} />
       </ThemedView>
     </>
   );

@@ -11,6 +11,7 @@ interface Props {
   value?: string | number;
   onBlur: () => void;
   props?: TextInputProps;
+  renderRightAccessory?: () => React.ReactNode;
 }
 
 export function TextField({
@@ -21,6 +22,7 @@ export function TextField({
   value,
   onBlur,
   props,
+  renderRightAccessory,
 }: Props) {
   const [isFocus, setIsFocus] = useState(false);
   const animatedLabel = useRef(new Animated.Value(0)).current;
@@ -42,6 +44,7 @@ export function TextField({
 
   const styles = StyleSheet.create({
     container: {
+      flexDirection: "row",
       borderColor: "#a6a6a6",
       borderBottomWidth: 0.5,
       paddingHorizontal: 10,
@@ -53,10 +56,14 @@ export function TextField({
       backgroundColor: colorBackgrund, //"#ffffff",
     },
     input: {
+      flex: 1,
       height: 40,
       fontSize: 16,
       padding: 0,
       color: colorText,
+    },
+    accessory: {
+      marginLeft: 10,
     },
   });
 
@@ -101,6 +108,11 @@ export function TextField({
         onBlur={blur}
         {...props}
       />
+      {renderRightAccessory && (
+        <ThemedView style={styles.accessory}>
+          {renderRightAccessory()}
+        </ThemedView>
+      )}
     </ThemedView>
   );
 }

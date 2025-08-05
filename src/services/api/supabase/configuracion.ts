@@ -88,8 +88,6 @@ export const updateConfig = async (
       .eq("key", key)
       .select("*");
 
-    // console.log(data);
-
     if (error) {
       console.error("Error en la consulta:", error);
       throw error;

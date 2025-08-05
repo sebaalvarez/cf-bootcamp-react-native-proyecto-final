@@ -13,8 +13,11 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 2. Configurar variables de entorno
    Renombrar el archivo .env.example por .env
    Configurar las variables:
+
+   ```bash
    EXPO_PUBLIC_SUPABASE_URL="https://your-supabase-url.supabase.co"
    EXPO_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
+   ```
 
 3. Start the app
 

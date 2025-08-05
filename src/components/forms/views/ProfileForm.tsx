@@ -12,11 +12,16 @@ import { profileFormSchema } from "../validations/FormSchemas";
 interface Props {
   disabledBtn?: boolean;
   onPress?: () => void;
+  nameButton?: string;
 }
 
 type ProfileFormValues = InferType<typeof profileFormSchema>;
 
-export default function ProfileForm({ onPress, disabledBtn = false }: Props) {
+export default function ProfileForm({
+  onPress,
+  disabledBtn = false,
+  nameButton = "Grabar",
+}: Props) {
   const {
     control,
     handleSubmit,
@@ -90,7 +95,7 @@ export default function ProfileForm({ onPress, disabledBtn = false }: Props) {
 
       {error && <Text style={{ color: "red", fontSize: 13 }}>{error}</Text>}
       <ButtonCustom
-        name={"Guardar"}
+        name={nameButton}
         onPress={handleSubmit(onSubmit)}
         props={{ disabled: disabledBtn }}
       />

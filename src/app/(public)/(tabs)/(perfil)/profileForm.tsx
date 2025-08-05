@@ -8,7 +8,7 @@ export default function ProfileFormScreen() {
   };
   return (
     <ContainerApp scroll>
-      <ProfileForm onPress={handlerCreateUser} />
+      <ProfileForm onPress={handlerCreateUser} nameButton="Actualizar" />
     </ContainerApp>
   );
 }

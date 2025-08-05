@@ -192,7 +192,11 @@ export default function ModalDatosPedido({ onPress }: Props) {
       ) : (
         <ThemedView style={styles.containerDet}>
           <ThemedText type="subtitle">Datos para el envío</ThemedText>
-          <ProfileForm onPress={handlePedido} disabledBtn={!abierto} />
+          <ProfileForm
+            onPress={handlePedido}
+            disabledBtn={!abierto}
+            nameButton="Enviar"
+          />
         </ThemedView>
       )}
     </ThemedView>

@@ -1,17 +1,19 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { router } from "expo-router";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
 import { supabase } from "../../../config/supabase";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
+import { IconSymbol } from "../../ui/IconSymbol";
 import { FormInputController } from "../controllers/FormInputController";
 import { loginFormSchema } from "../validations/FormSchemas";
 
-export default function RegisterForm() {
+export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<null | string>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     control,
@@ -58,6 +60,7 @@ export default function RegisterForm() {
           placeholder={"mail"}
           propsTextInput={{
             keyboardType: "email-address",
+            autoCapitalize: "none",
           }}
         />
 
@@ -67,14 +70,23 @@ export default function RegisterForm() {
           name={"password"}
           placeholder={"password"}
           propsTextInput={{
-            secureTextEntry: true,
+            secureTextEntry: !showPassword,
           }}
+          renderRightAccessory={() => (
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+              <IconSymbol
+                size={20}
+                name={showPassword ? "00.square" : "00.circle"}
+                color="gray"
+              />
+            </TouchableOpacity>
+          )}
         />
 
         {error && <ThemedText>{error}</ThemedText>}
         {loading && <ThemedText>Logueando usuario...</ThemedText>}
 
-        <ButtonCustom name={"Guardar"} onPress={handleSubmit(onSubmit)} />
+        <ButtonCustom name={"Ingresar"} onPress={handleSubmit(onSubmit)} />
       </ThemedView>
     </>
   );

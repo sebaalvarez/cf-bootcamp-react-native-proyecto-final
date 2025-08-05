@@ -20,6 +20,8 @@ const MAPPING = {
   "house.fill": "home",
   "0.circle": "restaurant-menu",
   "0.square": "shopping-cart",
+  "00.circle": "visibility",
+  "00.square": "visibility-off",
   person: "person",
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",

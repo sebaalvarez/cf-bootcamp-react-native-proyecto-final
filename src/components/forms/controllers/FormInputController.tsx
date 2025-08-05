@@ -3,22 +3,13 @@ import { Control, Controller, FieldError } from "react-hook-form";
 import { StyleSheet, Text, TextInputProps } from "react-native";
 import { TextField } from "../../ui";
 
-// type ProfileFormValues = InferType<typeof profileFormSchema>;
-
-// interface Props {
-//   control: Control<ProfileFormValues>;
-//   errors?: FieldErrors<ProfileFormValues>;
-//   name: keyof ProfileFormValues;
-//   placeholder: string;
-//   propsTextInput?: TextInputProps;
-// }
-
 interface Props {
   control: Control;
   errors?: Record<string, FieldError>;
   name: string;
   placeholder: string;
   propsTextInput?: TextInputProps;
+  renderRightAccessory?: () => React.ReactNode;
 }
 
 export const FormInputController: FC<Props> = ({
@@ -27,6 +18,7 @@ export const FormInputController: FC<Props> = ({
   name,
   placeholder,
   propsTextInput,
+  renderRightAccessory,
 }) => {
   return (
     <>
@@ -40,6 +32,7 @@ export const FormInputController: FC<Props> = ({
             onChangeText={onChange}
             value={value}
             props={propsTextInput}
+            renderRightAccessory={renderRightAccessory}
           />
         )}
       />

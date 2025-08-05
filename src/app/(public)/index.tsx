@@ -49,7 +49,7 @@ export default function HomeScreen() {
           </ThemedText>
         )}
         <Link href="/signUp" push asChild>
-          <ButtonCustom name="Resistrarse" width={"80%"} />
+          <ButtonCustom name="Registrarse" width={"80%"} />
         </Link>
         <Link href="/signIn" push asChild>
           <ButtonCustom name="Iniciar Sesión" width={"80%"} />

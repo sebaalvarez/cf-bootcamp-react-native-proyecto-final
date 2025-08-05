@@ -78,5 +78,3 @@ export default function AuthProvider({ children }: Props) {
     </AuthContext.Provider>
   );
 }
-
-// export const useAuth = () => useContext(AuthContext);
