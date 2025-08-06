@@ -29,14 +29,22 @@ export default function RegisterForm() {
       setLoading(true);
       setError(null);
 
+      console.log("11111");
       const { error: signUpError, data: dataRegister } =
         await supabase.auth.signUp({
           email: data.mail.trim(),
           password: data.password.trim(),
         });
 
+      console.log("Respuesta de signUp:", {
+        error: signUpError,
+        data: dataRegister,
+      });
+
       if (signUpError) {
-        throw signUpError;
+        throw new Error(
+          "Error al registrar el usuario: " + signUpError.message
+        );
       }
 
       // Obtengo el ID del usuario recién creado
@@ -48,13 +56,36 @@ export default function RegisterForm() {
       // Registro el usuario recién creado con el rol usuario
       const { error: signUpRolUser } = await supabase.from("perfiles").insert({
         id: userId,
-        nombre: data.nombre,
+        nombre: data.nombre.trim(),
+        apellido: data.apellido.trim(),
+        telefono: data.telefono.trim(),
+        mail: data.mail.trim(),
         rol: "user",
       });
 
       if (signUpRolUser) {
-        throw signUpRolUser;
+        throw new Error(
+          "Error al insertar el perfil del usuario: " + signUpRolUser.message
+        );
       }
+
+      // Consulta el rol del usuario recién creado
+      const { data: perfil, error: perfilError } = await supabase
+        .from("perfiles")
+        .select("rol")
+        .eq("id", userId)
+        .maybeSingle(); // <- reemplazo de .single()
+
+      if (perfilError) {
+        throw new Error(
+          "Error al obtener el rol del usuario: " + perfilError.message
+        );
+      }
+      if (!perfil) {
+        throw new Error("No se encontró el perfil del usuario.");
+      }
+
+      console.log("Rol del usuario:", perfil.rol);
 
       const { error: loginError } = await supabase.auth.signInWithPassword({
         email: data.mail.trim(),
@@ -62,7 +93,7 @@ export default function RegisterForm() {
       });
 
       if (loginError) {
-        throw loginError;
+        throw new Error("Error al iniciar sesión: " + loginError.message);
       }
 
       router.replace("./(tabs)");
@@ -86,14 +117,18 @@ export default function RegisterForm() {
           errors={errors}
           name={"nombre"}
           placeholder={"Nombre "}
-          propsTextInput={{}}
+          propsTextInput={{
+            autoCapitalize: "words",
+          }}
         />
         <FormInputController
           control={control}
           errors={errors}
           name={"apellido"}
           placeholder={"Apellido"}
-          propsTextInput={{}}
+          propsTextInput={{
+            autoCapitalize: "words",
+          }}
         />
 
         <FormInputController
@@ -124,6 +159,7 @@ export default function RegisterForm() {
           placeholder={"password"}
           propsTextInput={{
             secureTextEntry: !showPassword,
+            autoCapitalize: "none",
           }}
           renderRightAccessory={() => (
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
@@ -143,6 +179,7 @@ export default function RegisterForm() {
           placeholder={"confirmar password"}
           propsTextInput={{
             secureTextEntry: !showRePassword,
+            autoCapitalize: "none",
           }}
           renderRightAccessory={() => (
             <TouchableOpacity

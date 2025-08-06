@@ -71,6 +71,7 @@ export default function LoginForm() {
           placeholder={"password"}
           propsTextInput={{
             secureTextEntry: !showPassword,
+            autoCapitalize: "none",
           }}
           renderRightAccessory={() => (
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
