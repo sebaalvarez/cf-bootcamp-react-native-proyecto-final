@@ -1,6 +1,6 @@
 import { router } from "expo-router";
-import ProfileForm from "../../../../components/forms/views/ProfileForm";
-import { ContainerApp } from "../../../../components/ui";
+import ProfileForm from "../../../../../components/forms/views/ProfileForm";
+import { ContainerApp } from "../../../../../components/ui";
 
 export default function ProfileFormScreen() {
   const handlerCreateUser = async () => {

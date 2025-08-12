@@ -16,8 +16,8 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
     "background"
   );
 
-  const handleNavigateToProfileForm = () => {
-    router.push("/profileForm");
+  const handleNavigateToPerfil = () => {
+    router.push("/(public)/(tabs)/(mas)/(perfil)");
   };
 
   const handleNavigateToPedidoDetalle = () => {
@@ -76,8 +76,8 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
   return (
     <ContainerApp scroll>
       <ButtonStack
-        name="Editar Datos Personales"
-        onPress={handleNavigateToProfileForm}
+        name="Mi Perfil"
+        onPress={handleNavigateToPerfil}
         props={{ style: styles.btn }}
       />
       <ButtonStack

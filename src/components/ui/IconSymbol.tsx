@@ -22,6 +22,7 @@ const MAPPING = {
   "0.square": "shopping-cart",
   "00.circle": "visibility",
   "00.square": "visibility-off",
+  "01.circle.ar": "menu",
   person: "person",
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",

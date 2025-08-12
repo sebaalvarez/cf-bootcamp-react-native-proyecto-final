@@ -30,6 +30,7 @@ export default function ProfileForm({
   } = useForm<ProfileFormValues>({
     resolver: yupResolver(profileFormSchema),
   });
+
   const onSubmit = async (data: ProfileFormValues) => {
     await storeData("usuario", JSON.stringify(data));
     onPress?.();
@@ -68,6 +69,7 @@ export default function ProfileForm({
         placeholder={"Nombre "}
         propsTextInput={{}}
       />
+
       <FormInputController
         control={control}
         errors={errors}
@@ -94,6 +96,7 @@ export default function ProfileForm({
       />
 
       {error && <Text style={{ color: "red", fontSize: 13 }}>{error}</Text>}
+
       <ButtonCustom
         name={nameButton}
         onPress={handleSubmit(onSubmit)}

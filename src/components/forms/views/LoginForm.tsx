@@ -34,7 +34,7 @@ export default function LoginForm() {
       });
 
       if (loginError) {
-        throw loginError;
+        throw new Error("Error al loguearse el usuario: " + loginError.message);
       }
 
       router.replace("./(tabs)");

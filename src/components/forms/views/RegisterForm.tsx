@@ -29,17 +29,18 @@ export default function RegisterForm() {
       setLoading(true);
       setError(null);
 
-      console.log("11111");
       const { error: signUpError, data: dataRegister } =
         await supabase.auth.signUp({
           email: data.mail.trim(),
           password: data.password.trim(),
+          options: {
+            data: {
+              nombre: data.nombre.trim(),
+              apellido: data.apellido.trim(),
+              telefono: data.telefono.trim(),
+            },
+          },
         });
-
-      console.log("Respuesta de signUp:", {
-        error: signUpError,
-        data: dataRegister,
-      });
 
       if (signUpError) {
         throw new Error(
@@ -68,24 +69,6 @@ export default function RegisterForm() {
           "Error al insertar el perfil del usuario: " + signUpRolUser.message
         );
       }
-
-      // Consulta el rol del usuario recién creado
-      const { data: perfil, error: perfilError } = await supabase
-        .from("perfiles")
-        .select("rol")
-        .eq("id", userId)
-        .maybeSingle(); // <- reemplazo de .single()
-
-      if (perfilError) {
-        throw new Error(
-          "Error al obtener el rol del usuario: " + perfilError.message
-        );
-      }
-      if (!perfil) {
-        throw new Error("No se encontró el perfil del usuario.");
-      }
-
-      console.log("Rol del usuario:", perfil.rol);
 
       const { error: loginError } = await supabase.auth.signInWithPassword({
         email: data.mail.trim(),
