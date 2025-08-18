@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
 import { supabase } from "../../../config/supabase";
+import { selectOneUser } from "../../../services/api/supabase/usuarios";
+import { storeData } from "../../../services/local/storage";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
 import { IconSymbol } from "../../ui/IconSymbol";
 import { FormInputController } from "../controllers/FormInputController";
@@ -28,13 +30,24 @@ export default function LoginForm() {
       setLoading(true);
       setError(null);
 
-      const { error: loginError } = await supabase.auth.signInWithPassword({
-        email: data.mail.trim(),
-        password: data.password.trim(),
-      });
+      const { error: loginError, data: dataLogin } =
+        await supabase.auth.signInWithPassword({
+          email: data.mail.trim(),
+          password: data.password.trim(),
+        });
 
       if (loginError) {
         throw new Error("Error al loguearse el usuario: " + loginError.message);
+      }
+
+      const usuario = await selectOneUser(dataLogin.user.user_metadata.sub);
+
+      if (!usuario || usuario.length === 0) {
+        console.error(
+          "No se encontró el usuario para cargar los datos en el login."
+        );
+      } else {
+        await storeData("usuario", JSON.stringify(usuario[0]));
       }
 
       router.replace("./(tabs)");

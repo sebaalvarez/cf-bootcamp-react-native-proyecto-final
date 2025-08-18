@@ -1,9 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, Text } from "react-native";
 import { InferType } from "yup";
 import { useUbicacion } from "../../../hooks/useUbicacion";
+import { updateUser } from "../../../services/api/supabase/usuarios";
 import { getData, storeData } from "../../../services/local/storage";
 import { ButtonCustom, ThemedView } from "../../ui";
 import { FormInputController } from "../controllers/FormInputController";
@@ -31,8 +32,29 @@ export default function ProfileForm({
     resolver: yupResolver(profileFormSchema),
   });
 
+  const dataUserRef = useRef<any>(null);
+
   const onSubmit = async (data: ProfileFormValues) => {
-    await storeData("usuario", JSON.stringify(data));
+    if (dataUserRef.current) {
+      if (
+        dataUserRef.current.nombre !== data.nombre ||
+        dataUserRef.current.apellido !== data.apellido ||
+        dataUserRef.current.telefono !== data.telefono
+      ) {
+        await updateUser(
+          dataUserRef.current.id,
+          data.nombre,
+          data.apellido,
+          data.telefono
+        );
+
+        dataUserRef.current.nombre = data.nombre;
+        dataUserRef.current.apellido = data.apellido;
+        dataUserRef.current.telefono = data.telefono;
+
+        await storeData("usuario", JSON.stringify(dataUserRef.current));
+      }
+    }
     onPress?.();
   };
 
@@ -43,6 +65,8 @@ export default function ProfileForm({
       const dataUser = await getData("usuario");
 
       if (dataUser) {
+        dataUserRef.current = dataUser;
+
         const dir = error ? dataUser.domicilio : direccion;
 
         reset({

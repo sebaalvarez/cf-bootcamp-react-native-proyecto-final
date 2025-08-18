@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
 import { supabase } from "../../../config/supabase";
+import { storeData } from "../../../services/local/storage";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
 import { IconSymbol } from "../../ui/IconSymbol";
 import { FormInputController } from "../controllers/FormInputController";
@@ -78,6 +79,16 @@ export default function RegisterForm() {
       if (loginError) {
         throw new Error("Error al iniciar sesión: " + loginError.message);
       }
+
+      const jsonData = {
+        nombre: data.nombre.trim(),
+        apellido: data.apellido.trim(),
+        telefono: data.telefono.trim(),
+        mail: data.mail.toLowerCase().trim(),
+        rol: "user",
+      };
+
+      await storeData("usuario", JSON.stringify(jsonData));
 
       router.replace("./(tabs)");
     } catch (err) {

@@ -3,6 +3,7 @@ import { Alert, StyleSheet } from "react-native";
 import { ButtonStack, ContainerApp } from "../../../../../components/ui";
 import { supabase } from "../../../../../config/supabase";
 import { useThemeColor } from "../../../../../hooks/useThemeColor";
+import { removeData } from "../../../../../services/local/storage";
 
 interface Props {
   lightColor?: string;
@@ -47,7 +48,11 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
                 );
                 return;
               }
+              removeData("pedidoHistorial");
 
+              removeData("pedido");
+
+              removeData("usuario");
               Alert.alert(
                 "Cuenta eliminada",
                 "Tu cuenta ha sido eliminada correctamente."

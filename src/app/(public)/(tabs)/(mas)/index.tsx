@@ -3,7 +3,6 @@ import { Alert, StyleSheet } from "react-native";
 import { ButtonStack, ContainerApp } from "../../../../components/ui";
 import { supabase } from "../../../../config/supabase";
 import { useThemeColor } from "../../../../hooks/useThemeColor";
-import { removeData } from "../../../../services/local/storage";
 
 interface Props {
   lightColor?: string;
@@ -52,18 +51,6 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
     );
   };
 
-  const handleBorraHistorial = () => {
-    removeData("pedidoHistorial");
-  };
-
-  const handleBorraPedido = () => {
-    removeData("pedido");
-  };
-
-  const handleBorraUsuario = () => {
-    removeData("usuario");
-  };
-
   const styles = StyleSheet.create({
     btn: {
       backgroundColor: background,
@@ -95,21 +82,6 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
         onPress={handleCerrarSesion}
         props={{ style: styles.btn }}
       />
-      {/* <ButtonCustom
-          name="BORRAR Historial de Pedidos"
-          onPress={handleBorraHistorial}
-          props={{ style: styles.btn }}
-        />
-        <ButtonCustom
-          name="BORRAR ultimo Pedidos"
-          onPress={handleBorraPedido}
-          props={{ style: styles.btn }}
-        />
-        <ButtonCustom
-          name="BORRAR Datos Personales"
-          onPress={handleBorraUsuario}
-          props={{ style: styles.btn }}
-        /> */}
     </ContainerApp>
   );
 }
