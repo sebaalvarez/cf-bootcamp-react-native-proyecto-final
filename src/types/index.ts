@@ -1,9 +1,10 @@
 export interface IUser {
-  id?: number;
+  id?: string;
   apellido: string;
   nombre: string;
   telefono: string;
   direccion: string;
+  mail?: string;
 }
 
 export interface IPlatos {

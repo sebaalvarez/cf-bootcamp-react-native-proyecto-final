@@ -79,13 +79,11 @@ export default function AuthProvider({ children }: Props) {
       async (_, session) => {
         setSession(session);
         if (session) {
-          console.log("cambio de sesion", session);
           await esperarCargaPerfil(session.user.id);
         } else {
           console.log("sesion cerrada");
 
           setRole(null);
-          // router.replace("/");
         }
         setLoading(false);
       }

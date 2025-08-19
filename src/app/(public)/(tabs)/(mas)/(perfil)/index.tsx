@@ -31,7 +31,6 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
       [
         {
           text: "Cancelar",
-          // onPress: () => console.log("Acción cancelada"),
           style: "cancel",
         },
         {

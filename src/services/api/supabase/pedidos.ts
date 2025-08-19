@@ -109,6 +109,7 @@ export const selectAllPedidosRecibidos = async () => {
     return null;
   }
 };
+
 export const updateEstadoPedido = async (id: number, nuevoEstado: string) => {
   try {
     const { error } = await supabase

@@ -42,18 +42,18 @@ export default function ProfileForm({
         dataUserRef.current.telefono !== data.telefono
       ) {
         await updateUser(
-          dataUserRef.current.id,
+          dataUserRef.current.id ?? "",
           data.nombre,
           data.apellido,
           data.telefono
         );
-
-        dataUserRef.current.nombre = data.nombre;
-        dataUserRef.current.apellido = data.apellido;
-        dataUserRef.current.telefono = data.telefono;
-
-        await storeData("usuario", JSON.stringify(dataUserRef.current));
       }
+      dataUserRef.current.nombre = data.nombre;
+      dataUserRef.current.apellido = data.apellido;
+      dataUserRef.current.telefono = data.telefono;
+      dataUserRef.current.domicilio = data.domicilio;
+
+      await storeData("usuario", JSON.stringify(dataUserRef.current));
     }
     onPress?.();
   };
@@ -65,9 +65,10 @@ export default function ProfileForm({
       const dataUser = await getData("usuario");
 
       if (dataUser) {
-        dataUserRef.current = dataUser;
-
         const dir = error ? dataUser.domicilio : direccion;
+
+        dataUserRef.current = dataUser;
+        dataUserRef.current.domicilio = dir;
 
         reset({
           nombre: dataUser.nombre,

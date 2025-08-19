@@ -78,9 +78,6 @@ export default function PedidoDetalleScreen({ lightColor, darkColor }: Props) {
     return (
       <ThemedView style={{ marginTop: 40, gap: 30 }}>
         <EsperaCarga />
-        {/* <ThemedText type="defaultSemiBold" align="center">
-          Cargando último pedido...
-        </ThemedText> */}
       </ThemedView>
     );
   }

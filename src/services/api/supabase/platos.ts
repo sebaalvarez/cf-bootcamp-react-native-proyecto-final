@@ -1,24 +1,6 @@
 import { supabase } from "../../../config/supabase";
 import { IPlatos } from "../../../types";
 
-// export const createPlato = async ({ nombre, apellido, telefono }: IPlatos) => {
-//   try {
-//     const { data, error } = await supabase
-//       .from("platos")
-//       .insert([{ name: nombre, lastName: apellido, phone_number: telefono }])
-//       .select("*");
-
-//     if (error) {
-//       throw error;
-//     }
-
-//     return data[0];
-//   } catch (error) {
-//     console.error("error", error);
-//     return null;
-//   }
-// };
-
 export const updatePlatoStock = async (id: number, stock: number) => {
   try {
     const { error } = await supabase

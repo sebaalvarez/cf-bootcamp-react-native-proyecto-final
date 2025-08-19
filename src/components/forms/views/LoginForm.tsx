@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { router } from "expo-router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
