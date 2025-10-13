@@ -39,3 +39,13 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+
+# --- Gemini CLI (mantener config compartida, ignorar ruido local) ---
+.gemini/*
+!.gemini/settings.json
+.gemini/*.log
+.gemini/cache/
+.gemini/tmp/
+
+# Este archivo debe quedar versionado (está en la raíz del repo)
+# .geminiignore (NO lo agregues a .gitignore)
