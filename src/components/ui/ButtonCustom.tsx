@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   DimensionValue,
   StyleSheet,
   TouchableOpacity,
@@ -15,6 +16,7 @@ interface Props {
   height?: string | number;
   width?: string | number;
   onPress?: () => void;
+  loading?: boolean;
   props?: TouchableOpacityProps;
 }
 
@@ -26,6 +28,7 @@ export function ButtonCustom({
   width,
   onPress,
   props,
+  loading,
 }: Props) {
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
@@ -38,6 +41,10 @@ export function ButtonCustom({
   const borderBtnColor = useThemeColor(
     { light: lightColor, dark: darkColor },
     "borderBtnColor"
+  );
+  const spinnerBtnColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "spinnerBtn"
   );
 
   const getValidWidth = (w: unknown): DimensionValue => {
@@ -61,8 +68,14 @@ export function ButtonCustom({
       {...props}
       style={[styles.container, dinamicStyle, props?.style]}
       onPress={onPress}
+      disabled={props?.disabled || loading}
     >
-      <ThemedText style={styles.text}> {name} </ThemedText>
+      {/* <ThemedText style={styles.text}>{name}</ThemedText> */}
+      {loading ? (
+        <ActivityIndicator color={spinnerBtnColor} />
+      ) : (
+        <ThemedText style={styles.text}>{name}</ThemedText>
+      )}
     </TouchableOpacity>
   );
 }

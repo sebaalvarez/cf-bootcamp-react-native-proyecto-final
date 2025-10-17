@@ -10,12 +10,12 @@ import { cambioPassSchema } from "../validations/FormSchemas";
 
 interface Props {
   disabledBtn?: boolean;
-  // onPress?: () => void;
+  onPress?: () => void;
   nameButton?: string;
 }
 
 export default function ChangePassForm({
-  // onPress,
+  onPress,
   disabledBtn = false,
   nameButton = "Grabar",
 }: Props) {
@@ -33,45 +33,40 @@ export default function ChangePassForm({
   });
 
   const onSubmit = async ({ currentPassword, newPassword }: any) => {
-    // onPress?.();
+    setLoading(true);
     try {
-      setLoading(true);
-      const { data: userData } = await supabase.auth.getUser();
-      const email = userData.user?.email;
+      // 1. Verifica la contraseña actual a través de una función RPC.
+      const { data: esValida, error: rpcError } = await supabase.rpc(
+        "verify_current_password",
+        {
+          current_password: currentPassword,
+        }
+      );
 
-      console.log(email);
-
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: email!,
-        password: currentPassword,
-      });
-
-      if (signInError) {
-        Alert.alert("Error", "Contraseña actual incorrecta");
-        setLoading(false);
-        return;
+      if (rpcError || !esValida) {
+        throw new Error("La contraseña actual es incorrecta.");
       }
 
-      console.log("antes de actualizar");
-      const { error } = await supabase.auth.updateUser({
+      // 2. Llama a updateUser. El listener onAuthStateChange en AuthProvider se encargará del resto.
+      const { error: updateError } = await supabase.auth.updateUser({
         password: newPassword,
       });
 
-      if (error) {
-        Alert.alert("Error", error.message);
-        return;
+      if (updateError) {
+        throw new Error(updateError.message);
       }
 
-      Alert.alert("Éxito", "Contraseña actualizada correctamente");
+      // 3. Muestra un mensaje de éxito. El AuthProvider gestionará el cierre de sesión y la redirección.
+      Alert.alert("Contraseña actualizada", "Ingresa con tu nueva contraseña");
+
       reset();
-      setLoading(false);
-      // await supabase.auth.signOut();
-    } catch (err) {
-      console.error("Error inesperado:", err);
+    } catch (err: any) {
+      // console.error("Error en el cambio de contraseña:", err.message);
       Alert.alert(
-        "Error inesperado",
-        "Ocurrió un problema al actualizar la contraseña."
+        "Error",
+        err.message || "Ocurrió un problema al actualizar la contraseña."
       );
+    } finally {
       setLoading(false);
     }
   };
@@ -136,7 +131,7 @@ export default function ChangePassForm({
           name={nameButton}
           onPress={handleSubmit(onSubmit)}
           props={{ disabled: disabledBtn }}
-          // loading={loading}
+          loading={loading}
         />
       </ThemedView>
     </>

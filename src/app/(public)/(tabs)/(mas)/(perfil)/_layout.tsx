@@ -34,18 +34,6 @@ export default function RootLayout() {
           ),
         }}
       />
-      <Stack.Screen
-        name="eliminarCuenta"
-        options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <CustomHeaderStack
-              navigation={navigation}
-              title="Eliminar Cuenta"
-            />
-          ),
-        }}
-      />
     </Stack>
   );
 }

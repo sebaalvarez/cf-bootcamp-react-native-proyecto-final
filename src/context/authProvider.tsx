@@ -1,17 +1,21 @@
 import { Session } from "@supabase/supabase-js";
+import { router } from "expo-router";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { supabase } from "../config/supabase";
+import { removeData } from "../services/local/storage";
 
 type AuthData = {
   loading: boolean;
   session: Session | null;
   role: string | null;
+  signOut: () => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthData>({
   loading: true,
   session: null,
   role: null,
+  signOut: async () => {},
 });
 
 interface Props {
@@ -72,17 +76,42 @@ export default function AuthProvider({ children }: Props) {
     setLoading(false);
   };
 
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    setSession(null);
+    setRole(null);
+  };
+
   useEffect(() => {
     fetchSession();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (_, session) => {
-        setSession(session);
+      async (event, session) => {
+        console.log("Cambio de sesión: ", event);
+
+        if (event === "INITIAL_SESSION") {
+          console.log("Sesion: " + session?.user.user_metadata.sub);
+          console.log("Rol: " + role);
+        }
+
+        // Maneja el evento de cierre de sesión o actualización de usuario
+        if (event === "SIGNED_OUT" || event === "USER_UPDATED") {
+          setRole(null);
+          setSession(null);
+
+          // Limpia el storage local
+          await removeData("usuario");
+
+          // Redirige al login
+          router.replace("/signIn");
+          return;
+        }
+
         if (session) {
+          setSession(session);
           await esperarCargaPerfil(session.user.id);
         } else {
-          console.log("sesion cerrada");
-
+          setSession(null);
           setRole(null);
         }
         setLoading(false);
@@ -95,7 +124,7 @@ export default function AuthProvider({ children }: Props) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ loading, session, role }}>
+    <AuthContext.Provider value={{ loading, session, role, signOut }}>
       {!loading && children}
     </AuthContext.Provider>
   );

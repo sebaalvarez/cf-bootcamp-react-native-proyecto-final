@@ -30,6 +30,7 @@ export default function LoginForm() {
       setLoading(true);
       setError(null);
 
+      // 1. Intenta iniciar sesión
       const { error: loginError, data: dataLogin } =
         await supabase.auth.signInWithPassword({
           email: data.mail.trim(),
@@ -40,15 +41,15 @@ export default function LoginForm() {
         throw new Error("Error al loguearse el usuario: " + loginError.message);
       }
 
+      // 2. Obtén los datos del usuario
       const usuario = await selectOneUser(dataLogin.user.user_metadata.sub);
 
       if (!usuario || usuario.length === 0) {
-        console.error(
-          "No se encontró el usuario para cargar los datos en el login."
-        );
-      } else {
-        await storeData("usuario", JSON.stringify(usuario[0]));
+        throw new Error("No se encontraron datos del usuario");
       }
+
+      // 3. Almacena los datos del usuario
+      await storeData("usuario", JSON.stringify(usuario[0]));
 
       router.replace("./(tabs)");
     } catch (err) {
@@ -100,7 +101,11 @@ export default function LoginForm() {
         {error && <ThemedText>{error}</ThemedText>}
         {loading && <ThemedText>Logueando usuario...</ThemedText>}
 
-        <ButtonCustom name={"Ingresar"} onPress={handleSubmit(onSubmit)} />
+        <ButtonCustom
+          name={"Ingresar"}
+          loading={loading}
+          onPress={handleSubmit(onSubmit)}
+        />
       </ThemedView>
     </>
   );

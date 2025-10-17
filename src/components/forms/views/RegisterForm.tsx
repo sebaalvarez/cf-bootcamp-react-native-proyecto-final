@@ -190,7 +190,11 @@ export default function RegisterForm() {
         {error && <ThemedText>{error}</ThemedText>}
         {loading && <ThemedText>Registrando usuario...</ThemedText>}
 
-        <ButtonCustom name={"Registrarme"} onPress={handleSubmit(onSubmit)} />
+        <ButtonCustom
+          name={"Registrarme"}
+          loading={loading}
+          onPress={handleSubmit(onSubmit)}
+        />
       </ThemedView>
     </>
   );
