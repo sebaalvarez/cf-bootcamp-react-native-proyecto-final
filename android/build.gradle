@@ -23,6 +23,11 @@ def reactNativeAndroidDir = new File(
   "../android"
 )
 
+// Define kotlinVersion globally for all subprojects
+ext {
+  kotlinVersion = '2.0.21'
+}
+
 allprojects {
   repositories {
     maven {
