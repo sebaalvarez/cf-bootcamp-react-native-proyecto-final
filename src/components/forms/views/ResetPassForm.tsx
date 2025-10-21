@@ -2,70 +2,50 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, StyleSheet, TouchableOpacity } from "react-native";
+import { InferType } from "yup";
 import { supabase } from "../../../config/supabase";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
 import { IconSymbol } from "../../ui/IconSymbol";
 import { FormInputController } from "../controllers/FormInputController";
-import { cambioPassSchema } from "../validations/FormSchemas";
+import { resetPassSchema } from "../validations/FormSchemas";
 
-interface Props {
-  disabledBtn?: boolean;
-  onPress?: () => void;
-  nameButton?: string;
-}
-
-export default function ChangePassForm({
-  onPress,
-  disabledBtn = false,
-  nameButton = "Grabar",
-}: Props) {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showRePassword, setShowRePassword] = useState(false);
+export default function ResetPassForm() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     control,
     handleSubmit,
-    formState: { errors },
     reset,
+    formState: { errors },
   } = useForm({
-    resolver: yupResolver(cambioPassSchema),
+    resolver: yupResolver(resetPassSchema),
   });
 
-  const onSubmit = async ({ currentPassword, newPassword }: any) => {
-    setLoading(true);
+  const onSubmit = async (data: InferType<typeof resetPassSchema>) => {
     try {
-      // 1. Verifica la contraseña actual a través de una función RPC.
-      const { data: esValida, error: rpcError } = await supabase.rpc(
-        "verify_current_password",
-        {
-          current_password: currentPassword,
-        }
-      );
+      setLoading(true);
+      setError(null);
 
-      if (rpcError || !esValida) {
-        throw new Error("La contraseña actual es incorrecta.");
-      }
-
-      // 2. Llama a updateUser. El listener onAuthStateChange en AuthProvider se encargará del resto.
+      // Actualiza la contraseña directamente
       const { error: updateError } = await supabase.auth.updateUser({
-        password: newPassword,
+        password: data.newPassword.trim(),
       });
 
       if (updateError) {
         throw new Error(updateError.message);
       }
 
-      // 3. Muestra un mensaje de éxito. El AuthProvider gestionará el cierre de sesión y la redirección.
       Alert.alert("Contraseña actualizada", "Ingresa con tu nueva contraseña");
 
       reset();
-    } catch (err: any) {
-      // console.error("Error en el cambio de contraseña:", err.message);
-      Alert.alert(
-        "Error",
-        err.message || "Ocurrió un problema al actualizar la contraseña."
-      );
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Ha ocurrido un error";
+      setError(errorMessage);
+      Alert.alert("Error", errorMessage);
     } finally {
       setLoading(false);
     }
@@ -74,16 +54,14 @@ export default function ChangePassForm({
   return (
     <>
       <ThemedView>
-        <ThemedText type="subtitle" align="center"></ThemedText>
+        <ThemedText type="subtitle" align="center">
+          Restablecer Contraseña
+        </ThemedText>
       </ThemedView>
       <ThemedView style={styles.container}>
-        <FormInputController
-          control={control as any}
-          errors={errors as any}
-          name={"currentPassword"}
-          placeholder={"Contraseña actual"}
-          propsTextInput={{ autoCapitalize: "none" }}
-        />
+        <ThemedText style={styles.instructions}>
+          Ingresa tu nueva contraseña.
+        </ThemedText>
 
         <FormInputController
           control={control as any}
@@ -108,30 +86,31 @@ export default function ChangePassForm({
         <FormInputController
           control={control as any}
           errors={errors as any}
-          name="re_newPassword"
+          name={"re_newPassword"}
           placeholder={"Confirmar nueva contraseña"}
           propsTextInput={{
-            secureTextEntry: !showRePassword,
+            secureTextEntry: !showConfirmPassword,
             autoCapitalize: "none",
           }}
           renderRightAccessory={() => (
             <TouchableOpacity
-              onPress={() => setShowRePassword(!showRePassword)}
+              onPress={() => setShowConfirmPassword(!showConfirmPassword)}
             >
               <IconSymbol
                 size={20}
-                name={showRePassword ? "00.square" : "00.circle"}
+                name={showConfirmPassword ? "00.square" : "00.circle"}
                 color="gray"
               />
             </TouchableOpacity>
           )}
         />
 
+        {error && <ThemedText style={styles.error}>{error}</ThemedText>}
+
         <ButtonCustom
-          name={nameButton}
-          onPress={handleSubmit(onSubmit)}
-          props={{ disabled: disabledBtn }}
+          name={"Actualizar contraseña"}
           loading={loading}
+          onPress={handleSubmit(onSubmit)}
         />
       </ThemedView>
     </>
@@ -140,8 +119,18 @@ export default function ChangePassForm({
 
 const styles = StyleSheet.create({
   container: {
+    gap: 20,
     padding: 20,
-    gap: 40,
     width: "100%",
+  },
+  instructions: {
+    fontSize: 14,
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  error: {
+    color: "red",
+    fontSize: 14,
+    textAlign: "center",
   },
 });

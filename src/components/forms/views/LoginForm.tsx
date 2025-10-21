@@ -68,8 +68,8 @@ export default function LoginForm() {
       </ThemedView>
       <ThemedView style={styles.container}>
         <FormInputController
-          control={control}
-          errors={errors}
+          control={control as any}
+          errors={errors as any}
           name={"mail"}
           placeholder={"mail"}
           propsTextInput={{
@@ -79,8 +79,8 @@ export default function LoginForm() {
         />
 
         <FormInputController
-          control={control}
-          errors={errors}
+          control={control as any}
+          errors={errors as any}
           name={"password"}
           placeholder={"password"}
           propsTextInput={{
@@ -106,6 +106,12 @@ export default function LoginForm() {
           loading={loading}
           onPress={handleSubmit(onSubmit)}
         />
+
+        <TouchableOpacity onPress={() => router.push("./recovery-password")}>
+          <ThemedText style={styles.recoveryLink}>
+            ¿Olvidaste tu contraseña?
+          </ThemedText>
+        </TouchableOpacity>
       </ThemedView>
     </>
   );
@@ -116,5 +122,10 @@ const styles = StyleSheet.create({
     gap: 20,
     padding: 20,
     width: "100%",
+  },
+  recoveryLink: {
+    textAlign: "center",
+    textDecorationLine: "underline",
+    marginTop: 10,
   },
 });

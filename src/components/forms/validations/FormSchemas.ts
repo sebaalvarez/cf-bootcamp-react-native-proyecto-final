@@ -47,14 +47,35 @@ export const userFormSchema = yup
   })
   .required();
 
-export const cambioPassSchema = yup.object({
-  currentPassword: yup.string().required("Contraseña actual requerida"),
-  newPassword: yup
-    .string()
-    .min(6, "Mínimo 6 caracteres")
-    .required("Nueva contraseña requerida"),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref("newPassword")], "Las contraseñas no coinciden")
-    .required("Confirmación requerida"),
-});
+export const cambioPassSchema = yup
+  .object({
+    currentPassword: yup.string().required(requeridoString),
+    newPassword: yup
+      .string()
+      .min(6, "Debe tener al menos 6 caracteres")
+      .required(requeridoString),
+    re_newPassword: yup
+      .string()
+      .required("La confirmación de la contraseña es obligatoria")
+      .oneOf([yup.ref("newPassword")], "Las contraseñas no coinciden"),
+  })
+  .required();
+
+export const recoveryPassSchema = yup
+  .object({
+    mail: yup.string().email("mail invalido").required(requeridoString),
+  })
+  .required();
+
+export const resetPassSchema = yup
+  .object({
+    newPassword: yup
+      .string()
+      .min(6, "Debe tener al menos 6 caracteres")
+      .required(requeridoString),
+    re_newPassword: yup
+      .string()
+      .required("La confirmación de la contraseña es obligatoria")
+      .oneOf([yup.ref("newPassword")], "Las contraseñas no coinciden"),
+  })
+  .required();

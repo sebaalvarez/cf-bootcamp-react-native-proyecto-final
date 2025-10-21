@@ -2,6 +2,7 @@ import { Session } from "@supabase/supabase-js";
 import { router } from "expo-router";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { supabase } from "../config/supabase";
+import { useDeepLinking } from "../hooks/useDeepLinking";
 import { removeData } from "../services/local/storage";
 
 type AuthData = {
@@ -27,6 +28,9 @@ export default function AuthProvider({ children }: Props) {
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<string | null>(null);
 
+  // Hook para manejar deep linking
+  useDeepLinking();
+
   // Obtiene el perfil del usuario, se tuvo que agregar un delay debido a que cuando se registra un nuevo usuario hay un tiempo de demora hasta que se graba la información en la tabla de perfil
   const esperarCargaPerfil = async (userId: string, reintentos = 5) => {
     for (let i = 0; i < reintentos; i++) {
@@ -37,7 +41,7 @@ export default function AuthProvider({ children }: Props) {
         .maybeSingle();
 
       if (data) {
-        setRole(data?.rol || null);
+        setRole(data?.rol);
         return;
       }
 
@@ -89,12 +93,7 @@ export default function AuthProvider({ children }: Props) {
       async (event, session) => {
         console.log("Cambio de sesión: ", event);
 
-        if (event === "INITIAL_SESSION") {
-          console.log("Sesion: " + session?.user.user_metadata.sub);
-          console.log("Rol: " + role);
-        }
-
-        // Maneja el evento de cierre de sesión o actualización de usuario
+        // Maneja el evento de cierre de sesión
         if (event === "SIGNED_OUT" || event === "USER_UPDATED") {
           setRole(null);
           setSession(null);
@@ -109,11 +108,28 @@ export default function AuthProvider({ children }: Props) {
 
         if (session) {
           setSession(session);
-          await esperarCargaPerfil(session.user.id);
+
+          // Intenta cargar el perfil pero no bloquea si falla
+          try {
+            await Promise.race([
+              esperarCargaPerfil(session.user.id),
+              new Promise((_, reject) =>
+                setTimeout(
+                  () => reject(new Error("Timeout al cargar perfil")),
+                  3000
+                )
+              ),
+            ]);
+          } catch (error) {
+            console.log("No se pudo cargar el perfil:", error);
+            setRole(null);
+          }
         } else {
           setSession(null);
           setRole(null);
         }
+        console.log("Sesion: " + session?.user.user_metadata.sub);
+        console.log("Rol: " + role);
         setLoading(false);
       }
     );

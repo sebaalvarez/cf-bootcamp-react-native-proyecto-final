@@ -7,7 +7,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useThemeColor } from "../../hooks/useThemeColor";
 
 export default function RootLayout() {
-  const backgroundColor = useThemeColor({}, "background");
+  const backgroundColor = useThemeColor({}, "backgroundHeader");
   const textColor = useThemeColor({}, "text");
   const { session } = useAuth();
 
@@ -16,9 +16,12 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: true,
-          headerTitle: "Hama",
+
+          headerTitle: "Hama - Comida Arabe",
           headerStyle: { backgroundColor },
-          headerTitleStyle: { color: textColor, fontSize: 18 },
+          headerTitleStyle: { color: textColor, fontSize: 20, fontWeight: 500 },
+          headerShadowVisible: false,
+
           headerTitleAlign: "center",
         }}
       >
@@ -32,7 +35,7 @@ export default function RootLayout() {
 
         <Stack.Screen name="+not-found" />
       </Stack>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" translucent={false} />
     </>
   );
 }
