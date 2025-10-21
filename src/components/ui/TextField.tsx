@@ -49,7 +49,8 @@ export function TextField({
       borderBottomWidth: 0.5,
       paddingHorizontal: 10,
       width: "100%",
-      height: 30,
+      minHeight: props?.multiline ? "auto" : 30,
+      height: props?.multiline ? "auto" : 30,
       backgroundColor: colorBackgrund, //"#ffffff",
     },
     focused: {
@@ -57,9 +58,12 @@ export function TextField({
     },
     input: {
       flex: 1,
-      height: 40,
+      minHeight: props?.multiline ? "auto" : 40,
+      height: props?.multiline ? "auto" : 40,
       fontSize: 16,
       padding: 0,
+      paddingTop: props?.multiline ? 8 : 0,
+      marginTop: props?.multiline ? 8 : 0,
       color: colorText,
     },
     accessory: {

@@ -46,6 +46,10 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
     router.push("/actStockPlato");
   };
 
+  const handleNavigateToActPrecioPlatos = () => {
+    router.push("/(public)/(tabs)/(admin)/actPrecioPlato");
+  };
+
   const handleNavigateToPedSolicitados = () => {
     router.push("/PedidosSolicitados");
   };
@@ -73,6 +77,11 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
       <ButtonStack
         name="Actualizar Stock Plato"
         onPress={handleNavigateToActStockPlatos}
+        props={{ style: styles.btn }}
+      />
+      <ButtonStack
+        name="Actualizar Información Plato"
+        onPress={handleNavigateToActPrecioPlatos}
         props={{ style: styles.btn }}
       />
       <ButtonStack

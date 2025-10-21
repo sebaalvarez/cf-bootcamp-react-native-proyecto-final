@@ -79,3 +79,24 @@ export const resetPassSchema = yup
       .oneOf([yup.ref("newPassword")], "Las contraseñas no coinciden"),
   })
   .required();
+
+export const editPlatoFormSchema = yup
+  .object({
+    nombre: yup
+      .string()
+      .min(3, "El nombre debe tener al menos 3 caracteres")
+      .max(50, "El nombre no puede exceder 50 caracteres")
+      .required(requeridoString),
+    descripcion: yup
+      .string()
+      .min(10, "La descripción debe tener al menos 10 caracteres")
+      .max(200, "La descripción no puede exceder 200 caracteres")
+      .required(requeridoString),
+    precio: yup
+      .number()
+      .integer("El precio debe ser un número entero")
+      .positive("El precio debe ser mayor a 0")
+      .required(requeridoString)
+      .typeError("Debe ingresar un número válido"),
+  })
+  .required();

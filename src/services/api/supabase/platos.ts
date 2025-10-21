@@ -16,6 +16,42 @@ export const updatePlatoStock = async (id: number, stock: number) => {
   }
 };
 
+export const updatePlatoPrecio = async (id: number, precio: number) => {
+  try {
+    const { error } = await supabase
+      .from("platos")
+      .update([{ precio }])
+      .eq("id", id);
+
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error("error", error);
+  }
+};
+
+export const updatePlatoInfo = async (
+  id: number,
+  nombre: string,
+  descripcion: string,
+  precio: number
+) => {
+  try {
+    const { error } = await supabase
+      .from("platos")
+      .update([{ nombre, descripcion, precio }])
+      .eq("id", id);
+
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error("error", error);
+    throw error;
+  }
+};
+
 export const selectAllPlato = async () => {
   try {
     const { data, error }: { data: IPlatos[] | null; error: any } =

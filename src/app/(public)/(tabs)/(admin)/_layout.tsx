@@ -1,6 +1,6 @@
+import { CustomHeaderStack } from "@/src/components/ui";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
-import { CustomHeaderStack } from "../../../../components/ui";
 
 export default function RootLayout() {
   return (
@@ -31,6 +31,27 @@ export default function RootLayout() {
               navigation={navigation}
               title="Actualizar Stock Platos"
             />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="actPrecioPlato"
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <CustomHeaderStack
+              navigation={navigation}
+              title="Actualizar Información Platos"
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="editarPlato"
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <CustomHeaderStack navigation={navigation} title="Editar Plato" />
           ),
         }}
       />
