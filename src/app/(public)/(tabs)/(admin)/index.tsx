@@ -38,6 +38,7 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
       { cancelable: false }
     );
   };
+
   const handleNavigateToCambioEstado = () => {
     router.push("/actEstadoCocina");
   };
@@ -47,7 +48,7 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
   };
 
   const handleNavigateToActPrecioPlatos = () => {
-    router.push("/(public)/(tabs)/(admin)/actPrecioPlato");
+    router.push("/actInfoPlato");
   };
 
   const handleNavigateToPedSolicitados = () => {

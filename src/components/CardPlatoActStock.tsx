@@ -2,7 +2,7 @@ import { imagenes } from "@/src/services/indexImagenes";
 import { IPlatos } from "@/src/types/index";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet } from "react-native";
-import ModalActualizarPlato from "./ModalActualizarPlato";
+import ModalActStockPlato from "./ModalActStockPlato";
 import { ButtonCustom, ModalCustom, ThemedText, ThemedView } from "./ui";
 
 interface Props {
@@ -56,7 +56,7 @@ export default function CardPlatoActStock({ item, actualizar, estado }: Props) {
       </ThemedView>
 
       <ModalCustom isOpen={modalOpen} onPress={handleCerrarModal}>
-        <ModalActualizarPlato item={item} onPress={handleCerrarModal} />
+        <ModalActStockPlato item={item} onPress={handleCerrarModal} />
       </ModalCustom>
     </>
   );

@@ -8,7 +8,7 @@ interface Props {
   item: IPlatos;
 }
 
-export default function CardPlatoActPrecio({ item }: Props) {
+export default function CardPlatoActInfo({ item }: Props) {
   const handleActualizar = () => {
     // Navegar a la pantalla de edición pasando todos los datos del plato
     router.push({

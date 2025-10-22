@@ -35,7 +35,7 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
-        name="actPrecioPlato"
+        name="actInfoPlato"
         options={{
           headerShown: true,
           header: ({ navigation }) => (

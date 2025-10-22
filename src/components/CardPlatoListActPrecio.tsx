@@ -2,7 +2,7 @@ import { usePlatos } from "@/src/hooks/usePlatos";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import { FlatList } from "react-native";
-import CardPlatoActPrecio from "./CardPlatoActPrecio";
+import CardPlatoActInfo from "./CardPlatoActInfo";
 import { EsperaCarga, ThemedText, ThemedView } from "./ui";
 
 export default function CardPlatoListActPrecio() {
@@ -30,7 +30,7 @@ export default function CardPlatoListActPrecio() {
     <FlatList
       data={platos}
       keyExtractor={(item, index) => `plato-precio-${item.id}-${index}`}
-      renderItem={({ item }) => <CardPlatoActPrecio item={item} />}
+      renderItem={({ item }) => <CardPlatoActInfo item={item} />}
     />
   );
 }

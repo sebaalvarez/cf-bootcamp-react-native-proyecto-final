@@ -11,7 +11,7 @@ interface Props {
   onPress?: () => void;
 }
 
-export default function ModalActualizarPlato({ item, onPress }: Props) {
+export default function ModalActStockPlato({ item, onPress }: Props) {
   const [cant, setCant] = useState(item.stock);
 
   const handlePedido = async () => {

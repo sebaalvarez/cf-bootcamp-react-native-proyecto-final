@@ -3,7 +3,7 @@ import { imagenes } from "@/src/services/indexImagenes";
 import { IPlatos } from "@/src/types/index";
 import { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import ModalAgregar from "./ModalAgregar";
+import ModalAddToCart from "./ModalAddToCart";
 import { ButtonCustom, ModalCustom, ThemedText, ThemedView } from "./ui";
 
 interface Props {
@@ -75,7 +75,7 @@ export default function CardPlato({ item, pedidos_habilitados = true }: Props) {
       </ThemedView>
 
       <ModalCustom isOpen={modalOpen} onPress={handleCerrarModal}>
-        <ModalAgregar item={item} onPress={handleCerrarModal} />
+        <ModalAddToCart item={item} onPress={handleCerrarModal} />
       </ModalCustom>
     </>
   );

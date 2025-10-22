@@ -11,7 +11,7 @@ interface Props {
   onPress?: () => void;
 }
 
-export default function ModalAgregar({ item, onPress }: Props) {
+export default function ModalAddToCart({ item, onPress }: Props) {
   const { dispatch, state } = useCarrito();
 
   const enCarrito = state.carrito.find((p) => p.id === item.id);
