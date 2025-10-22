@@ -1,12 +1,14 @@
-import { supabase } from "@/src/config/supabase";
-import { selectOneUser } from "@/src/services/api/supabase/usuarios";
-import { storeData } from "@/src/services/local/storage";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
+import {
+  signInWithPassword,
+  selectOneUser,
+} from "@/src/services/api/supabase";
+import { storeData } from "@/src/services/local/storage";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
 import { IconSymbol } from "../../ui/IconSymbol";
 import { FormInputController } from "../controllers/FormInputController";
@@ -30,15 +32,14 @@ export default function LoginForm() {
       setLoading(true);
       setError(null);
 
-      // 1. Intenta iniciar sesión
-      const { error: loginError, data: dataLogin } =
-        await supabase.auth.signInWithPassword({
-          email: data.mail.trim(),
-          password: data.password.trim(),
-        });
+      // 1. Intenta iniciar sesión usando el servicio centralizado
+      const { error: loginError, data: dataLogin } = await signInWithPassword(
+        data.mail.trim(),
+        data.password.trim()
+      );
 
-      if (loginError) {
-        throw new Error("Error al loguearse el usuario: " + loginError.message);
+      if (loginError || !dataLogin) {
+        throw new Error("Error al loguearse el usuario: " + loginError);
       }
 
       // 2. Obtén los datos del usuario

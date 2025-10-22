@@ -1,5 +1,5 @@
 import { ButtonStack, ContainerApp } from "@/src/components/ui";
-import { supabase } from "@/src/config/supabase";
+import { deleteUserAccount } from "@/src/services/api/supabase";
 import { useThemeColor } from "@/src/hooks/useThemeColor";
 import { removeData } from "@/src/services/local/storage";
 import { useRouter } from "expo-router";
@@ -37,30 +37,28 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
           text: "Confirmar",
           onPress: async () => {
             try {
-              // Llama a la función RPC para eliminar la cuenta
-              const { error } = await supabase.rpc("delete_user_account");
+              // Llama al servicio centralizado para eliminar la cuenta
+              const { error } = await deleteUserAccount();
 
               if (error) {
                 Alert.alert(
                   "Error",
-                  "No se pudo eliminar la cuenta: " + error.message
+                  "No se pudo eliminar la cuenta: " + error
                 );
                 return;
               }
+
+              // Limpia el storage local
               removeData("pedidoHistorial");
-
               removeData("pedido");
-
               removeData("usuario");
+
               Alert.alert(
                 "Cuenta eliminada",
                 "Tu cuenta ha sido eliminada correctamente."
               );
 
-              // Cierra la sesión
-              await supabase.auth.signOut();
-
-              // Redirige al login
+              // Redirige al login (la sesión ya se cerró en el servicio)
               router.replace("/");
             } catch (err) {
               console.error("Error inesperado:", err);

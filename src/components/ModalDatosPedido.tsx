@@ -49,8 +49,6 @@ export default function ModalDatosPedido({ onPress }: Props) {
         onPress?.();
         return;
       }
-      console.log("EN ON PRESS");
-      console.log(datosCliente);
 
       let msjErrores = "";
       let checkObs = 0;

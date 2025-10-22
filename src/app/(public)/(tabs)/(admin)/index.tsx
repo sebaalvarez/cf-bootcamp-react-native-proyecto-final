@@ -1,5 +1,5 @@
 import { ButtonStack, ContainerApp } from "@/src/components/ui";
-import { supabase } from "@/src/config/supabase";
+import { signOut } from "@/src/services/api/supabase";
 import { useThemeColor } from "@/src/hooks/useThemeColor";
 import { useRouter } from "expo-router";
 import { Alert, StyleSheet } from "react-native";
@@ -28,9 +28,9 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
         {
           text: "Confirmar",
           onPress: async () => {
-            const { error } = await supabase.auth.signOut();
+            const { error } = await signOut();
             if (error) {
-              console.error("Error al cerrar sesión:", error.message);
+              console.error("Error al cerrar sesión:", error);
             }
           },
         },

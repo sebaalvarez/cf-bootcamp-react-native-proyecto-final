@@ -1,4 +1,4 @@
-import { supabase } from "../../../config/supabase";
+import { supabase } from "@/src/config/supabase";
 
 type TKey = "horario_atencion" | "cocina_abierta" | "numero_telefono";
 

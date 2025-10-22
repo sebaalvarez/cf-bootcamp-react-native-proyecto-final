@@ -1,22 +1,38 @@
-import { supabase } from "../../../config/supabase";
+import { supabase } from "@/src/config/supabase";
 
-// export const createUser = async ({ nombre, apellido, telefono }: IUser) => {
-//   try {
-//     const { data, error } = await supabase
-//       .from("users")
-//       .insert([{ name: nombre, lastName: apellido, phone_number: telefono }])
-//       .select("*");
+/**
+ * Crea el perfil de un usuario en la tabla perfiles
+ */
+export const createUserProfile = async (
+  userId: string,
+  nombre: string,
+  apellido: string,
+  telefono: string,
+  mail: string,
+  rol: string = "user"
+) => {
+  try {
+    const { error } = await supabase.from("perfiles").insert({
+      id: userId,
+      nombre: nombre.trim(),
+      apellido: apellido.trim(),
+      telefono: telefono.trim(),
+      mail: mail.trim(),
+      rol,
+    });
 
-//     if (error) {
-//       throw error;
-//     }
+    if (error) {
+      throw error;
+    }
 
-//     return data[0];
-//   } catch (error) {
-//     console.error("error", error);
-//     return null;
-//   }
-// };
+    return { error: null };
+  } catch (error: any) {
+    console.error("Error al crear perfil:", error);
+    return {
+      error: error.message || "Error al insertar el perfil del usuario",
+    };
+  }
+};
 
 export const updateUser = async (
   id: string,

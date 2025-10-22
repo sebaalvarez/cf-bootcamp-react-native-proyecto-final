@@ -1,8 +1,11 @@
-import { supabase } from "@/src/config/supabase";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  updatePassword,
+  verifyCurrentPassword,
+} from "@/src/services/api/supabase";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
 import { IconSymbol } from "../../ui/IconSymbol";
 import { FormInputController } from "../controllers/FormInputController";
@@ -35,25 +38,20 @@ export default function ChangePassForm({
   const onSubmit = async ({ currentPassword, newPassword }: any) => {
     setLoading(true);
     try {
-      // 1. Verifica la contraseña actual a través de una función RPC.
-      const { data: esValida, error: rpcError } = await supabase.rpc(
-        "verify_current_password",
-        {
-          current_password: currentPassword,
-        }
+      // 1. Verifica la contraseña actual a través del servicio centralizado
+      const { isValid, error: verifyError } = await verifyCurrentPassword(
+        currentPassword
       );
 
-      if (rpcError || !esValida) {
+      if (verifyError || !isValid) {
         throw new Error("La contraseña actual es incorrecta.");
       }
 
-      // 2. Llama a updateUser. El listener onAuthStateChange en AuthProvider se encargará del resto.
-      const { error: updateError } = await supabase.auth.updateUser({
-        password: newPassword,
-      });
+      // 2. Actualiza la contraseña. El listener onAuthStateChange en AuthProvider se encargará del resto.
+      const { error: updateError } = await updatePassword(newPassword);
 
       if (updateError) {
-        throw new Error(updateError.message);
+        throw new Error(updateError);
       }
 
       // 3. Muestra un mensaje de éxito. El AuthProvider gestionará el cierre de sesión y la redirección.

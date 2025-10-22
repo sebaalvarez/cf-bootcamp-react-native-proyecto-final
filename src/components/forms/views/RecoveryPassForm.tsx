@@ -1,9 +1,9 @@
-import { supabase } from "@/src/config/supabase";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, StyleSheet } from "react-native";
 import { InferType } from "yup";
+import { resetPasswordForEmail } from "@/src/services/api/supabase";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
 import { FormInputController } from "../controllers/FormInputController";
 import { recoveryPassSchema } from "../validations/FormSchemas";
@@ -30,23 +30,23 @@ export default function RecoveryPassForm({ onSuccess }: Props) {
       setLoading(true);
       setError(null);
 
-      // Envía el correo de recuperación de contraseña con deep link
-      const { error: recoveryError } =
-        await supabase.auth.resetPasswordForEmail(data.mail.trim(), {
-          redirectTo: "hama://reset-password",
-        });
+      // Envía el correo de recuperación de contraseña usando el servicio centralizado
+      const { error: recoveryError } = await resetPasswordForEmail(
+        data.mail.trim(),
+        "hama://reset-password"
+      );
 
       if (recoveryError) {
         // Manejar diferentes tipos de errores
-        let errorMsg = recoveryError.message;
+        let errorMsg = recoveryError;
 
         if (
-          recoveryError.message.includes("504") ||
-          recoveryError.message.includes("timeout")
+          recoveryError.includes("504") ||
+          recoveryError.includes("timeout")
         ) {
           errorMsg =
             "El servidor tardó demasiado en responder. Por favor, intenta nuevamente en unos momentos.";
-        } else if (recoveryError.message.includes("rate limit")) {
+        } else if (recoveryError.includes("rate limit")) {
           errorMsg =
             "Has solicitado demasiados emails. Por favor, espera unos minutos e intenta nuevamente.";
         }

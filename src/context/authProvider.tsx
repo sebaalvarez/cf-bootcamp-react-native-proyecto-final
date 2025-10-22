@@ -1,6 +1,7 @@
-import { supabase } from "@/src/config/supabase";
 import { useDeepLinking } from "@/src/hooks/useDeepLinking";
 import { removeData } from "@/src/services/local/storage";
+import { getSession, signOut as signOutService } from "@/src/services/api/supabase";
+import { supabase } from "@/src/config/supabase";
 import { Session } from "@supabase/supabase-js";
 import { router } from "expo-router";
 import { createContext, ReactNode, useEffect, useState } from "react";
@@ -65,10 +66,10 @@ export default function AuthProvider({ children }: Props) {
   };
 
   const fetchSession = async () => {
-    const { error, data } = await supabase.auth.getSession();
+    const { error, data } = await getSession();
 
-    if (error) {
-      console.error("Error al obtener la sesión:", error.message);
+    if (error || !data) {
+      console.error("Error al obtener la sesión:", error);
       setLoading(false);
       return;
     }
@@ -81,7 +82,7 @@ export default function AuthProvider({ children }: Props) {
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    await signOutService();
     setSession(null);
     setRole(null);
   };

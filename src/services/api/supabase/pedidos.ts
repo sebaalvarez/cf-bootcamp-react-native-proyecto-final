@@ -1,5 +1,5 @@
-import { supabase } from "../../../config/supabase";
-import { IPedidoSupabase } from "../../../types";
+import { supabase } from "@/src/config/supabase";
+import { IPedidoSupabase } from "@/src/types";
 
 export const createPedido = async ({
   nombre,

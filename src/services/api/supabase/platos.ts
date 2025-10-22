@@ -1,5 +1,5 @@
-import { supabase } from "../../../config/supabase";
-import { IPlatos } from "../../../types";
+import { supabase } from "@/src/config/supabase";
+import { IPlatos } from "@/src/types";
 
 export const updatePlatoStock = async (id: number, stock: number) => {
   try {

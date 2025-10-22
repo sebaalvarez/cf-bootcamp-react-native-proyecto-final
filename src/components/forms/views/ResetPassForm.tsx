@@ -1,9 +1,9 @@
-import { supabase } from "@/src/config/supabase";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
+import { updatePassword } from "@/src/services/api/supabase";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
 import { IconSymbol } from "../../ui/IconSymbol";
 import { FormInputController } from "../controllers/FormInputController";
@@ -29,13 +29,13 @@ export default function ResetPassForm() {
       setLoading(true);
       setError(null);
 
-      // Actualiza la contraseña directamente
-      const { error: updateError } = await supabase.auth.updateUser({
-        password: data.newPassword.trim(),
-      });
+      // Actualiza la contraseña usando el servicio centralizado
+      const { error: updateError } = await updatePassword(
+        data.newPassword.trim()
+      );
 
       if (updateError) {
-        throw new Error(updateError.message);
+        throw new Error(updateError);
       }
 
       Alert.alert("Contraseña actualizada", "Ingresa con tu nueva contraseña");

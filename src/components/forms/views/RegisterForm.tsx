@@ -1,11 +1,15 @@
-import { supabase } from "@/src/config/supabase";
-import { storeData } from "@/src/services/local/storage";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
+import {
+  signUp,
+  signInWithPassword,
+  createUserProfile,
+} from "@/src/services/api/supabase";
+import { storeData } from "@/src/services/local/storage";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
 import { IconSymbol } from "../../ui/IconSymbol";
 import { FormInputController } from "../controllers/FormInputController";
@@ -30,23 +34,19 @@ export default function RegisterForm() {
       setLoading(true);
       setError(null);
 
-      const { error: signUpError, data: dataRegister } =
-        await supabase.auth.signUp({
-          email: data.mail.trim(),
-          password: data.password.trim(),
-          options: {
-            data: {
-              nombre: data.nombre.trim(),
-              apellido: data.apellido.trim(),
-              telefono: data.telefono.trim(),
-            },
-          },
-        });
+      // 1. Registrar el usuario usando el servicio centralizado con metadatos
+      const { error: signUpError, data: dataRegister } = await signUp(
+        data.mail.trim(),
+        data.password.trim(),
+        {
+          nombre: data.nombre.trim(),
+          apellido: data.apellido.trim(),
+          telefono: data.telefono.trim(),
+        }
+      );
 
-      if (signUpError) {
-        throw new Error(
-          "Error al registrar el usuario: " + signUpError.message
-        );
+      if (signUpError || !dataRegister) {
+        throw new Error("Error al registrar el usuario: " + signUpError);
       }
 
       // Obtengo el ID del usuario recién creado
@@ -55,29 +55,28 @@ export default function RegisterForm() {
         throw new Error("No se pudo obtener el ID del usuario.");
       }
 
-      // Registro el usuario recién creado con el rol usuario
-      const { error: signUpRolUser } = await supabase.from("perfiles").insert({
-        id: userId,
-        nombre: data.nombre.trim(),
-        apellido: data.apellido.trim(),
-        telefono: data.telefono.trim(),
-        mail: data.mail.trim(),
-        rol: "user",
-      });
+      // Registro el usuario recién creado con el rol usuario usando el servicio centralizado
+      const { error: profileError } = await createUserProfile(
+        userId,
+        data.nombre.trim(),
+        data.apellido.trim(),
+        data.telefono.trim(),
+        data.mail.trim(),
+        "user"
+      );
 
-      if (signUpRolUser) {
-        throw new Error(
-          "Error al insertar el perfil del usuario: " + signUpRolUser.message
-        );
+      if (profileError) {
+        throw new Error("Error al insertar el perfil del usuario: " + profileError);
       }
 
-      const { error: loginError } = await supabase.auth.signInWithPassword({
-        email: data.mail.trim(),
-        password: data.password.trim(),
-      });
+      // 2. Iniciar sesión automáticamente usando el servicio centralizado
+      const { error: loginError } = await signInWithPassword(
+        data.mail.trim(),
+        data.password.trim()
+      );
 
       if (loginError) {
-        throw new Error("Error al iniciar sesión: " + loginError.message);
+        throw new Error("Error al iniciar sesión: " + loginError);
       }
 
       const jsonData = {
