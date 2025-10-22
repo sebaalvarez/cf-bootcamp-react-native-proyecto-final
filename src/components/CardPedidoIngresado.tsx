@@ -1,10 +1,10 @@
+import { EstadosPedidoType } from "@/src/constants/EstadosPedido";
+import { useThemeColor } from "@/src/hooks/useThemeColor";
+import { updateEstadoPedido } from "@/src/services/api/supabase/pedidos";
+import { selectOnePedidoDetalle } from "@/src/services/api/supabase/pedidosDetalle";
+import { IPedidoDetalleSupabase, IPedidoSupabase } from "@/src/types";
 import { useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
-import { EstadosPedidoType } from "../constants/EstadosPedido";
-import { useThemeColor } from "../hooks/useThemeColor";
-import { updateEstadoPedido } from "../services/api/supabase/pedidos";
-import { selectOnePedidoDetalle } from "../services/api/supabase/pedidosDetalle";
-import { IPedidoDetalleSupabase, IPedidoSupabase } from "../types";
 import CardPedidoIngresadoDetalle from "./CardPedidoIngresadoDetalle";
 import {
   ButtonCustom,

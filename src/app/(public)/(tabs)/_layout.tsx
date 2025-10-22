@@ -1,12 +1,12 @@
+import { HapticTab } from "@/src/components/HapticTab";
+import { IconSymbol } from "@/src/components/ui/IconSymbol";
+import TabBarBackground from "@/src/components/ui/TabBarBackground";
+import { Colors } from "@/src/constants/Colors";
+import { useAuth } from "@/src/hooks/useAuth";
+import { useCarrito } from "@/src/hooks/useCarrito";
+import { useColorScheme } from "@/src/hooks/useColorScheme";
 import { Tabs } from "expo-router";
 import { Platform } from "react-native";
-import { HapticTab } from "../../../components/HapticTab";
-import { IconSymbol } from "../../../components/ui/IconSymbol";
-import TabBarBackground from "../../../components/ui/TabBarBackground";
-import { Colors } from "../../../constants/Colors";
-import { useAuth } from "../../../hooks/useAuth";
-import { useCarrito } from "../../../hooks/useCarrito";
-import { useColorScheme } from "../../../hooks/useColorScheme";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();

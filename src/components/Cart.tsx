@@ -1,5 +1,5 @@
+import { useCarrito } from "@/src/hooks/useCarrito";
 import { StyleSheet } from "react-native";
-import { useCarrito } from "../hooks/useCarrito";
 import CartCardList from "./CartCardList";
 import { ThemedText, ThemedView } from "./ui";
 

@@ -1,7 +1,7 @@
+import { imagenes } from "@/src/services/indexImagenes";
+import { IPlatos } from "@/src/types/index";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet } from "react-native";
-import { imagenes } from "../services/indexImagenes";
-import { IPlatos } from "../types/index";
 import ModalActualizarPlato from "./ModalActualizarPlato";
 import { ButtonCustom, ModalCustom, ThemedText, ThemedView } from "./ui";
 

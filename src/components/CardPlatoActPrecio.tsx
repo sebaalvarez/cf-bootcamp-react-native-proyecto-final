@@ -1,7 +1,7 @@
+import { imagenes } from "@/src/services/indexImagenes";
+import { IPlatos } from "@/src/types/index";
 import { router } from "expo-router";
 import { Image, StyleSheet } from "react-native";
-import { imagenes } from "../services/indexImagenes";
-import { IPlatos } from "../types/index";
 import { ButtonCustom, ThemedText, ThemedView } from "./ui";
 
 interface Props {

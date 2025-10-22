@@ -1,3 +1,5 @@
+import ResetPassForm from "@/src/components/forms/views/ResetPassForm";
+import { ContainerApp } from "@/src/components/ui";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -5,8 +7,6 @@ import {
   StyleSheet,
   useWindowDimensions,
 } from "react-native";
-import ResetPassForm from "../../../components/forms/views/ResetPassForm";
-import { ContainerApp } from "../../../components/ui";
 
 export default function ResetPassword() {
   const { height } = useWindowDimensions();

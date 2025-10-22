@@ -1,10 +1,10 @@
+import CardPedidoHistorico from "@/src/components/CardPedidoHistorico";
+import { ContainerApp, ThemedText } from "@/src/components/ui";
+import { useThemeColor } from "@/src/hooks/useThemeColor";
+import { getData } from "@/src/services/local/storage";
+import { IPedido } from "@/src/types";
 import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
-import CardPedidoHistorico from "../../../../components/CardPedidoHistorico";
-import { ContainerApp, ThemedText } from "../../../../components/ui";
-import { useThemeColor } from "../../../../hooks/useThemeColor";
-import { getData } from "../../../../services/local/storage";
-import { IPedido } from "../../../../types";
 
 interface Props {
   lightColor?: string;

@@ -1,3 +1,5 @@
+import LoginForm from "@/src/components/forms/views/LoginForm";
+import { ContainerApp } from "@/src/components/ui";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -5,8 +7,6 @@ import {
   StyleSheet,
   useWindowDimensions,
 } from "react-native";
-import LoginForm from "../../../components/forms/views/LoginForm";
-import { ContainerApp } from "../../../components/ui";
 
 export default function SignUp() {
   const { height } = useWindowDimensions();

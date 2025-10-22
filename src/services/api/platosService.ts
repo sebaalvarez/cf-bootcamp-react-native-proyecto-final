@@ -1,4 +1,4 @@
-import { IPlatos } from "../../types";
+import { IPlatos } from "@/src/types";
 import { selectAllPlatoActivos } from "./supabase/platos";
 
 export const getPlatos = async (): Promise<IPlatos[]> => {

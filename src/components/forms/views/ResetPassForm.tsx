@@ -1,9 +1,9 @@
+import { supabase } from "@/src/config/supabase";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
-import { supabase } from "../../../config/supabase";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
 import { IconSymbol } from "../../ui/IconSymbol";
 import { FormInputController } from "../controllers/FormInputController";

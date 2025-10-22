@@ -1,5 +1,5 @@
+import { IPlatos } from "@/src/types";
 import { createContext, ReactNode, useReducer } from "react";
-import { IPlatos } from "../types";
 
 type State = {
   carrito: IPlatos[];

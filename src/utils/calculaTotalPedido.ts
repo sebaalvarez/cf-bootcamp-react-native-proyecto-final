@@ -1,4 +1,4 @@
-import { IPlatos } from "../types";
+import { IPlatos } from "@/src/types";
 
 export function calculaTotalPedido(detalle: IPlatos[] | undefined | null) {
   const montoTotal = detalle

@@ -1,11 +1,11 @@
+import { supabase } from "@/src/config/supabase";
+import { storeData } from "@/src/services/local/storage";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
-import { supabase } from "../../../config/supabase";
-import { storeData } from "../../../services/local/storage";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
 import { IconSymbol } from "../../ui/IconSymbol";
 import { FormInputController } from "../controllers/FormInputController";
@@ -107,8 +107,8 @@ export default function RegisterForm() {
       </ThemedView>
       <ThemedView style={styles.container}>
         <FormInputController
-          control={control}
-          errors={errors}
+          control={control as any}
+          errors={errors as any}
           name={"nombre"}
           placeholder={"Nombre "}
           propsTextInput={{
@@ -116,8 +116,8 @@ export default function RegisterForm() {
           }}
         />
         <FormInputController
-          control={control}
-          errors={errors}
+          control={control as any}
+          errors={errors as any}
           name={"apellido"}
           placeholder={"Apellido"}
           propsTextInput={{
@@ -126,8 +126,8 @@ export default function RegisterForm() {
         />
 
         <FormInputController
-          control={control}
-          errors={errors}
+          control={control as any}
+          errors={errors as any}
           name={"telefono"}
           placeholder={"Teléfono"}
           propsTextInput={{
@@ -136,8 +136,8 @@ export default function RegisterForm() {
         />
 
         <FormInputController
-          control={control}
-          errors={errors}
+          control={control as any}
+          errors={errors as any}
           name={"mail"}
           placeholder={"mail"}
           propsTextInput={{
@@ -147,8 +147,8 @@ export default function RegisterForm() {
         />
 
         <FormInputController
-          control={control}
-          errors={errors}
+          control={control as any}
+          errors={errors as any}
           name={"password"}
           placeholder={"password"}
           propsTextInput={{
@@ -167,8 +167,8 @@ export default function RegisterForm() {
         />
 
         <FormInputController
-          control={control}
-          errors={errors}
+          control={control as any}
+          errors={errors as any}
           name={"re_password"}
           placeholder={"confirmar password"}
           propsTextInput={{

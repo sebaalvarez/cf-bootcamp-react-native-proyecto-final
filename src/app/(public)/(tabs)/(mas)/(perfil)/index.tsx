@@ -1,9 +1,9 @@
+import { ButtonStack, ContainerApp } from "@/src/components/ui";
+import { supabase } from "@/src/config/supabase";
+import { useThemeColor } from "@/src/hooks/useThemeColor";
+import { removeData } from "@/src/services/local/storage";
 import { useRouter } from "expo-router";
 import { Alert, StyleSheet } from "react-native";
-import { ButtonStack, ContainerApp } from "../../../../../components/ui";
-import { supabase } from "../../../../../config/supabase";
-import { useThemeColor } from "../../../../../hooks/useThemeColor";
-import { removeData } from "../../../../../services/local/storage";
 
 interface Props {
   lightColor?: string;

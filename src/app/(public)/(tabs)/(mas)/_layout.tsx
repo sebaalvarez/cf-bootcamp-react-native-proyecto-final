@@ -1,6 +1,6 @@
+import { CustomHeaderStack } from "@/src/components/ui";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
-import { CustomHeaderStack } from "../../../../components/ui";
 
 export default function RootLayout() {
   return (

@@ -1,15 +1,15 @@
-import { router } from "expo-router";
-import { useEffect, useState } from "react";
 import {
   ButtonCustom,
   ContainerApp,
   ThemedText,
   ThemedView,
-} from "../../../../components/ui";
+} from "@/src//components/ui";
 import {
   getConfig,
   updateConfig,
-} from "../../../../services/api/supabase/configuracion";
+} from "@/src//services/api/supabase/configuracion";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
 
 export default function ActEstadoCocina() {
   const [abierto, setAbierto] = useState(true);

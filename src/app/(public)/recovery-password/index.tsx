@@ -1,3 +1,5 @@
+import RecoveryPassForm from "@/src/components/forms/views/RecoveryPassForm";
+import { ContainerApp } from "@/src/components/ui";
 import { router } from "expo-router";
 import {
   KeyboardAvoidingView,
@@ -6,8 +8,6 @@ import {
   StyleSheet,
   useWindowDimensions,
 } from "react-native";
-import RecoveryPassForm from "../../../components/forms/views/RecoveryPassForm";
-import { ContainerApp } from "../../../components/ui";
 
 export default function RecoveryPassword() {
   const { height } = useWindowDimensions();

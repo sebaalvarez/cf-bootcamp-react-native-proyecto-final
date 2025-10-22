@@ -1,7 +1,7 @@
+import { useCarrito } from "@/src/hooks/useCarrito";
+import { calculaTotalPedido } from "@/src/utils/calculaTotalPedido";
 import { useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
-import { useCarrito } from "../hooks/useCarrito";
-import { calculaTotalPedido } from "../utils/calculaTotalPedido";
 import CartCardDetalle from "./CartCardDetalle";
 import ModalDatosPedido from "./ModalDatosPedido";
 import { ButtonCustom, ModalCustom, ThemedText, ThemedView } from "./ui";

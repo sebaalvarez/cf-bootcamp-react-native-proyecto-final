@@ -1,6 +1,6 @@
+import { imagenes } from "@/src/services/indexImagenes";
+import { IPedidoDetalleSupabase } from "@/src/types";
 import { Image, StyleSheet } from "react-native";
-import { imagenes } from "../services/indexImagenes";
-import { IPedidoDetalleSupabase } from "../types";
 import { ThemedText, ThemedView } from "./ui";
 
 interface Props {

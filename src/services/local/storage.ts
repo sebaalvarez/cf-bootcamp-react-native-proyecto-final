@@ -1,5 +1,5 @@
+import { KeyStorage } from "@/src/constants/KeyStorage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { KeyStorage } from "../../constants/KeyStorage";
 
 export const storeData = async (
   key: (typeof KeyStorage)[number],

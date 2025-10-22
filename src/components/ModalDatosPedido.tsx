@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { ActivityIndicator, Alert, StyleSheet } from "react-native";
-import { useCarrito } from "../hooks/useCarrito";
-import { getConfig } from "../services/api/supabase/configuracion";
-import { createPedido } from "../services/api/supabase/pedidos";
-import { createPedidoDetalle } from "../services/api/supabase/pedidosDetalle";
+import { useCarrito } from "@/src/hooks/useCarrito";
+import { getConfig } from "@/src/services/api/supabase/configuracion";
+import { createPedido } from "@/src/services/api/supabase/pedidos";
+import { createPedidoDetalle } from "@/src/services/api/supabase/pedidosDetalle";
 import {
   selectOnePlato,
   updateStockPlato,
-} from "../services/api/supabase/platos";
-import { getData, storeData } from "../services/local/storage";
-import { IDatosEnvio, IPedido, IPedidoSupabase } from "../types";
-import { calculaTotalPedido } from "../utils/calculaTotalPedido";
+} from "@/src/services/api/supabase/platos";
+import { getData, storeData } from "@/src/services/local/storage";
+import { IDatosEnvio, IPedido, IPedidoSupabase } from "@/src/types";
+import { calculaTotalPedido } from "@/src/utils/calculaTotalPedido";
+import { useState } from "react";
+import { ActivityIndicator, Alert, StyleSheet } from "react-native";
 import ProfileForm from "./forms/views/ProfileForm";
 import { ThemedText, ThemedView } from "./ui";
 

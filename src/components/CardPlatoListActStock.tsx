@@ -1,6 +1,6 @@
+import { usePlatos } from "@/src/hooks/usePlatos";
 import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
-import { usePlatos } from "../hooks/usePlatos";
 import CardPlatoActStock from "./CardPlatoActStock";
 import { EsperaCarga, ThemedText, ThemedView } from "./ui";
 
@@ -10,6 +10,7 @@ export default function CardPlatoListActStock() {
 
   useEffect(() => {
     fetchPlatos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actList]);
 
   if (isLoading) {

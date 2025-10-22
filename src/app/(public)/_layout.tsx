@@ -3,8 +3,8 @@ import { StatusBar } from "expo-status-bar";
 
 import "react-native-reanimated";
 
-import { useAuth } from "../../hooks/useAuth";
-import { useThemeColor } from "../../hooks/useThemeColor";
+import { useAuth } from "@/src/hooks/useAuth";
+import { useThemeColor } from "@/src/hooks/useThemeColor";
 
 export default function RootLayout() {
   const backgroundColor = useThemeColor({}, "backgroundHeader");

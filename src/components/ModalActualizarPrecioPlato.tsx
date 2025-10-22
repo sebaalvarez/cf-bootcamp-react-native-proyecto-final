@@ -1,8 +1,8 @@
+import { useThemeColor } from "@/src/hooks/useThemeColor";
+import { updatePlatoInfo } from "@/src/services/api/supabase/platos";
+import { IPlatos } from "@/src/types";
 import { useState } from "react";
 import { Alert, ScrollView, StyleSheet, TextInput, View } from "react-native";
-import { useThemeColor } from "../hooks/useThemeColor";
-import { updatePlatoInfo } from "../services/api/supabase/platos";
-import { IPlatos } from "../types";
 import { ButtonCustom, ThemedText, ThemedView } from "./ui";
 
 interface Props {

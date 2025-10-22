@@ -1,5 +1,5 @@
-import ChangePassForm from "../../../../../components/forms/views/ChangePassForm";
-import { ContainerApp } from "../../../../../components/ui";
+import ChangePassForm from "@/src/components/forms/views/ChangePassForm";
+import { ContainerApp } from "@/src/components/ui";
 
 export default function ProfileFormScreen() {
   // const handlerCreateUser = async () => {

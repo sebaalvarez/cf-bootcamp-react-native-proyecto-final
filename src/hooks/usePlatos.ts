@@ -1,6 +1,6 @@
+import { getPlatos } from "@/src/services/api/platosService";
+import { IPlatos } from "@/src/types";
 import { useEffect, useState } from "react";
-import { getPlatos } from "../services/api/platosService";
-import { IPlatos } from "../types";
 
 export function usePlatos() {
   const [platos, setPlatos] = useState<IPlatos[]>([]);

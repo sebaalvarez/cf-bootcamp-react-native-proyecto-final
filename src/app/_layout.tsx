@@ -1,3 +1,6 @@
+import AuthProvider from "@/src/context/authProvider";
+import { CarritoProvider } from "@/src/context/cartContextProvider";
+import { useColorScheme } from "@/src/hooks/useColorScheme";
 import {
   DarkTheme,
   DefaultTheme,
@@ -6,9 +9,6 @@ import {
 import { useFonts } from "expo-font";
 import { Slot } from "expo-router";
 import "react-native-reanimated";
-import AuthProvider from "../context/authProvider";
-import { CarritoProvider } from "../context/cartContextProvider";
-import { useColorScheme } from "../hooks/useColorScheme";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();

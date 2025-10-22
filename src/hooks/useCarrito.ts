@@ -1,5 +1,5 @@
+import { CarritoContext } from "@/src/context/cartContextProvider";
 import { useContext } from "react";
-import { CarritoContext } from "../context/cartContextProvider";
 
 export function useCarrito() {
   return useContext(CarritoContext);

@@ -1,7 +1,7 @@
+import { supabase } from "@/src/config/supabase";
 import { router } from "expo-router";
 import { useEffect } from "react";
 import { Alert, Linking } from "react-native";
-import { supabase } from "../config/supabase";
 
 export function useDeepLinking() {
   useEffect(() => {

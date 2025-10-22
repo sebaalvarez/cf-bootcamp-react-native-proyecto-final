@@ -1,14 +1,14 @@
-import { Link, useFocusEffect } from "expo-router";
-import { useCallback, useState } from "react";
-import { Image, StyleSheet } from "react-native";
 import {
   ButtonCustom,
   ContainerApp,
   ThemedText,
   ThemedView,
-} from "../../components/ui";
-import { getConfig } from "../../services/api/supabase/configuracion";
-import { imagenes } from "../../services/indexImagenes";
+} from "@/src/components/ui";
+import { getConfig } from "@/src/services/api/supabase/configuracion";
+import { imagenes } from "@/src/services/indexImagenes";
+import { Link, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
+import { Image, StyleSheet } from "react-native";
 
 export default function HomeScreen() {
   const [abierto, setAbierto] = useState(true);

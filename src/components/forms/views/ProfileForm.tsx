@@ -1,11 +1,11 @@
+import { useUbicacion } from "@/src/hooks/useUbicacion";
+import { updateUser } from "@/src/services/api/supabase/usuarios";
+import { getData, storeData } from "@/src/services/local/storage";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, Text } from "react-native";
 import { InferType } from "yup";
-import { useUbicacion } from "../../../hooks/useUbicacion";
-import { updateUser } from "../../../services/api/supabase/usuarios";
-import { getData, storeData } from "../../../services/local/storage";
 import { ButtonCustom, ThemedView } from "../../ui";
 import { FormInputController } from "../controllers/FormInputController";
 import { profileFormSchema } from "../validations/FormSchemas";
@@ -83,29 +83,30 @@ export default function ProfileForm({
       }
     }
     setValues();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reset, direccion]);
 
   return (
     <ThemedView style={styles.container}>
       <FormInputController
-        control={control}
-        errors={errors}
+        control={control as any}
+        errors={errors as any}
         name={"nombre"}
         placeholder={"Nombre "}
         propsTextInput={{}}
       />
 
       <FormInputController
-        control={control}
-        errors={errors}
+        control={control as any}
+        errors={errors as any}
         name={"apellido"}
         placeholder={"Apellido"}
         propsTextInput={{}}
       />
 
       <FormInputController
-        control={control}
-        errors={errors}
+        control={control as any}
+        errors={errors as any}
         name={"telefono"}
         placeholder={"Teléfono"}
         propsTextInput={{
@@ -114,8 +115,8 @@ export default function ProfileForm({
       />
 
       <FormInputController
-        control={control}
-        errors={errors}
+        control={control as any}
+        errors={errors as any}
         name={"domicilio"}
         placeholder={"Dirección de entrega"}
       />

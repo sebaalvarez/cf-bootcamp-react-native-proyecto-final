@@ -1,9 +1,9 @@
+import { supabase } from "@/src/config/supabase";
+import { useDeepLinking } from "@/src/hooks/useDeepLinking";
+import { removeData } from "@/src/services/local/storage";
 import { Session } from "@supabase/supabase-js";
 import { router } from "expo-router";
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { supabase } from "../config/supabase";
-import { useDeepLinking } from "../hooks/useDeepLinking";
-import { removeData } from "../services/local/storage";
 
 type AuthData = {
   loading: boolean;
@@ -137,6 +137,7 @@ export default function AuthProvider({ children }: Props) {
     return () => {
       authListener?.subscription.unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

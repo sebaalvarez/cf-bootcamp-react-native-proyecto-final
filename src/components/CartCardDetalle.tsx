@@ -1,6 +1,6 @@
+import { imagenes } from "@/src/services/indexImagenes";
+import { IPlatos } from "@/src/types";
 import { Image, StyleSheet } from "react-native";
-import { imagenes } from "../services/indexImagenes";
-import { IPlatos } from "../types";
 import { ThemedText, ThemedView } from "./ui";
 
 interface Props {

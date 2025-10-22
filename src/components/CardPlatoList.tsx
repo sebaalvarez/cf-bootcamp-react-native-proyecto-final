@@ -1,8 +1,8 @@
+import { usePlatos } from "@/src/hooks/usePlatos";
+import { getConfig } from "@/src/services/api/supabase/configuracion";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
-import { usePlatos } from "../hooks/usePlatos";
-import { getConfig } from "../services/api/supabase/configuracion";
 import CardPlato from "./CardPlato";
 import { EsperaCarga, ThemedText, ThemedView } from "./ui";
 
@@ -19,6 +19,7 @@ export default function CardPlatoList() {
     useCallback(() => {
       fetchPlatos();
       getEstado();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
   );
 

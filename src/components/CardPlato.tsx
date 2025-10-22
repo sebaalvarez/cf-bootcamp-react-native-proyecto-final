@@ -1,8 +1,8 @@
+import { useCarrito } from "@/src/hooks/useCarrito";
+import { imagenes } from "@/src/services/indexImagenes";
+import { IPlatos } from "@/src/types/index";
 import { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { useCarrito } from "../hooks/useCarrito";
-import { imagenes } from "../services/indexImagenes";
-import { IPlatos } from "../types/index";
 import ModalAgregar from "./ModalAgregar";
 import { ButtonCustom, ModalCustom, ThemedText, ThemedView } from "./ui";
 

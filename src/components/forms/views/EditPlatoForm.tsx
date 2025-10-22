@@ -1,10 +1,10 @@
+import { updatePlatoInfo } from "@/src/services/api/supabase/platos";
+import { IPlatos } from "@/src/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, StyleSheet } from "react-native";
 import { InferType } from "yup";
-import { updatePlatoInfo } from "../../../services/api/supabase/platos";
-import { IPlatos } from "../../../types";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
 import { FormInputController } from "../controllers/FormInputController";
 import { editPlatoFormSchema } from "../validations/FormSchemas";

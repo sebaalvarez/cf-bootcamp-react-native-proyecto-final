@@ -1,8 +1,8 @@
+import { useThemeColor } from "@/src/hooks/useThemeColor";
+import { getEstadoPedido } from "@/src/services/api/getEstadoPedidoService";
+import { IPedido } from "@/src/types";
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
-import { useThemeColor } from "../hooks/useThemeColor";
-import { getEstadoPedido } from "../services/api/getEstadoPedidoService";
-import { IPedido } from "../types";
 import CartCardDetalle from "./CartCardDetalle";
 import {
   ButtonCustom,
@@ -47,6 +47,7 @@ export default function CardPedidoHistorico({
   useEffect(() => {
     getPedido();
     setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleAgregar = () => {

@@ -1,7 +1,7 @@
+import { updatePlatoStock } from "@/src/services/api/supabase/platos";
+import { IPlatos } from "@/src/types";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { updatePlatoStock } from "../services/api/supabase/platos";
-import { IPlatos } from "../types";
 import CardPlatoDetalle from "./CardPlatoDetalle";
 import SelectorCantidad from "./SelectorCantidad";
 import { ButtonCustom, ThemedView } from "./ui";

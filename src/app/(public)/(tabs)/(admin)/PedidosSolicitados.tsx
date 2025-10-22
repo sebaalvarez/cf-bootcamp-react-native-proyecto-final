@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import { FlatList } from "react-native";
-import CardPedidoIngresado from "../../../../components/CardPedidoIngresado";
+import CardPedidoIngresado from "@/src/components/CardPedidoIngresado";
 import {
   ContainerApp,
   EsperaCarga,
   ThemedText,
   ThemedView,
-} from "../../../../components/ui";
-import { EstadosPedido } from "../../../../constants/EstadosPedido";
-import { useThemeColor } from "../../../../hooks/useThemeColor";
-import { selectAllPedidosSolicitados } from "../../../../services/api/supabase/pedidos";
-import { IPedidoSupabase } from "../../../../types";
+} from "@/src/components/ui";
+import { EstadosPedido } from "@/src/constants/EstadosPedido";
+import { useThemeColor } from "@/src/hooks/useThemeColor";
+import { selectAllPedidosSolicitados } from "@/src/services/api/supabase/pedidos";
+import { IPedidoSupabase } from "@/src/types";
+import { useEffect, useState } from "react";
+import { FlatList } from "react-native";
 
 interface Props {
   lightColor?: string;

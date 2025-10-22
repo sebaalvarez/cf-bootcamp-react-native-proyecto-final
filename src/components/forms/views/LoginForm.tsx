@@ -1,12 +1,12 @@
+import { supabase } from "@/src/config/supabase";
+import { selectOneUser } from "@/src/services/api/supabase/usuarios";
+import { storeData } from "@/src/services/local/storage";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
-import { supabase } from "../../../config/supabase";
-import { selectOneUser } from "../../../services/api/supabase/usuarios";
-import { storeData } from "../../../services/local/storage";
 import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
 import { IconSymbol } from "../../ui/IconSymbol";
 import { FormInputController } from "../controllers/FormInputController";

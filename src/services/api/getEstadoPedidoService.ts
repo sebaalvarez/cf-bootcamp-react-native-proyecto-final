@@ -1,4 +1,4 @@
-import { IPedidoSupabase } from "../../types";
+import { IPedidoSupabase } from "@/src/types";
 import { selectOnePedido } from "./supabase/pedidos";
 
 export async function getEstadoPedido(idPedido: number) {

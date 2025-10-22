@@ -1,5 +1,5 @@
-import Cart from "../../../components/Cart";
-import { ContainerApp } from "../../../components/ui";
+import Cart from "@/src/components/Cart";
+import { ContainerApp } from "@/src/components/ui";
 
 export default function Menu() {
   return (

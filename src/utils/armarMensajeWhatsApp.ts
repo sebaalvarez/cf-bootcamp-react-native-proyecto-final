@@ -1,4 +1,4 @@
-import { IPedido } from "../types";
+import { IPedido } from "@/src/types";
 import { calculaTotalPedido } from "./calculaTotalPedido";
 
 export const generarMensajeWhatsApp = (pedido: IPedido) => {
