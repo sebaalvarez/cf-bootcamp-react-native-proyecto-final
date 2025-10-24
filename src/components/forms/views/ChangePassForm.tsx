@@ -1,15 +1,20 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Alert, StyleSheet, TouchableOpacity } from "react-native";
+import { FormInputController } from "@/src/components/forms/controllers/FormInputController";
+import { cambioPassSchema } from "@/src/components/forms/validations/FormSchemas";
+import {
+  ButtonCustom,
+  ErrorMessage,
+  IconSymbol,
+  ThemedText,
+  ThemedView,
+} from "@/src/components/ui";
 import {
   updatePassword,
   verifyCurrentPassword,
 } from "@/src/services/api/supabase";
-import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
-import { IconSymbol } from "../../ui/IconSymbol";
-import { FormInputController } from "../controllers/FormInputController";
-import { cambioPassSchema } from "../validations/FormSchemas";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
 interface Props {
   disabledBtn?: boolean;
@@ -25,6 +30,7 @@ export default function ChangePassForm({
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     control,
@@ -36,35 +42,35 @@ export default function ChangePassForm({
   });
 
   const onSubmit = async ({ currentPassword, newPassword }: any) => {
+    setError(null);
     setLoading(true);
+
     try {
       // 1. Verifica la contraseña actual a través del servicio centralizado
-      const { isValid, error: verifyError } = await verifyCurrentPassword(
+      const { error: verifyError } = await verifyCurrentPassword(
         currentPassword
       );
 
-      if (verifyError || !isValid) {
-        throw new Error("La contraseña actual es incorrecta.");
+      if (verifyError) {
+        setError(verifyError);
+        setLoading(false);
+        return;
       }
 
       // 2. Actualiza la contraseña. El listener onAuthStateChange en AuthProvider se encargará del resto.
       const { error: updateError } = await updatePassword(newPassword);
 
       if (updateError) {
-        throw new Error(updateError);
+        setError(updateError);
+        setLoading(false);
+        return;
       }
 
-      // 3. Muestra un mensaje de éxito. El AuthProvider gestionará el cierre de sesión y la redirección.
-      Alert.alert("Contraseña actualizada", "Ingresa con tu nueva contraseña");
-
+      // 3. El AuthProvider gestionará el cierre de sesión y la redirección automáticamente.
       reset();
-    } catch (err: any) {
-      // console.error("Error en el cambio de contraseña:", err.message);
-      Alert.alert(
-        "Error",
-        err.message || "Ocurrió un problema al actualizar la contraseña."
-      );
-    } finally {
+      // No se llama setLoading(false) porque el componente se va a desmontar con la redirección
+    } catch {
+      setError("Ocurrió un problema al actualizar la contraseña.");
       setLoading(false);
     }
   };
@@ -124,6 +130,8 @@ export default function ChangePassForm({
             </TouchableOpacity>
           )}
         />
+
+        <ErrorMessage message={error || ""} />
 
         <ButtonCustom
           name={nameButton}

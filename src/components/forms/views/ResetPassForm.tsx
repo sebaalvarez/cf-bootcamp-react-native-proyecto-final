@@ -1,13 +1,17 @@
+import { FormInputController } from "@/src/components/forms/controllers/FormInputController";
+import { resetPassSchema } from "@/src/components/forms/validations/FormSchemas";
+import {
+  ButtonCustom,
+  IconSymbol,
+  ThemedText,
+  ThemedView,
+} from "@/src/components/ui";
+import { updatePassword } from "@/src/services/api/supabase";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
-import { updatePassword } from "@/src/services/api/supabase";
-import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
-import { IconSymbol } from "../../ui/IconSymbol";
-import { FormInputController } from "../controllers/FormInputController";
-import { resetPassSchema } from "../validations/FormSchemas";
 
 export default function ResetPassForm() {
   const [loading, setLoading] = useState(false);

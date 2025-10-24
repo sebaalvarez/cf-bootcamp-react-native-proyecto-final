@@ -1,19 +1,24 @@
+import { FormInputController } from "@/src/components/forms/controllers/FormInputController";
+import { userFormSchema } from "@/src/components/forms/validations/FormSchemas";
+import {
+  ButtonCustom,
+  ErrorMessage,
+  IconSymbol,
+  ThemedText,
+  ThemedView,
+} from "@/src/components/ui";
+import {
+  createUserProfile,
+  signInWithPassword,
+  signUp,
+} from "@/src/services/api/supabase";
+import { storeData } from "@/src/services/local/storage";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
-import {
-  signUp,
-  signInWithPassword,
-  createUserProfile,
-} from "@/src/services/api/supabase";
-import { storeData } from "@/src/services/local/storage";
-import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
-import { IconSymbol } from "../../ui/IconSymbol";
-import { FormInputController } from "../controllers/FormInputController";
-import { userFormSchema } from "../validations/FormSchemas";
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
@@ -45,14 +50,18 @@ export default function RegisterForm() {
         }
       );
 
-      if (signUpError || !dataRegister) {
-        throw new Error("Error al registrar el usuario: " + signUpError);
+      if (signUpError) {
+        setError(signUpError);
+        setLoading(false);
+        return;
       }
 
       // Obtengo el ID del usuario recién creado
-      const userId = dataRegister.user?.id;
+      const userId = dataRegister?.user?.id;
       if (!userId) {
-        throw new Error("No se pudo obtener el ID del usuario.");
+        setError("No se pudo obtener el ID del usuario.");
+        setLoading(false);
+        return;
       }
 
       // Registro el usuario recién creado con el rol usuario usando el servicio centralizado
@@ -66,7 +75,9 @@ export default function RegisterForm() {
       );
 
       if (profileError) {
-        throw new Error("Error al insertar el perfil del usuario: " + profileError);
+        setError("Error al crear el perfil del usuario.");
+        setLoading(false);
+        return;
       }
 
       // 2. Iniciar sesión automáticamente usando el servicio centralizado
@@ -76,10 +87,13 @@ export default function RegisterForm() {
       );
 
       if (loginError) {
-        throw new Error("Error al iniciar sesión: " + loginError);
+        setError(loginError);
+        setLoading(false);
+        return;
       }
 
       const jsonData = {
+        id: userId,
         nombre: data.nombre.trim(),
         apellido: data.apellido.trim(),
         telefono: data.telefono.trim(),
@@ -91,7 +105,8 @@ export default function RegisterForm() {
 
       router.replace("./(tabs)");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Ha ocurrido un error");
+      console.error("Error en registro:", err);
+      setError("Ha ocurrido un error inesperado. Intenta nuevamente.");
     } finally {
       setLoading(false);
     }
@@ -186,7 +201,7 @@ export default function RegisterForm() {
             </TouchableOpacity>
           )}
         />
-        {error && <ThemedText>{error}</ThemedText>}
+        <ErrorMessage message={error || ""} />
         {loading && <ThemedText>Registrando usuario...</ThemedText>}
 
         <ButtonCustom

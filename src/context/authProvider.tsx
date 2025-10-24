@@ -1,7 +1,10 @@
-import { useDeepLinking } from "@/src/hooks/useDeepLinking";
-import { removeData } from "@/src/services/local/storage";
-import { getSession, signOut as signOutService } from "@/src/services/api/supabase";
 import { supabase } from "@/src/config/supabase";
+import { useDeepLinking } from "@/src/hooks/useDeepLinking";
+import {
+  getSession,
+  signOut as signOutService,
+} from "@/src/services/api/supabase";
+import { removeData } from "@/src/services/local/storage";
 import { Session } from "@supabase/supabase-js";
 import { router } from "expo-router";
 import { createContext, ReactNode, useEffect, useState } from "react";

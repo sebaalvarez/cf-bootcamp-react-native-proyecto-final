@@ -21,8 +21,15 @@ export const signInWithPassword = async (email: string, password: string) => {
 
     return { data, error: null };
   } catch (error: any) {
-    console.error("Error en signInWithPassword:", error);
-    return { data: null, error: error.message || "Error al iniciar sesión" };
+    // Traducir mensajes comunes de error
+    let errorMessage = error.message || "Error al iniciar sesión";
+
+    if (error.message?.includes("Invalid")) {
+      errorMessage =
+        "Credenciales inválidas. Por favor, verifica tu email y contraseña";
+    }
+
+    return { data: null, error: errorMessage };
   }
 };
 
@@ -53,10 +60,26 @@ export const signUp = async (
       throw error;
     }
 
-    return { data, error: null };
+    if (data) {
+      return { data, error: null };
+    } else {
+      return { data, error: "Error al registrar el usuario" };
+    }
   } catch (error: any) {
-    console.error("Error en signUp:", error);
-    return { data: null, error: error.message || "Error al registrar usuario" };
+    // Traducir mensajes comunes de error
+    let errorMessage =
+      error.message ||
+      "Error al registrar usuario, Por favor, intenta nuevamente";
+
+    if (
+      error.message?.includes("already registered") ||
+      error.message?.includes("already exists")
+    ) {
+      errorMessage =
+        "Este email ya está registrado. Por favor, intenta con otro email o inicia sesión";
+    }
+
+    return { data: null, error: errorMessage };
   }
 };
 
@@ -73,7 +96,6 @@ export const signOut = async () => {
 
     return { error: null };
   } catch (error: any) {
-    console.error("Error en signOut:", error);
     return { error: error.message || "Error al cerrar sesión" };
   }
 };
@@ -91,7 +113,6 @@ export const getSession = async () => {
 
     return { data, error: null };
   } catch (error: any) {
-    console.error("Error en getSession:", error);
     return { data: null, error: error.message || "Error al obtener sesión" };
   }
 };
@@ -101,6 +122,7 @@ export const getSession = async () => {
  */
 export const verifyCurrentPassword = async (currentPassword: string) => {
   try {
+    // Esta función devuelve true o false dependiendo si la contraseña es correcta
     const { data, error } = await supabase.rpc("verify_current_password", {
       current_password: currentPassword,
     });
@@ -109,13 +131,14 @@ export const verifyCurrentPassword = async (currentPassword: string) => {
       throw error;
     }
 
-    return { isValid: data, error: null };
+    if (data) {
+      return { error: null };
+    } else {
+      return { error: "La contraseña actual es incorrecta" };
+    }
   } catch (error: any) {
-    console.error("Error en verifyCurrentPassword:", error);
-    return {
-      isValid: false,
-      error: error.message || "Error al verificar contraseña",
-    };
+    // Traducir mensajes comunes de error
+    return { error: error.message || "Error al verificar contraseña" };
   }
 };
 
@@ -134,11 +157,14 @@ export const updatePassword = async (newPassword: string) => {
 
     return { data, error: null };
   } catch (error: any) {
-    console.error("Error en updatePassword:", error);
-    return {
-      data: null,
-      error: error.message || "Error al actualizar contraseña",
-    };
+    // Traducir mensajes comunes de error
+    let errorMessage = error.message || "Error al actualizar contraseña";
+
+    if (error.message?.includes("New password should be different")) {
+      errorMessage = "La nueva contraseña debe ser diferente a la actual";
+    }
+
+    return { data: null, error: errorMessage };
   }
 };
 
@@ -161,7 +187,6 @@ export const resetPasswordForEmail = async (
 
     return { data, error: null };
   } catch (error: any) {
-    console.error("Error en resetPasswordForEmail:", error);
     return {
       data: null,
       error: error.message || "Error al enviar email de recuperación",
@@ -184,7 +209,6 @@ export const updateEmail = async (newEmail: string) => {
 
     return { data, error: null };
   } catch (error: any) {
-    console.error("Error en updateEmail:", error);
     return { data: null, error: error.message || "Error al actualizar email" };
   }
 };
@@ -211,7 +235,6 @@ export const deleteUserAccount = async () => {
 
     return { error: null };
   } catch (error: any) {
-    console.error("Error en deleteUserAccount:", error);
     return {
       error: error.message || "Error al eliminar la cuenta",
     };

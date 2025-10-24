@@ -1,18 +1,20 @@
+import { FormInputController } from "@/src/components/forms/controllers/FormInputController";
+import { loginFormSchema } from "@/src/components/forms/validations/FormSchemas";
+import {
+  ButtonCustom,
+  ErrorMessage,
+  IconSymbol,
+  ThemedText,
+  ThemedView,
+} from "@/src/components/ui";
+import { selectOneUser, signInWithPassword } from "@/src/services/api/supabase";
+import { storeData } from "@/src/services/local/storage";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { InferType } from "yup";
-import {
-  signInWithPassword,
-  selectOneUser,
-} from "@/src/services/api/supabase";
-import { storeData } from "@/src/services/local/storage";
-import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
-import { IconSymbol } from "../../ui/IconSymbol";
-import { FormInputController } from "../controllers/FormInputController";
-import { loginFormSchema } from "../validations/FormSchemas";
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
@@ -39,14 +41,18 @@ export default function LoginForm() {
       );
 
       if (loginError || !dataLogin) {
-        throw new Error("Error al loguearse el usuario: " + loginError);
+        setError(loginError);
+        setLoading(false);
+        return;
       }
 
       // 2. Obtén los datos del usuario
       const usuario = await selectOneUser(dataLogin.user.user_metadata.sub);
 
       if (!usuario || usuario.length === 0) {
-        throw new Error("No se encontraron datos del usuario");
+        setError("No se encontraron datos del usuario");
+        setLoading(false);
+        return;
       }
 
       // 3. Almacena los datos del usuario
@@ -54,7 +60,8 @@ export default function LoginForm() {
 
       router.replace("./(tabs)");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Ha ocurrido un error");
+      console.error("Error en login:", err);
+      setError("Ha ocurrido un error inesperado. Intenta nuevamente.");
     } finally {
       setLoading(false);
     }
@@ -99,7 +106,7 @@ export default function LoginForm() {
           )}
         />
 
-        {error && <ThemedText>{error}</ThemedText>}
+        <ErrorMessage message={error || ""} />
         {loading && <ThemedText>Logueando usuario...</ThemedText>}
 
         <ButtonCustom

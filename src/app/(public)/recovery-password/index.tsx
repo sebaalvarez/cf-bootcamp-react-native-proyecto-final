@@ -20,7 +20,8 @@ export default function RecoveryPassword() {
 
   const handleSuccess = () => {
     // Redirige al login después de enviar el correo
-    router.replace("./signIn");
+    // router.replace("./signIn");
+    router.replace("/(public)");
   };
 
   return (

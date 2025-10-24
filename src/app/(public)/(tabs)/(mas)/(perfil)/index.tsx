@@ -1,6 +1,6 @@
 import { ButtonStack, ContainerApp } from "@/src/components/ui";
-import { deleteUserAccount } from "@/src/services/api/supabase";
 import { useThemeColor } from "@/src/hooks/useThemeColor";
+import { deleteUserAccount } from "@/src/services/api/supabase";
 import { removeData } from "@/src/services/local/storage";
 import { useRouter } from "expo-router";
 import { Alert, StyleSheet } from "react-native";
@@ -41,27 +41,15 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
               const { error } = await deleteUserAccount();
 
               if (error) {
-                Alert.alert(
-                  "Error",
-                  "No se pudo eliminar la cuenta: " + error
-                );
+                Alert.alert("Error", "No se pudo eliminar la cuenta: " + error);
                 return;
               }
 
               // Limpia el storage local
-              removeData("pedidoHistorial");
-              removeData("pedido");
-              removeData("usuario");
-
-              Alert.alert(
-                "Cuenta eliminada",
-                "Tu cuenta ha sido eliminada correctamente."
-              );
-
-              // Redirige al login (la sesión ya se cerró en el servicio)
-              router.replace("/");
-            } catch (err) {
-              console.error("Error inesperado:", err);
+              await removeData("pedidoHistorial");
+              await removeData("pedido");
+              await removeData("usuario");
+            } catch {
               Alert.alert(
                 "Error",
                 "Ocurrió un problema al eliminar la cuenta."

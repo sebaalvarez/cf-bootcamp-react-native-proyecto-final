@@ -1,12 +1,12 @@
+import { FormInputController } from "@/src/components/forms/controllers/FormInputController";
+import { recoveryPassSchema } from "@/src/components/forms/validations/FormSchemas";
+import { ButtonCustom, ThemedText, ThemedView } from "@/src/components/ui";
+import { resetPasswordForEmail } from "@/src/services/api/supabase";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, StyleSheet } from "react-native";
 import { InferType } from "yup";
-import { resetPasswordForEmail } from "@/src/services/api/supabase";
-import { ButtonCustom, ThemedText, ThemedView } from "../../ui";
-import { FormInputController } from "../controllers/FormInputController";
-import { recoveryPassSchema } from "../validations/FormSchemas";
 
 interface Props {
   onSuccess?: () => void;
