@@ -58,7 +58,7 @@ export default function LoginForm() {
       // 3. Almacena los datos del usuario
       await storeData("usuario", JSON.stringify(usuario[0]));
 
-      router.replace("./(tabs)");
+      router.replace("/");
     } catch (err) {
       console.error("Error en login:", err);
       setError("Ha ocurrido un error inesperado. Intenta nuevamente.");

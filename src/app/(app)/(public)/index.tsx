@@ -6,7 +6,7 @@ import {
 } from "@/src/components/ui";
 import { getConfig } from "@/src/services/api/supabase/configuracion";
 import { imagenes } from "@/src/services/indexImagenes";
-import { Link, useFocusEffect } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Image, StyleSheet } from "react-native";
 
@@ -48,12 +48,18 @@ export default function HomeScreen() {
             Cocina abierta
           </ThemedText>
         )}
-        <Link href="/signUp" push asChild>
-          <ButtonCustom name="Registrarse" width={"80%"} />
-        </Link>
-        <Link href="/signIn" push asChild>
-          <ButtonCustom name="Iniciar Sesión" width={"80%"} />
-        </Link>
+
+        <ButtonCustom
+          name="Registrarse"
+          width={"80%"}
+          onPress={() => router.push("/signUp")}
+        />
+
+        <ButtonCustom
+          name="Iniciar Sesión"
+          width={"80%"}
+          onPress={() => router.push("/signIn")}
+        />
       </ThemedView>
     </ContainerApp>
   );

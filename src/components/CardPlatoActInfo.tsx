@@ -12,7 +12,7 @@ export default function CardPlatoActInfo({ item }: Props) {
   const handleActualizar = () => {
     // Navegar a la pantalla de edición pasando todos los datos del plato
     router.push({
-      pathname: "/(public)/(tabs)/(admin)/editarPlato",
+      pathname: "/editarPlato",
       params: {
         id: item.id,
         nombre: item.nombre,

@@ -26,11 +26,11 @@ export default function RootLayout() {
         }}
       >
         <Stack.Protected guard={!session}>
-          <Stack.Screen name="index" />
+          <Stack.Screen name="(public)" />
         </Stack.Protected>
 
         <Stack.Protected guard={!!session}>
-          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="(session)" />
         </Stack.Protected>
 
         <Stack.Screen name="+not-found" />

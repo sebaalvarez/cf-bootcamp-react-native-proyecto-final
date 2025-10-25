@@ -6,7 +6,7 @@ import {
 } from "@/src/components/ui";
 import { getConfig } from "@/src/services/api/supabase/configuracion";
 import { imagenes } from "@/src/services/indexImagenes";
-import { Link, useFocusEffect } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Image, StyleSheet } from "react-native";
 
@@ -48,9 +48,12 @@ export default function HomeScreen() {
             Cocina abierta
           </ThemedText>
         )}
-        <Link href="/menu" push asChild>
-          <ButtonCustom name="Ver menú" width={"80%"} />
-        </Link>
+
+        <ButtonCustom
+          name="Ver menú"
+          width={"80%"}
+          onPress={() => router.push("/menu")}
+        />
       </ThemedView>
     </ContainerApp>
   );

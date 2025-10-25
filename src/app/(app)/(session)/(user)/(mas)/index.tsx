@@ -1,6 +1,6 @@
 import { ButtonStack, ContainerApp } from "@/src/components/ui";
-import { signOut } from "@/src/services/api/supabase";
 import { useThemeColor } from "@/src/hooks/useThemeColor";
+import { signOut } from "@/src/services/api/supabase";
 import { useRouter } from "expo-router";
 import { Alert, StyleSheet } from "react-native";
 
@@ -16,15 +16,15 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
   );
 
   const handleNavigateToPerfil = () => {
-    router.push("/(public)/(tabs)/(mas)/(perfil)");
+    router.push("./(perfil)");
   };
 
   const handleNavigateToPedidoDetalle = () => {
-    router.push("/pedidoUltimo");
+    router.push("./pedidoUltimo");
   };
 
   const handleNavigateToHistorialPedidos = () => {
-    router.push("/pedidoHistorial");
+    router.push("./pedidoHistorial");
   };
 
   const handleCerrarSesion = async () => {
