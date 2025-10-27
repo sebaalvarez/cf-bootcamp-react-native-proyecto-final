@@ -24,6 +24,8 @@ const MAPPING = {
   "00.square": "visibility-off",
   "01.circle.ar": "menu",
   person: "person",
+  "01.circle": "settings",
+  "02.circle": "check",
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",
 } as IconMapping;

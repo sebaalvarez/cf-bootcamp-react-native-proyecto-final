@@ -1,105 +1,77 @@
-import { ButtonStack, ContainerApp } from "@/src/components/ui";
-import { signOut } from "@/src/services/api/supabase";
-import { useThemeColor } from "@/src/hooks/useThemeColor";
-import { useRouter } from "expo-router";
-import { Alert, StyleSheet } from "react-native";
+import { ContainerApp, ThemedText, ThemedView } from "@/src/components/ui";
+import { useAuth } from "@/src/hooks/useAuth";
+import { getConfig } from "@/src/services/api/supabase";
+import { imagenes } from "@/src/services/indexImagenes";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
+import { Image, StyleSheet } from "react-native";
 
 interface Props {
   lightColor?: string;
   darkColor?: string;
 }
 export default function PerfilScreen({ lightColor, darkColor }: Props) {
-  const router = useRouter();
-  const background = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    "background"
+  const [abierto, setAbierto] = useState(true);
+  const [horario, setHorario] = useState("");
+  const { name } = useAuth();
+
+  const getEstado = async () => {
+    const estado = await getConfig("cocina_abierta");
+    setAbierto(!!estado);
+    const hora = await getConfig("horario_atencion");
+    setHorario(String(hora));
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      getEstado();
+    }, [])
   );
 
-  const handleCerrarSesion = async () => {
-    Alert.alert(
-      "⚠️ Confirmar acción ⚠️",
-      "¿Estás seguro que querés desloguearte?",
-      [
-        {
-          text: "Cancelar",
-          // onPress: () => console.log("Acción cancelada"),
-          style: "cancel",
-        },
-        {
-          text: "Confirmar",
-          onPress: async () => {
-            const { error } = await signOut();
-            if (error) {
-              console.error("Error al cerrar sesión:", error);
-            }
-          },
-        },
-      ],
-      { cancelable: false }
-    );
-  };
-
-  const handleNavigateToCambioEstado = () => {
-    router.push("/actEstadoCocina");
-  };
-
-  const handleNavigateToActStockPlatos = () => {
-    router.push("/actStockPlato");
-  };
-
-  const handleNavigateToActPrecioPlatos = () => {
-    router.push("/actInfoPlato");
-  };
-
-  const handleNavigateToPedSolicitados = () => {
-    router.push("/PedidosSolicitados");
-  };
-
-  const handleNavigateToPedRecibidos = () => {
-    router.push("/PedidosRecibidos");
-  };
-
-  const styles = StyleSheet.create({
-    btn: {
-      backgroundColor: background,
-      height: 80,
-      borderBottomWidth: 0.5,
-      borderWidth: 0,
-    },
-  });
-
   return (
-    <ContainerApp scroll>
-      <ButtonStack
-        name="Actualizar Estado Cocina"
-        onPress={handleNavigateToCambioEstado}
-        props={{ style: styles.btn }}
-      />
-      <ButtonStack
-        name="Actualizar Stock Plato"
-        onPress={handleNavigateToActStockPlatos}
-        props={{ style: styles.btn }}
-      />
-      <ButtonStack
-        name="Actualizar Información Plato"
-        onPress={handleNavigateToActPrecioPlatos}
-        props={{ style: styles.btn }}
-      />
-      <ButtonStack
-        name="Listado de Pedidos Solicitados"
-        onPress={handleNavigateToPedSolicitados}
-        props={{ style: styles.btn }}
-      />
-      <ButtonStack
-        name="Listado de Pedidos Recibidos"
-        onPress={handleNavigateToPedRecibidos}
-        props={{ style: styles.btn }}
-      />
-      <ButtonStack
-        name="Cerrar Sesion"
-        onPress={handleCerrarSesion}
-        props={{ style: styles.btn }}
-      />
+    <ContainerApp>
+      <ThemedView style={styles.container}>
+        <Image source={imagenes["logo"]} style={styles.img} />
+        <ThemedText type="title">¡Bienvenido!</ThemedText>
+        <ThemedText type="subtitle" align="center">
+          {name}
+        </ThemedText>
+        {horario && (
+          <ThemedText type="defaultSemiBold" align="center">
+            {horario}
+          </ThemedText>
+        )}
+        {!abierto && (
+          <ThemedText type="subtitle" align="center" style={{ color: "red" }}>
+            Cocina cerrada
+          </ThemedText>
+        )}
+        {abierto && (
+          <ThemedText type="subtitle" align="center" style={{ color: "green" }}>
+            Cocina abierta
+          </ThemedText>
+        )}
+      </ThemedView>
     </ContainerApp>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 20,
+  },
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  img: {
+    height: 200,
+    width: 200,
+    borderRadius: 20,
+  },
+});

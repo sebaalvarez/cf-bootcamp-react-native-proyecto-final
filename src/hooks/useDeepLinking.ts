@@ -5,28 +5,25 @@ import { Alert, Linking } from "react-native";
 
 export function useDeepLinking() {
   useEffect(() => {
-    const handleDeepLink = async (url: string) => {
-      // console.log("Deep link recibido:", url);
+    let errorMessage = "";
 
+    const handleDeepLink = async (url: string) => {
       // Extrae los parámetros del hash fragment y query string
       const params = extractHashParams(url);
-      // console.log("Parámetros extraídos:", params);
 
       // Verificar si hay un error en el deep link (ej: token expirado)
       if (params.error) {
-        // console.error("Error en deep link:", params.error_description || params.error);
-
-        let errorMessage = "Hubo un problema con el enlace de recuperación.";
+        errorMessage = "Hubo un problema con el enlace de recuperación.";
 
         if (params.error_code === "otp_expired") {
           errorMessage =
-            "El enlace de recuperación ha expirado. Por favor, solicita uno nuevo.";
+            "El enlace de recuperación ha expirado. Solicita uno nuevo.";
         } else if (params.error === "access_denied") {
           errorMessage = "Acceso denegado. El enlace no es válido.";
         }
 
         Alert.alert("Error", errorMessage);
-        router.replace("/signIn");
+        router.replace("/");
         return;
       }
 
@@ -45,24 +42,25 @@ export function useDeepLinking() {
           });
 
           if (error) {
-            console.error("Error al establecer la sesión:", error);
-            Alert.alert(
-              "Error",
-              "No se pudo establecer la sesión. Por favor, solicita un nuevo enlace."
+            throw new Error(
+              "No se pudo establecer la sesión. Solicita un nuevo enlace."
             );
-            router.replace("/signIn");
-            return;
           }
 
-          // Redirige a la pantalla de reseteo de contraseña
-          router.replace("/reset-password");
+          // Redirige a la pantalla de reseteo de contraseña inmediatamente
+          // usando setTimeout para asegurarse de que ocurra después del setSession
+          setTimeout(() => {
+            router.replace("/resetPass");
+          }, 100);
         } catch (err) {
-          console.error("Error al procesar el deep link:", err);
-          Alert.alert(
-            "Error",
-            "Hubo un problema al procesar el enlace. Por favor, intenta nuevamente."
-          );
-          router.replace("/signIn");
+          errorMessage =
+            err instanceof Error
+              ? err.message
+              : "Hubo un problema al procesar el enlace. Intenta nuevamente.";
+
+          Alert.alert("Error", errorMessage);
+          router.replace("/");
+          return;
         }
         return;
       }
@@ -78,29 +76,24 @@ export function useDeepLinking() {
           });
 
           if (error) {
-            console.error("Error al verificar el token:", error);
-            Alert.alert(
-              "Error",
-              "No se pudo verificar el token de recuperación. Por favor, solicita un nuevo enlace."
+            throw new Error(
+              "No se pudo verificar el token de recuperación. Solicita un nuevo enlace"
             );
-            router.replace("/signIn");
-            return;
           }
 
-          Alert.alert(
-            "Sesión verificada",
-            "Ahora puedes establecer tu nueva contraseña."
-          );
-
           // Redirige a la pantalla de reseteo de contraseña
-          router.replace("/reset-password");
+          setTimeout(() => {
+            router.replace("/resetPass");
+          }, 100);
         } catch (err) {
-          console.error("Error al procesar el token:", err);
-          Alert.alert(
-            "Error",
-            "Hubo un problema al procesar el enlace. Por favor, intenta nuevamente."
-          );
-          router.replace("/signIn");
+          errorMessage =
+            err instanceof Error
+              ? err.message
+              : "Hubo un problema al procesar el enlace. Intenta nuevamente.";
+
+          Alert.alert("Error", errorMessage);
+          router.replace("/");
+          return;
         }
         return;
       }

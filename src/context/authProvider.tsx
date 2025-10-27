@@ -13,6 +13,7 @@ type AuthData = {
   loading: boolean;
   session: Session | null;
   role: string | null;
+  name: string | null;
   signOut: () => Promise<void>;
 };
 
@@ -20,6 +21,7 @@ export const AuthContext = createContext<AuthData>({
   loading: true,
   session: null,
   role: null,
+  name: null,
   signOut: async () => {},
 });
 
@@ -31,21 +33,23 @@ export default function AuthProvider({ children }: Props) {
   const [loading, setLoading] = useState<boolean>(true);
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
 
   // Hook para manejar deep linking
   useDeepLinking();
 
-  // Obtiene el perfil del usuario, se tuvo que agregar un delay debido a que cuando se registra un nuevo usuario hay un tiempo de demora hasta que se graba la información en la tabla de perfil
+  // Obtiene el perfil del usuario, el delay controla la demora cuando se registra un nuevo usuario hasta que se graba la información en la tabla de perfil
   const esperarCargaPerfil = async (userId: string, reintentos = 5) => {
     for (let i = 0; i < reintentos; i++) {
       const { data, error } = await supabase
         .from("perfiles")
-        .select("rol")
+        .select("rol,nombre,apellido")
         .eq("id", userId)
         .maybeSingle();
 
       if (data) {
         setRole(data?.rol);
+        setName(data?.apellido + ", " + data?.nombre);
         return;
       }
 
@@ -88,6 +92,7 @@ export default function AuthProvider({ children }: Props) {
     await signOutService();
     setSession(null);
     setRole(null);
+    setName(null);
   };
 
   useEffect(() => {
@@ -95,18 +100,32 @@ export default function AuthProvider({ children }: Props) {
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log("Cambio de sesión: ", event);
-
         // Maneja el evento de cierre de sesión
         if (event === "SIGNED_OUT" || event === "USER_UPDATED") {
           setRole(null);
           setSession(null);
+          setName(null);
 
           // Limpia el storage local
           await removeData("usuario");
 
-          // Redirige al login
-          router.replace("/signIn");
+          if (event === "USER_UPDATED") {
+            // Redirige al login
+            router.push("/signIn");
+          } else {
+            // Redirige al inicio
+            router.push("/");
+          }
+
+          return;
+        }
+
+        // Si es un evento PASSWORD_RECOVERY, no cargar el perfil aún
+        if (event === "PASSWORD_RECOVERY") {
+          setSession(session);
+          setRole(null); // No cargar el rol hasta que se complete el cambio de contraseña
+          setName(null);
+          setLoading(false);
           return;
         }
 
@@ -125,15 +144,19 @@ export default function AuthProvider({ children }: Props) {
               ),
             ]);
           } catch (error) {
-            console.log("No se pudo cargar el perfil:", error);
+            console.log("No se pudo cargar el perfil: ", error);
             setRole(null);
+            setName(null);
           }
         } else {
           setSession(null);
           setRole(null);
+          setName(null);
         }
-        console.log("Sesion: " + session?.user.user_metadata.sub);
-        console.log("Rol: " + role);
+        // console.log("Cambio de sesión: ", event);
+        // console.log("Sesion: " + session?.user.user_metadata.sub);
+        // console.log("Rol: " + role);
+        // console.log("Nombre: " + name);
         setLoading(false);
       }
     );
@@ -145,7 +168,7 @@ export default function AuthProvider({ children }: Props) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ loading, session, role, signOut }}>
+    <AuthContext.Provider value={{ loading, session, role, name, signOut }}>
       {!loading && children}
     </AuthContext.Provider>
   );

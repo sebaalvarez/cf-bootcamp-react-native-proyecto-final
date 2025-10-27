@@ -114,12 +114,6 @@ export default function LoginForm() {
           loading={loading}
           onPress={handleSubmit(onSubmit)}
         />
-
-        <TouchableOpacity onPress={() => router.push("./recovery-password")}>
-          <ThemedText style={styles.recoveryLink}>
-            ¿Olvidaste tu contraseña?
-          </ThemedText>
-        </TouchableOpacity>
       </ThemedView>
     </>
   );
@@ -130,10 +124,5 @@ const styles = StyleSheet.create({
     gap: 20,
     padding: 20,
     width: "100%",
-  },
-  recoveryLink: {
-    textAlign: "center",
-    textDecorationLine: "underline",
-    marginTop: 10,
   },
 });

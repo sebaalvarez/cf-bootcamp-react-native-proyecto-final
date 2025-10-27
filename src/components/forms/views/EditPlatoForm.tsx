@@ -48,12 +48,6 @@ export default function EditPlatoForm({ item, onSuccess }: Props) {
         data.precio
       );
       onSuccess?.();
-      // Alert.alert("Éxito", "El plato ha sido actualizado correctamente", [
-      //   {
-      //     text: "OK",
-      //     onPress: () => onSuccess?.(),
-      //   },
-      // ]);
     } catch (err) {
       Alert.alert(
         "Error",

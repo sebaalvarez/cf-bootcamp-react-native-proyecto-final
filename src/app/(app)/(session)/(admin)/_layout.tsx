@@ -1,84 +1,70 @@
-import { CustomHeaderStack } from "@/src/components/ui";
-import { Stack } from "expo-router";
+import { HapticTab } from "@/src/components/HapticTab";
+import { IconSymbol } from "@/src/components/ui/IconSymbol";
+import TabBarBackground from "@/src/components/ui/TabBarBackground";
+import { Colors } from "@/src/constants/Colors";
+import { Tabs } from "expo-router";
+import { Platform, useColorScheme } from "react-native";
 import "react-native-reanimated";
 
-export default function RootLayout() {
+export default function AdminLayout() {
+  const colorScheme = useColorScheme();
+
   return (
-    <Stack
+    <Tabs
       screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
+        tabBarButton: HapticTab,
+        tabBarBackground: TabBarBackground,
+        tabBarStyle: Platform.select({
+          ios: {
+            // Use a transparent background on iOS to show the blur effect
+            position: "absolute",
+          },
+          default: {},
+        }),
+        animation: "fade",
       }}
     >
-      <Stack.Screen name="index" />
-      <Stack.Screen
-        name="actEstadoCocina"
+      <Tabs.Screen
+        name="index"
         options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <CustomHeaderStack
-              navigation={navigation}
-              title="Actualizar Estado Cocina"
-            />
+          title: "Inicio",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="house.fill" color={color} />
           ),
         }}
       />
-      <Stack.Screen
-        name="actStockPlato"
+
+      <Tabs.Screen
+        name="(actualizacion)"
         options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <CustomHeaderStack
-              navigation={navigation}
-              title="Actualizar Stock Platos"
-            />
+          title: "Actualizaciones",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="02.circle" color={color} />
           ),
         }}
       />
-      <Stack.Screen
-        name="actInfoPlato"
+
+      <Tabs.Screen
+        name="(pedidos)"
         options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <CustomHeaderStack
-              navigation={navigation}
-              title="Actualizar Información Platos"
-            />
+          title: "Pedidos",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="0.circle" color={color} />
           ),
         }}
       />
-      <Stack.Screen
-        name="editarPlato"
+
+      <Tabs.Screen
+        name="(perfil)"
         options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <CustomHeaderStack navigation={navigation} title="Editar Plato" />
+          title: "Perfil",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="01.circle" color={color} />
           ),
         }}
       />
-      <Stack.Screen
-        name="PedidosSolicitados"
-        options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <CustomHeaderStack
-              navigation={navigation}
-              title="Pedidos Solicitados"
-            />
-          ),
-        }}
-      />
-      <Stack.Screen
-        name="PedidosRecibidos"
-        options={{
-          headerShown: true,
-          header: ({ navigation }) => (
-            <CustomHeaderStack
-              navigation={navigation}
-              title="Pedidos Recibidos"
-            />
-          ),
-        }}
-      />
-    </Stack>
+    </Tabs>
   );
 }

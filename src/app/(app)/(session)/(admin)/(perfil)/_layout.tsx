@@ -1,3 +1,4 @@
+import { CustomHeaderStack } from "@/src/components/ui";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
 

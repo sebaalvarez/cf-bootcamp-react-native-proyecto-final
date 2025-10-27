@@ -10,7 +10,6 @@ import { Platform } from "react-native";
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { state } = useCarrito();
-  // const { session, role } = useAuth();
 
   return (
     <Tabs

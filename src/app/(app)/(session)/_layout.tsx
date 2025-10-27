@@ -1,4 +1,4 @@
-import { ThemedView } from "@/src/components/ui";
+import { CustomHeaderStack, ThemedView } from "@/src/components/ui";
 import { useAuth } from "@/src/hooks/useAuth";
 
 import { Stack } from "expo-router";
@@ -34,13 +34,39 @@ export default function TabLayout() {
           headerShown: false,
         }}
       >
-        <Stack.Protected guard={!!session && role === "admin"}>
+        <Stack.Protected guard={role === "admin"}>
           <Stack.Screen name="(admin)" />
         </Stack.Protected>
 
-        <Stack.Protected guard={!!session && role !== "admin"}>
+        <Stack.Protected guard={role === "user"}>
           <Stack.Screen name="(user)" />
         </Stack.Protected>
+
+        <Stack.Screen name="resetPass" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="cambioPass"
+          options={{
+            headerShown: true,
+            header: ({ navigation }) => (
+              <CustomHeaderStack
+                navigation={navigation}
+                title="Cambio Contraseña"
+              />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="profileForm"
+          options={{
+            headerShown: true,
+            header: ({ navigation }) => (
+              <CustomHeaderStack
+                navigation={navigation}
+                title="Datos Personales"
+              />
+            ),
+          }}
+        />
       </Stack>
     </>
   );

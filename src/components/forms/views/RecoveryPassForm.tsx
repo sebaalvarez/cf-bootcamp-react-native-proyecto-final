@@ -33,7 +33,7 @@ export default function RecoveryPassForm({ onSuccess }: Props) {
       // Envía el correo de recuperación de contraseña usando el servicio centralizado
       const { error: recoveryError } = await resetPasswordForEmail(
         data.mail.trim(),
-        "hama://reset-password"
+        "hama://resetPass"
       );
 
       if (recoveryError) {

@@ -4,6 +4,7 @@ import {
   ThemedText,
   ThemedView,
 } from "@/src/components/ui";
+import { useAuth } from "@/src/hooks/useAuth";
 import { getConfig } from "@/src/services/api/supabase/configuracion";
 import { imagenes } from "@/src/services/indexImagenes";
 import { router, useFocusEffect } from "expo-router";
@@ -13,6 +14,7 @@ import { Image, StyleSheet } from "react-native";
 export default function HomeScreen() {
   const [abierto, setAbierto] = useState(true);
   const [horario, setHorario] = useState("");
+  const { name } = useAuth();
 
   const getEstado = async () => {
     const estado = await getConfig("cocina_abierta");
@@ -26,16 +28,16 @@ export default function HomeScreen() {
       getEstado();
     }, [])
   );
-
+  console.log(name);
   return (
     <ContainerApp>
       <ThemedView style={styles.container}>
         <Image source={imagenes["logo"]} style={styles.img} />
         <ThemedText type="title">¡Bienvenido!</ThemedText>
-        <ThemedText type="subtitle">Pedí tu plato favorito</ThemedText>
+        <ThemedText type="subtitle">{name}</ThemedText>
         {horario && (
           <ThemedText type="defaultSemiBold" align="center">
-            Atendemos solamente los {horario}
+            Abierto {horario}
           </ThemedText>
         )}
         {!abierto && (

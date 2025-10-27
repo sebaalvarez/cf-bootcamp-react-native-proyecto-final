@@ -9,7 +9,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 
-export default function RecoveryPassword() {
+export default function RecoveryPass() {
   const { height } = useWindowDimensions();
 
   const stylesDinamic = StyleSheet.create({
@@ -19,9 +19,8 @@ export default function RecoveryPassword() {
   });
 
   const handleSuccess = () => {
-    // Redirige al login después de enviar el correo
-    // router.replace("./signIn");
-    router.replace("/(public)");
+    // Redirige al inicio después de enviar el correo
+    router.replace("/");
   };
 
   return (

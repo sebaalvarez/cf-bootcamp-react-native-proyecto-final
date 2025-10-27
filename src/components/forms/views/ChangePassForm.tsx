@@ -14,7 +14,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { Alert, StyleSheet, TouchableOpacity } from "react-native";
 
 interface Props {
   disabledBtn?: boolean;
@@ -69,6 +69,7 @@ export default function ChangePassForm({
       // 3. El AuthProvider gestionará el cierre de sesión y la redirección automáticamente.
       reset();
       // No se llama setLoading(false) porque el componente se va a desmontar con la redirección
+      Alert.alert("Contraseña Actualizada", "Ingresa con tu nueva contraseña");
     } catch {
       setError("Ocurrió un problema al actualizar la contraseña.");
       setLoading(false);

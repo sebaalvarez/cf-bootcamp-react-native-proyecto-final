@@ -103,7 +103,7 @@ export default function RegisterForm() {
 
       await storeData("usuario", JSON.stringify(jsonData));
 
-      router.replace("./(tabs)");
+      router.replace("/");
     } catch (err) {
       console.error("Error en registro:", err);
       setError("Ha ocurrido un error inesperado. Intenta nuevamente.");
