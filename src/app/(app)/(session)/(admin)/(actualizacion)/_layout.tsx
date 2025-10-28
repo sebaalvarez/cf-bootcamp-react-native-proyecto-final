@@ -11,13 +11,13 @@ export default function AdminActLayout() {
     >
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen
-        name="actEstadoCocina"
+        name="(config)"
         options={{
           headerShown: true,
           header: ({ navigation }) => (
             <CustomHeaderStack
               navigation={navigation}
-              title="Actualizar Estado Cocina"
+              title="Configuración global"
             />
           ),
         }}

@@ -14,16 +14,8 @@ export default function AdminActScreen({ lightColor, darkColor }: Props) {
     "background"
   );
 
-  const handleNavigateToConfig = () => {
-    router.push("./(config)");
-  };
-
-  const handleNavigateToActStockPlatos = () => {
-    router.push("./actStockPlato");
-  };
-
-  const handleNavigateToActPrecioPlatos = () => {
-    router.push("./actInfoPlato");
+  const handleNavigateToCambioEstado = () => {
+    router.push("./actEstadoCocina");
   };
 
   const styles = StyleSheet.create({
@@ -38,18 +30,8 @@ export default function AdminActScreen({ lightColor, darkColor }: Props) {
   return (
     <ContainerApp scroll>
       <ButtonStack
-        name="Configuración Global"
-        onPress={handleNavigateToConfig}
-        props={{ style: styles.btn }}
-      />
-      <ButtonStack
-        name="Actualizar Stock Plato"
-        onPress={handleNavigateToActStockPlatos}
-        props={{ style: styles.btn }}
-      />
-      <ButtonStack
-        name="Actualizar Información Plato"
-        onPress={handleNavigateToActPrecioPlatos}
+        name="Actualizar Estado Cocina"
+        onPress={handleNavigateToCambioEstado}
         props={{ style: styles.btn }}
       />
     </ContainerApp>
