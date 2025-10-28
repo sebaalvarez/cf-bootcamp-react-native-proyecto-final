@@ -1,10 +1,5 @@
 import CardPedidoIngresado from "@/src/components/CardPedidoIngresado";
-import {
-  ContainerApp,
-  EsperaCarga,
-  ThemedText,
-  ThemedView,
-} from "@/src/components/ui";
+import { ContainerApp, EsperaCarga, ThemedText } from "@/src/components/ui";
 import { EstadosPedido } from "@/src/constants/EstadosPedido";
 import { useThemeColor } from "@/src/hooks/useThemeColor";
 import { selectAllPedidosSolicitados } from "@/src/services/api/supabase/pedidos";
@@ -38,14 +33,7 @@ export default function PedidosSolicitados({ lightColor, darkColor }: Props) {
   }, [actEstado]);
 
   if (isLoading) {
-    return (
-      <ThemedView style={{ marginTop: 40, gap: 30 }}>
-        <EsperaCarga />
-        <ThemedText type="defaultSemiBold" align="center">
-          Cargando Listado...
-        </ThemedText>
-      </ThemedView>
-    );
+    return <EsperaCarga text="Cargando Listado..." />;
   }
   return (
     <ContainerApp>

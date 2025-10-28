@@ -1,12 +1,11 @@
-import { CustomHeaderStack, ThemedView } from "@/src/components/ui";
+import { CustomHeaderStack, EsperaCarga } from "@/src/components/ui";
 import { useAuth } from "@/src/hooks/useAuth";
 
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator } from "react-native";
 
 export default function TabLayout() {
-  const { session, role } = useAuth();
+  const { role } = useAuth();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,13 +17,7 @@ export default function TabLayout() {
   }, [role]);
 
   if (loading) {
-    return (
-      <ThemedView
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-      >
-        <ActivityIndicator size="large" />
-      </ThemedView>
-    );
+    return <EsperaCarga text="Iniciando" />;
   }
 
   return (

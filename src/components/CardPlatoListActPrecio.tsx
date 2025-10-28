@@ -3,7 +3,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import { FlatList } from "react-native";
 import CardPlatoActInfo from "./CardPlatoActInfo";
-import { EsperaCarga, ThemedText, ThemedView } from "./ui";
+import { EsperaCarga } from "./ui";
 
 export default function CardPlatoListActPrecio() {
   const { platos, isLoading, fetchPlatos } = usePlatos();
@@ -17,14 +17,7 @@ export default function CardPlatoListActPrecio() {
   );
 
   if (isLoading) {
-    return (
-      <ThemedView style={{ marginTop: 40, gap: 30 }}>
-        <EsperaCarga />
-        <ThemedText type="defaultSemiBold" align="center">
-          Cargando listado de platos...
-        </ThemedText>
-      </ThemedView>
-    );
+    return <EsperaCarga text="Cargando listado de platos..." />;
   }
   return (
     <FlatList

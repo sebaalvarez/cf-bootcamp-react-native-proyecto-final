@@ -10,7 +10,9 @@ export function EsperaCarga({ text }: Props) {
   return (
     <ThemedView style={styles.spinnerContainer}>
       <ActivityIndicator size="large" color="#0000ff" />
-      <ThemedText>{text}</ThemedText>
+      <ThemedText type="defaultSemiBold" align="center">
+        {text}
+      </ThemedText>
     </ThemedView>
   );
 }
@@ -19,6 +21,7 @@ const styles = StyleSheet.create({
   spinnerContainer: {
     flex: 1,
     gap: 30,
+    minHeight: "100%",
     justifyContent: "center",
     alignItems: "center",
   },

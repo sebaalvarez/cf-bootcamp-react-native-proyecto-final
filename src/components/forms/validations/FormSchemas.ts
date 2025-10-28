@@ -100,3 +100,23 @@ export const editPlatoFormSchema = yup
       .typeError("Debe ingresar un número válido"),
   })
   .required();
+
+export const telefonoWhatsappSchema = yup
+  .object({
+    telefono: yup
+      .string()
+      .matches(/^\d{10}$/, "cod área (sin 0) número (sin 15) - (10 dígitos)")
+      .typeError(soloNumero)
+      .required(requeridoString),
+  })
+  .required();
+
+export const horarioAtencionSchema = yup
+  .object({
+    horario: yup
+      .string()
+      .required(requeridoString)
+      .min(5, "El horario debe tener al menos 5 caracteres")
+      .max(100, "El horario no puede exceder 100 caracteres"),
+  })
+  .required();

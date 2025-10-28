@@ -2,7 +2,7 @@ import { usePlatos } from "@/src/hooks/usePlatos";
 import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import CardPlatoActStock from "./CardPlatoActStock";
-import { EsperaCarga, ThemedText, ThemedView } from "./ui";
+import { EsperaCarga } from "./ui";
 
 export default function CardPlatoListActStock() {
   const { platos, isLoading, fetchPlatos } = usePlatos();
@@ -14,14 +14,7 @@ export default function CardPlatoListActStock() {
   }, [actList]);
 
   if (isLoading) {
-    return (
-      <ThemedView style={{ marginTop: 40, gap: 30 }}>
-        <EsperaCarga />
-        <ThemedText type="defaultSemiBold" align="center">
-          Cargando listado de platos...
-        </ThemedText>
-      </ThemedView>
-    );
+    return <EsperaCarga text="Cargando listado de platos..." />;
   }
   return (
     <FlatList

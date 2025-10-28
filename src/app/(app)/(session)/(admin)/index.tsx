@@ -13,6 +13,7 @@ interface Props {
 export default function PerfilScreen({ lightColor, darkColor }: Props) {
   const [abierto, setAbierto] = useState(true);
   const [horario, setHorario] = useState("");
+  const [telefono, setTelefono] = useState("");
   const { name } = useAuth();
 
   const getEstado = async () => {
@@ -20,6 +21,8 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
     setAbierto(!!estado);
     const hora = await getConfig("horario_atencion");
     setHorario(String(hora));
+    const telefono = await getConfig("numero_telefono");
+    setTelefono(String(telefono));
   };
 
   useFocusEffect(
@@ -49,6 +52,11 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
         {abierto && (
           <ThemedText type="subtitle" align="center" style={{ color: "green" }}>
             Cocina abierta
+          </ThemedText>
+        )}
+        {telefono && (
+          <ThemedText type="defaultSemiBold" align="center">
+            {telefono}
           </ThemedText>
         )}
       </ThemedView>

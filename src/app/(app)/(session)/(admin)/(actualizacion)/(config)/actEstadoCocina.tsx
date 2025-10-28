@@ -10,6 +10,7 @@ import {
 } from "@/src//services/api/supabase/configuracion";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
+import { Alert, StyleSheet } from "react-native";
 
 export default function ActEstadoCocina() {
   const [abierto, setAbierto] = useState(true);
@@ -26,13 +27,20 @@ export default function ActEstadoCocina() {
   const handlerActEstadoCocina = async () => {
     await updateConfig("cocina_abierta", !abierto);
     setAbierto(!abierto);
-    router.back();
+    Alert.alert("Éxito", "El horario de atención se actualizó correctamente", [
+      {
+        text: "OK",
+        onPress: () => router.back(),
+      },
+    ]);
   };
 
   return (
-    <ContainerApp scroll>
-      <ThemedView>
-        <ThemedText>Estado Actual: {abierto}</ThemedText>
+    <ContainerApp>
+      <ThemedView style={styles.container}>
+        <ThemedText align="center" type="subtitle">
+          Modificar Estado Cocina
+        </ThemedText>
         {!abierto && (
           <ThemedText type="subtitle" align="center" style={{ color: "red" }}>
             Cocina cerrada
@@ -48,3 +56,10 @@ export default function ActEstadoCocina() {
     </ContainerApp>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    gap: 30,
+    padding: 20,
+    width: "100%",
+  },
+});

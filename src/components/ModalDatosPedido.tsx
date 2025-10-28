@@ -10,9 +10,9 @@ import { getData, storeData } from "@/src/services/local/storage";
 import { IDatosEnvio, IPedido, IPedidoSupabase } from "@/src/types";
 import { calculaTotalPedido } from "@/src/utils/calculaTotalPedido";
 import { useState } from "react";
-import { ActivityIndicator, Alert, StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import ProfileForm from "./forms/views/ProfileForm";
-import { ThemedText, ThemedView } from "./ui";
+import { EsperaCarga, ThemedText, ThemedView } from "./ui";
 
 interface Props {
   onPress?: () => void;
@@ -185,8 +185,7 @@ export default function ModalDatosPedido({ onPress }: Props) {
     <ThemedView style={styles.containerModal}>
       {isProcessing ? (
         <ThemedView style={styles.spinnerContainer}>
-          <ActivityIndicator size="large" color="#0000ff" />
-          <ThemedText>Enviando pedido...</ThemedText>
+          <EsperaCarga text="Enviando pedido..." />
         </ThemedView>
       ) : (
         <ThemedView style={styles.containerDet}>

@@ -22,6 +22,30 @@ export default function AdminActLayout() {
           ),
         }}
       />
+      <Stack.Screen
+        name="actTelefono"
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <CustomHeaderStack
+              navigation={navigation}
+              title="Actualizar Teléfono"
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="actHorario"
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <CustomHeaderStack
+              navigation={navigation}
+              title="Actualizar Horario"
+            />
+          ),
+        }}
+      />
     </Stack>
   );
 }

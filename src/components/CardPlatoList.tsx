@@ -4,7 +4,7 @@ import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
 import CardPlato from "./CardPlato";
-import { EsperaCarga, ThemedText, ThemedView } from "./ui";
+import { EsperaCarga } from "./ui";
 
 export default function CardPlatoList() {
   const { platos, isLoading, fetchPlatos } = usePlatos();
@@ -24,14 +24,7 @@ export default function CardPlatoList() {
   );
 
   if (isLoading) {
-    return (
-      <ThemedView style={{ marginTop: 40, gap: 30 }}>
-        <EsperaCarga />
-        <ThemedText type="defaultSemiBold" align="center">
-          Cargando listado de platos...
-        </ThemedText>
-      </ThemedView>
-    );
+    return <EsperaCarga text="Cargando listado de platos..." />;
   }
   return (
     <FlatList
