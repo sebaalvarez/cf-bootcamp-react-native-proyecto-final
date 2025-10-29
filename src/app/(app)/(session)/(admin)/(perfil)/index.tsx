@@ -17,12 +17,11 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
 
   const handleCerrarSesion = async () => {
     Alert.alert(
-      "⚠️ Confirmar acción ⚠️",
       "¿Estás seguro que querés desloguearte?",
+      "",
       [
         {
           text: "Cancelar",
-          // onPress: () => console.log("Acción cancelada"),
           style: "cancel",
         },
         {
@@ -60,16 +59,19 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
     <ContainerApp scroll>
       <ButtonStack
         name="Editar Datos Personales"
+        icon="datos-perfil"
         onPress={handleNavigateToProfileForm}
         props={{ style: styles.btn }}
       />
       <ButtonStack
         name="Cambio Contraseña"
+        icon="cambio-pass"
         onPress={handleNavigateToCambioPass}
         props={{ style: styles.btn }}
       />
       <ButtonStack
         name="Cerrar Sesion"
+        icon="salir"
         onPress={handleCerrarSesion}
         props={{ style: styles.btn }}
       />

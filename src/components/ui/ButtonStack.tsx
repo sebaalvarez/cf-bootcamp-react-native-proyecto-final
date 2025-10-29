@@ -6,10 +6,14 @@ import {
   ViewStyle,
 } from "react-native";
 import { useThemeColor } from "../../hooks/useThemeColor";
+import { IconSymbol, IconSymbolName } from "./IconSymbol";
 import { ThemedText } from "./ThemedText";
+import { ThemedView } from "./ThemedView";
 
 interface Props {
   name: string;
+  icon?: IconSymbolName;
+  iconSize?: number;
   lightColor?: string;
   darkColor?: string;
   height?: string | number;
@@ -20,6 +24,8 @@ interface Props {
 
 export function ButtonStack({
   name,
+  icon,
+  iconSize = 40,
   lightColor,
   darkColor,
   height,
@@ -62,8 +68,11 @@ export function ButtonStack({
       style={[styles.container, dinamicStyle, props?.style]}
       onPress={onPress}
     >
-      <ThemedText style={styles.text}> {name} </ThemedText>
-      <ThemedText style={styles.textFlecha}>{">"}</ThemedText>
+      <ThemedView style={styles.leftGroup}>
+        {icon && <IconSymbol name={icon} size={iconSize} />}
+        <ThemedText style={styles.text}> {name} </ThemedText>
+      </ThemedView>
+      <IconSymbol name="flecha-derecha" />
     </TouchableOpacity>
   );
 }
@@ -77,6 +86,11 @@ const styles = StyleSheet.create({
     borderWidth: 0.2,
     borderRadius: 10,
     paddingHorizontal: 20,
+  },
+  leftGroup: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
   },
   text: {
     fontWeight: "600",

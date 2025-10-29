@@ -99,7 +99,7 @@ export default function LoginForm() {
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <IconSymbol
                 size={20}
-                name={showPassword ? "00.square" : "00.circle"}
+                name={showPassword ? "pass-oculta" : "pass-visible"}
                 color="gray"
               />
             </TouchableOpacity>

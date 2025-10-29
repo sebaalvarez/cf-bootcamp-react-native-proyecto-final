@@ -1,10 +1,7 @@
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-
-import "react-native-reanimated";
-
 import { useAuth } from "@/src/hooks/useAuth";
 import { useThemeColor } from "@/src/hooks/useThemeColor";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 
 export default function RootLayout() {
   const backgroundColor = useThemeColor({}, "backgroundHeader");
@@ -16,12 +13,10 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: true,
-
           headerTitle: "Hama - Comida Arabe",
           headerStyle: { backgroundColor },
           headerTitleStyle: { color: textColor, fontSize: 20, fontWeight: 500 },
           headerShadowVisible: false,
-
           headerTitleAlign: "center",
         }}
       >
@@ -32,8 +27,6 @@ export default function RootLayout() {
         <Stack.Protected guard={!!session}>
           <Stack.Screen name="(session)" />
         </Stack.Protected>
-
-        <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="dark" translucent={false} />
     </>

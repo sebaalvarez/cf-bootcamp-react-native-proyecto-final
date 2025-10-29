@@ -8,7 +8,6 @@ import {
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Slot } from "expo-router";
-import "react-native-reanimated";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();

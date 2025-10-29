@@ -4,7 +4,6 @@ import TabBarBackground from "@/src/components/ui/TabBarBackground";
 import { Colors } from "@/src/constants/Colors";
 import { Tabs } from "expo-router";
 import { Platform, useColorScheme } from "react-native";
-import "react-native-reanimated";
 
 export default function AdminLayout() {
   const colorScheme = useColorScheme();
@@ -31,7 +30,7 @@ export default function AdminLayout() {
         options={{
           title: "Inicio",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <IconSymbol size={28} name="inicio" color={color} />
           ),
         }}
       />
@@ -41,7 +40,7 @@ export default function AdminLayout() {
         options={{
           title: "Actualizaciones",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="02.circle" color={color} />
+            <IconSymbol size={28} name="update" color={color} />
           ),
         }}
       />
@@ -51,7 +50,7 @@ export default function AdminLayout() {
         options={{
           title: "Pedidos",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="0.circle" color={color} />
+            <IconSymbol size={28} name="lista" color={color} />
           ),
         }}
       />
@@ -61,7 +60,7 @@ export default function AdminLayout() {
         options={{
           title: "Perfil",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="01.circle" color={color} />
+            <IconSymbol size={28} name="perfil" color={color} />
           ),
         }}
       />

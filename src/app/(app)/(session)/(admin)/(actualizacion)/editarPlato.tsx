@@ -34,7 +34,6 @@ export default function EditarPlato() {
   };
 
   const handleSuccess = () => {
-    // Volver a la pantalla anterior
     router.back();
   };
 

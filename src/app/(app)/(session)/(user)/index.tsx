@@ -28,7 +28,7 @@ export default function HomeScreen() {
       getEstado();
     }, [])
   );
-  console.log(name);
+
   return (
     <ContainerApp>
       <ThemedView style={styles.container}>
@@ -37,7 +37,7 @@ export default function HomeScreen() {
         <ThemedText type="subtitle">{name}</ThemedText>
         {horario && (
           <ThemedText type="defaultSemiBold" align="center">
-            Abierto {horario}
+            {horario}
           </ThemedText>
         )}
         {!abierto && (
@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   img: {
-    height: 200,
-    width: 200,
+    height: 150,
+    width: 150,
     borderRadius: 20,
   },
 });

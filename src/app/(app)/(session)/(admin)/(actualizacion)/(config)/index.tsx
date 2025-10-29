@@ -38,17 +38,20 @@ export default function AdminActScreen({ lightColor, darkColor }: Props) {
   return (
     <ContainerApp scroll>
       <ButtonStack
-        name="Actualizar Estado Cocina"
+        name="Estado Cocina"
+        icon="actEstadoCocina"
         onPress={handleNavigateToCambioEstado}
         props={{ style: styles.btn }}
       />
       <ButtonStack
-        name="Actualizar Teléfono WhatsApp"
+        name="Teléfono WhatsApp"
+        icon="actTelefono"
         onPress={handleNavigateToActTelefono}
         props={{ style: styles.btn }}
       />
       <ButtonStack
-        name="Actualizar Horario de Atención"
+        name="Horario de Atención"
+        icon="actHorarioAtencion"
         onPress={handleNavigateToActHorario}
         props={{ style: styles.btn }}
       />

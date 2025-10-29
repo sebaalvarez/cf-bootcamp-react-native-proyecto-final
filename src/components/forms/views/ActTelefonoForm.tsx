@@ -54,6 +54,7 @@ export default function ActTelefonoForm() {
 
   useEffect(() => {
     cargarTelefono();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reset]);
 
   const onSubmit = async (data: TelefonoFormValues) => {

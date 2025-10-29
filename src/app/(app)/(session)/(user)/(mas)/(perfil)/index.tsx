@@ -75,16 +75,19 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
     <ContainerApp scroll>
       <ButtonStack
         name="Editar Datos Personales"
+        icon="datos-perfil"
         onPress={handleNavigateToProfileForm}
         props={{ style: styles.btn }}
       />
       <ButtonStack
         name="Cambio Contraseña"
+        icon="cambio-pass"
         onPress={handleNavigateToCambioPass}
         props={{ style: styles.btn }}
       />
       <ButtonStack
         name="Eliminar Cuenta"
+        icon="borrar-cuenta"
         onPress={handleNavigateToEliminarCuenta}
         props={{ style: styles.btn }}
       />

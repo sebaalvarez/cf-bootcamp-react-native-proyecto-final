@@ -80,7 +80,7 @@ export default function ResetPassForm() {
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <IconSymbol
                 size={20}
-                name={showPassword ? "00.square" : "00.circle"}
+                name={showPassword ? "pass-oculta" : "pass-visible"}
                 color="gray"
               />
             </TouchableOpacity>
@@ -102,7 +102,7 @@ export default function ResetPassForm() {
             >
               <IconSymbol
                 size={20}
-                name={showConfirmPassword ? "00.square" : "00.circle"}
+                name={showConfirmPassword ? "pass-oculta" : "pass-visible"}
                 color="gray"
               />
             </TouchableOpacity>

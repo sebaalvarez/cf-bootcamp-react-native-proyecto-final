@@ -29,12 +29,11 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
 
   const handleCerrarSesion = async () => {
     Alert.alert(
-      "⚠️ Confirmar acción ⚠️",
       "¿Estás seguro que querés desloguearte?",
+      "",
       [
         {
           text: "Cancelar",
-          // onPress: () => console.log("Acción cancelada"),
           style: "cancel",
         },
         {
@@ -64,21 +63,25 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
     <ContainerApp scroll>
       <ButtonStack
         name="Mi Perfil"
+        icon="perfil"
         onPress={handleNavigateToPerfil}
         props={{ style: styles.btn }}
       />
       <ButtonStack
         name="Detalle Último Pedido"
+        icon="pedidoDetalle"
         onPress={handleNavigateToPedidoDetalle}
         props={{ style: styles.btn }}
       />
       <ButtonStack
         name="Historial de Pedidos"
+        icon="pedidoHistorial"
         onPress={handleNavigateToHistorialPedidos}
         props={{ style: styles.btn }}
       />
       <ButtonStack
         name="Cerrar Sesion"
+        icon="salir"
         onPress={handleCerrarSesion}
         props={{ style: styles.btn }}
       />

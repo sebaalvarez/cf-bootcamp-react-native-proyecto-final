@@ -1,6 +1,5 @@
 import { CustomHeaderStack, EsperaCarga } from "@/src/components/ui";
 import { useAuth } from "@/src/hooks/useAuth";
-
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 

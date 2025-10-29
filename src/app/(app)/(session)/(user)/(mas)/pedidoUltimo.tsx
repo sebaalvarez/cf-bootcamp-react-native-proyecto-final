@@ -75,11 +75,7 @@ export default function PedidoDetalleScreen({ lightColor, darkColor }: Props) {
     : calculaTotalPedido(pedido?.detalle).toLocaleString("es-AR");
 
   if (isLoading) {
-    return (
-      <ThemedView style={{ marginTop: 40, gap: 30 }}>
-        <EsperaCarga />
-      </ThemedView>
-    );
+    return <EsperaCarga />;
   }
 
   return (

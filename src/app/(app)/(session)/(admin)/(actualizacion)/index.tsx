@@ -39,16 +39,19 @@ export default function AdminActScreen({ lightColor, darkColor }: Props) {
     <ContainerApp scroll>
       <ButtonStack
         name="Configuración Global"
+        icon="configGlobal"
         onPress={handleNavigateToConfig}
         props={{ style: styles.btn }}
       />
       <ButtonStack
         name="Actualizar Stock Plato"
+        icon="actStockPlatos"
         onPress={handleNavigateToActStockPlatos}
         props={{ style: styles.btn }}
       />
       <ButtonStack
         name="Actualizar Información Plato"
+        icon="actInfoPlatos"
         onPress={handleNavigateToActPrecioPlatos}
         props={{ style: styles.btn }}
       />

@@ -34,7 +34,7 @@ export default function TabLayout() {
         options={{
           title: "Inicio",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <IconSymbol size={28} name="inicio" color={color} />
           ),
         }}
       />
@@ -44,7 +44,7 @@ export default function TabLayout() {
         options={{
           title: "Menu",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="0.circle" color={color} />
+            <IconSymbol size={28} name="menu" color={color} />
           ),
         }}
       />
@@ -53,7 +53,7 @@ export default function TabLayout() {
         options={{
           title: "Pedido",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="0.square" color={color} />
+            <IconSymbol size={28} name="pedido" color={color} />
           ),
           tabBarBadge:
             state.carrito.length > 0 ? state.carrito.length : undefined,
@@ -69,22 +69,10 @@ export default function TabLayout() {
         options={{
           title: "Más",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="01.circle.ar" color={color} />
+            <IconSymbol size={28} name="mas-opciones" color={color} />
           ),
         }}
       />
-      {/* </Tabs.Protected> */}
-      {/* <Tabs.Protected guard={role === "admin"}>
-        <Tabs.Screen
-          name="(admin)"
-          options={{
-            title: "Admin",
-            tabBarIcon: ({ color }) => (
-              <IconSymbol size={28} name="person" color={color} />
-            ),
-          }}
-        />
-      </Tabs.Protected> */}
     </Tabs>
   );
 }

@@ -35,11 +35,13 @@ export default function PerfilScreen({ lightColor, darkColor }: Props) {
     <ContainerApp scroll>
       <ButtonStack
         name="Listado de Pedidos Solicitados"
+        icon="pedidosSolicitados"
         onPress={handleNavigateToPedSolicitados}
         props={{ style: styles.btn }}
       />
       <ButtonStack
         name="Listado de Pedidos Recibidos"
+        icon="pedidosRecibidos"
         onPress={handleNavigateToPedRecibidos}
         props={{ style: styles.btn }}
       />
