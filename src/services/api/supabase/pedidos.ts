@@ -110,6 +110,31 @@ export const selectAllPedidosRecibidos = async () => {
   }
 };
 
+export const selectAllPedidosPorEstado = async (estado: string) => {
+  try {
+    const { data, error }: { data: IPedidoSupabase[] | null; error: any } =
+      await supabase
+        .from("pedidos")
+        .select("*")
+        .eq("estado", estado)
+        .order("created_at", { ascending: true });
+
+    if (error) {
+      console.error("Error en la consulta:", error);
+      throw error;
+    }
+
+    if (data && data.length > 0) {
+      return data;
+    }
+
+    return null;
+  } catch (error) {
+    console.error("error", error);
+    return null;
+  }
+};
+
 export const updateEstadoPedido = async (id: number, nuevoEstado: string) => {
   try {
     const { error } = await supabase

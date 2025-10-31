@@ -58,6 +58,7 @@ export type IconSymbolName =
   | "pedidoHistorial"
   | "pedidosSolicitados"
   | "pedidosRecibidos"
+  | "pedidosEntregados"
   | "datos-perfil"
   | "cambio-pass"
   | "borrar-cuenta"
@@ -89,6 +90,7 @@ const MAPPING: Record<IconSymbolName, MaterialIconName> = {
   pedidoHistorial: "list-alt",
   pedidosSolicitados: "assignment-returned",
   pedidosRecibidos: "assignment-late",
+  pedidosEntregados: "assignment-turned-in",
   lista: "list",
   configGlobal: "tune",
   actStockPlatos: "inventory",

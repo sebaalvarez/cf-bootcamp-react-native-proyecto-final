@@ -33,6 +33,18 @@ export default function RootLayout() {
           ),
         }}
       />
+      <Stack.Screen
+        name="PedidosEntregados"
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <CustomHeaderStack
+              navigation={navigation}
+              title="Pedidos Entregados"
+            />
+          ),
+        }}
+      />
     </Stack>
   );
 }
