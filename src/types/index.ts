@@ -15,6 +15,7 @@ export interface IPlatos {
   precio: number;
   cantidad?: number;
   stock: number;
+  stock_inicial?: number;
   ordenVisualiza?: number;
   activo?: boolean;
 }

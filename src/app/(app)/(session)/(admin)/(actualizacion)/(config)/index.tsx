@@ -26,6 +26,10 @@ export default function AdminActScreen({ lightColor, darkColor }: Props) {
     router.push("./actHorario");
   };
 
+  const handleNavigateToActStockInicial = () => {
+    router.push("./actStockInicialMasivo");
+  };
+
   const styles = StyleSheet.create({
     btn: {
       backgroundColor: background,
@@ -53,6 +57,12 @@ export default function AdminActScreen({ lightColor, darkColor }: Props) {
         name="Horario de Atención"
         icon="actHorarioAtencion"
         onPress={handleNavigateToActHorario}
+        props={{ style: styles.btn }}
+      />
+      <ButtonStack
+        name="Cargar Stock Inicial"
+        icon="actStockPlatos"
+        onPress={handleNavigateToActStockInicial}
         props={{ style: styles.btn }}
       />
     </ContainerApp>

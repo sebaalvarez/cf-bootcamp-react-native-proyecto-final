@@ -4,11 +4,19 @@ import { ThemedView } from "./ThemedView";
 
 interface Props {
   text?: string;
+  height?: number;
+  fullScreen?: boolean;
 }
 
-export function EsperaCarga({ text }: Props) {
+export function EsperaCarga({ text, height, fullScreen = true }: Props) {
+  const containerStyle = [
+    styles.spinnerContainer,
+    fullScreen && styles.fullScreenContainer,
+    !fullScreen && height ? { height } : !fullScreen && styles.defaultContainer,
+  ];
+
   return (
-    <ThemedView style={styles.spinnerContainer}>
+    <ThemedView style={containerStyle}>
       <ActivityIndicator size="large" color="#0000ff" />
       <ThemedText type="defaultSemiBold" align="center">
         {text}
@@ -19,10 +27,15 @@ export function EsperaCarga({ text }: Props) {
 
 const styles = StyleSheet.create({
   spinnerContainer: {
-    flex: 1,
     gap: 30,
-    minHeight: "100%",
     justifyContent: "center",
     alignItems: "center",
+  },
+  fullScreenContainer: {
+    flex: 1,
+    minHeight: "100%",
+  },
+  defaultContainer: {
+    minHeight: 200,
   },
 });

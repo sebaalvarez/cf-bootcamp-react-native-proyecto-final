@@ -45,6 +45,31 @@ export default function AdminActLayout() {
           ),
         }}
       />
+      <Stack.Screen
+        name="actStockInicialMasivo"
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <CustomHeaderStack
+              navigation={navigation}
+              title="Actualizar Stock Inicial"
+            />
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="actStockInicial"
+        options={{
+          headerShown: true,
+          header: ({ navigation }) => (
+            <CustomHeaderStack
+              navigation={navigation}
+              title="Editar Stock Inicial"
+            />
+          ),
+        }}
+      />
     </Stack>
   );
 }

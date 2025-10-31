@@ -120,3 +120,15 @@ export const horarioAtencionSchema = yup
       .max(100, "El horario no puede exceder 100 caracteres"),
   })
   .required();
+
+export const stockInicialSchema = yup
+  .object({
+    stock: yup
+      .number()
+      .required(requeridoString)
+      .min(0, "El stock no puede ser negativo")
+      .max(20000, "El stock no puede ser mayor a 20000")
+      .integer("El stock debe ser un número entero")
+      .typeError(soloNumero),
+  })
+  .required();
