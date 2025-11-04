@@ -62,3 +62,14 @@ export interface IPedidoDetalleSupabase {
   precio: number;
   platos?: IPlatos;
 }
+
+export interface IAppVersion {
+  id?: number;
+  version: string;
+  version_code: number;
+  descripcion?: string;
+  url_descarga?: string;
+  es_obligatoria: boolean;
+  fecha_publicacion?: string;
+  activa: boolean;
+}

@@ -1,3 +1,4 @@
+import { VersionChecker } from "@/src/components/VersionChecker";
 import AuthProvider from "@/src/context/authProvider";
 import { CarritoProvider } from "@/src/context/cartContextProvider";
 import { useColorScheme } from "@/src/hooks/useColorScheme";
@@ -21,12 +22,16 @@ export default function RootLayout() {
   }
 
   return (
-    <AuthProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <CarritoProvider>
-          <Slot />
-        </CarritoProvider>
-      </ThemeProvider>
-    </AuthProvider>
+    <VersionChecker>
+      <AuthProvider>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <CarritoProvider>
+            <Slot />
+          </CarritoProvider>
+        </ThemeProvider>
+      </AuthProvider>
+    </VersionChecker>
   );
 }
