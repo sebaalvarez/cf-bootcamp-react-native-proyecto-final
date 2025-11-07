@@ -36,6 +36,10 @@
 - 🚚 Listado de **pedidos enviados**.
 - 🔄 Cambio de estado de los pedidos.
 
+**Global**
+
+- 🔐 Cambiar / recuperar contraseña (fix de sesión post cambio).
+
 > La app utiliza **Supabase** para persistencia, y **AsyncStorage** para conservar datos relevantes en el dispositivo (último pedido, historial, perfil del usuario).
 
 ---
@@ -162,7 +166,6 @@ npm run web
 
 ## 🗺️ Roadmap (próximos pasos)
 
-- 🔐 Cambiar / recuperar contraseña (fix de sesión post cambio).
 - 🔔 Notificaciones push al cambiar estado del pedido.
 - 🔁 Repetir pedido desde historial.
 - 🔑 Login con Google.
